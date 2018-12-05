@@ -76,7 +76,7 @@
           <div class="layui-form-item">
             <label class="layui-form-label">单元</label>
             <div class="layui-input-block">
-              <select name="unit">
+              <select name="unit" lay-verify="required">
                 <option value="">请选择</option>
                 <option value="1">1</option>
                 <option value="2">2</option>
@@ -191,7 +191,7 @@
           <div class="layui-form-item unit">
             <label class="layui-form-label">单元</label>
             <div class="layui-input-block">
-              <select name="unit">
+              <select name="unit" lay-verify="required">
                 <option value="">请选择</option>
                 <option value="1">1</option>
                 <option value="2">2</option>

@@ -152,6 +152,14 @@ Route::group(['middleware'=>['rule']],function(){
 	Route::post('/engineering/project/house/album-del','Engineering\ProjectController@album_del');
 	Route::get('/engineering/project/house/album-check','Engineering\ProjectController@album_check');
 
+	Route::any('/customer/owner','Customer\OwnerController@owner');
+	Route::post('/customer/owner-add','Customer\OwnerController@owner_add');
+	Route::post('/customer/owner-edit','Customer\OwnerController@owner_edit');
+	Route::post('/customer/owner-del','Customer\OwnerController@owner_del');
+
+	Route::any('/customer/owner/house','Customer\OwnerController@house');
+	Route::any('/customer/owner/house-add','Customer\OwnerController@house_add');
+	Route::any('/customer/owner/house-edit','Customer\OwnerController@house_edit');
 });
 });
 Route::get('/login',function() {	
