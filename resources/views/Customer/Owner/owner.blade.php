@@ -299,7 +299,7 @@
           })
         });
       } else if(obj.event === 'edit'){
-        document.getElementById("edit").reset();
+          document.getElementById("edit").reset();
           form.val("edit", {
             "username": data.username 
             ,"phone": data.phone

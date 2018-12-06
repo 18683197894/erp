@@ -300,8 +300,8 @@
         ,{field:'huxing_name', title:'户型',unresize:true}
         ,{field:'acreage', title:'总面积',unresize:true}
         ,{field:'schedule_name', title:'当前进度',unresize:true,width:230}
-        ,{title:'进度更新',unresize:true,toolbar: '#schedule'}
         ,{title:'相册',unresize:true,toolbar: '#album'}
+        ,{title:'进度更新',unresize:true,toolbar: '#schedule'}
         ,{fixed: 'right', title:'操作',fixed: 'right', toolbar: '#test-table-toolbar-barDemo',unresize:true,width:120}
       ]]
       ,page: {curr:$('#page').val(),limit:$('#limit').val()}

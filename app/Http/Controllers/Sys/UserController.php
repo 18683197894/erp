@@ -104,10 +104,26 @@ class UserController extends Controller
         $id = $request->id;
         if(!is_array($id))
         {
-            $id = array($id);
+            $model = Department::find($id);
+            if($model && $model->status == 2)
+            {
+                $this->error_message('系统默认部门 禁止删除');
+            }
+
+            Department::where('id',$id)->delete();
+            $this->success_message('删除成功');
+        }
+        foreach($id as $k => $v)
+        {
+            $model = Department::find($v);
+            if($model && $model->status == 2)
+            {
+                unset($id[$k]);
+            }
         }
         Department::destroy($id);
         $this->success_message('删除成功');
+
     }
     public function user_add(Request $request)
     {

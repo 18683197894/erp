@@ -6,7 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Model\Customer\CustomerUser as User;
 use App\Model\Engineering\House;
-
+use App\Model\Sys\User as SysUser;
+use App\Model\Customer\Schedule;
 class OwnerController extends Controller
 {
     public function owner(Request $request)
@@ -137,7 +138,15 @@ class OwnerController extends Controller
         {
             $data = House::where('user_id',$request->user_id)
                     ->where('status','>',0)
-                    ->with('Huxing')
+                    ->with(['Huxing'=>function($query){
+                    	return $query->select('id','name');
+                    }])
+                    ->with(['OwnerSchedules'=>function($query){
+                    	return $query->select('id','person','time','house_id','money')->orderBy('time','DESC')->orderBy('created_at','DESC');
+                    }])
+                    ->with(['Project'=>function($query){
+                    	return $query->select('id','name');
+                    }])
                     ->orderBy('created_at','DESC')
                     ->offset(($request->page -1) * $request->limit)
                     ->limit($request->limit)
@@ -186,5 +195,76 @@ class OwnerController extends Controller
     	$model->total = $total;
     	$model->save();
     	$this->success_message('修改成功');
+    }
+
+    public function schedule(Request $request)
+    {	
+    	if($request->isMethod('get'))
+    	{	
+    		$user = SysUser::where('department_id',13)->where('status','>',0)->get();
+    		$house = House::find($request->house_id);
+	    	if(!$house)
+	    	{
+	    		die('数据不存在');
+	    	} 
+	    	return view('Customer.Owner.schedule',[
+	    		'user'=>$user,
+	    		'house'=>$house
+	    	]);
+    	}else
+    	{
+    		$data = Schedule::where('house_id',$request->house_id)
+    						->where('status','>',0)
+    						->with('SysUser')
+    						->offset(($request->page -1) * $request->limit)
+		                    ->limit($request->limit)
+		                    ->get()
+		                    ->toArray();
+		     $total = Schedule::where('house_id',$request->house_id)
+                            ->where('status','>',0)
+                            ->count();
+            $this->tableData($total,$data,'获取成功',0);
+    	}
+    	
+    }
+
+    public function schedule_add(Request $request)
+    {
+    	$data = $request->except('_token');
+    	if(date('Y-m-d',time()) < $data['time'])
+    	{
+    		$this->error_message('请从新选择时间');
+    	}
+    	if(Schedule::create($data))
+    	{
+    		$this->success_message('新增成功');
+    	}else
+    	{
+    		$this->success_message('新增失败');
+    	}
+    }
+
+    public function schedule_edit(Request $request)
+    {
+    	$data = $request->except('_token');
+    	if(date('Y-m-d',time()) < $data['time'])
+    	{
+    		$this->error_message('请从新选择时间');
+    	}
+
+    	$model = Schedule::where('id',$data['id'])->where('status','>',0)->first();
+    	if(!$model)
+    	{
+    		$this->error_message('数据不存在');
+    	}
+    	Schedule::where('id',$data['id'])->update($data);
+    	$this->success_message('修改成功');
+    }
+
+    public function schedule_del(Request $request)
+    {
+    	$id = $request->id;
+    	Schedule::where('id',$id)->delete();
+    	$this->success_message('删除成功');
     }
 }

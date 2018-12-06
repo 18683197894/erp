@@ -158,8 +158,13 @@ Route::group(['middleware'=>['rule']],function(){
 	Route::post('/customer/owner-del','Customer\OwnerController@owner_del');
 
 	Route::any('/customer/owner/house','Customer\OwnerController@house');
-	Route::any('/customer/owner/house-add','Customer\OwnerController@house_add');
-	Route::any('/customer/owner/house-edit','Customer\OwnerController@house_edit');
+	Route::post('/customer/owner/house-add','Customer\OwnerController@house_add');
+	Route::post('/customer/owner/house-edit','Customer\OwnerController@house_edit');
+
+	Route::any('/customer/owner/house/schedule','Customer\OwnerController@schedule');
+	Route::post('/customer/owner/house/schedule-add','Customer\OwnerController@schedule_add');
+	Route::post('/customer/owner/house/schedule-edit','Customer\OwnerController@schedule_edit');
+	Route::post('/customer/owner/house/schedule-del','Customer\OwnerController@schedule_del');
 });
 });
 Route::get('/login',function() {	

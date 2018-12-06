@@ -83,6 +83,9 @@
 	  <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
 	  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 	</script>
+  <script type="text/html" id="schedule">
+    <a class="layui-btn layui-btn-xs" lay-event="schedule">查看</a>
+  </script>
 </div>
 
 @endsection
@@ -109,7 +112,10 @@
       ,toolbar: '#test-table-toolbar-toolbarDemo'
       ,title: '预约拜访'
       ,cols: [[
-         {field:'room_number', title:'房号',fixed: 'left',unresize:true}
+         {title:'楼盘',fixed: 'left',unresize:true,width:150,templet:function(d){
+          return d.project.name;
+        }}
+        ,{field:'room_number', title:'房号',unresize:true}
         ,{field:'floor', title:'楼层',unresize:true}
         ,{field:'building', title:'楼栋',unresize:true}
         ,{field:'unit', title:'单元',unresize:true}
@@ -117,8 +123,30 @@
           return d.huxing.name;
         }}
         ,{field:'acreage', title:'面积',unresize:true}
-        ,{field:'', title:'已付款',unresize:true}
-        ,{field:'total', title:'装修金额',unresize:true}
+        ,{title:'已付款',unresize:true,width:120,templet:function(d){
+          if(d.owner_schedules[0])
+          {
+            var total = 0;
+            $.each(d.owner_schedules,function(i,n){
+              total += parseFloat(n.money);
+            });
+            return total;
+          }else
+          {
+            return '';
+          }
+        }}
+        ,{field:'total', title:'装修金额',width:120,unresize:true}
+        ,{title:'当前进度',unresize:true,width:120,templet:function(d){
+          if(d.owner_schedules[0])
+          {
+            return d.owner_schedules[0]['person'];
+          }else
+          {
+            return '';
+          }
+        }}
+        ,{title:'跟进进度',unresize:true,toolbar: '#schedule',width:120}
         ,{fixed: 'right', title:'操作',fixed: 'right', toolbar: '#test-table-toolbar-barDemo',unresize:true,width:120}
       ]]
       ,page: true
@@ -238,6 +266,22 @@
       			area : [width,height],
       			content : $('.edit')
     			})
+      }else if(obj.event === 'schedule')
+      {
+        var width = ($(window).width() * 1)+'px';
+        var height = ($(window).height() * 1)+'px';
+        var schedule = layer.open({
+          type: 2,
+          title: '房号: '+data.room_number,
+          shadeClose: true,
+          shade: false,
+          maxmin: true, //开启最大化最小化按钮
+          area: [width, height],
+          content: '{{ url("/customer/owner/house/schedule") }}?house_id='+data.id,
+          end:function(){
+            tab.reload();
+          }
+        });        
       }
     });
 
@@ -271,7 +315,7 @@
           layMsgError('新增失败');
         }
       })
-      return false;
+
     })
     form.on('submit(edit)',function(data){
       data = data.field;
