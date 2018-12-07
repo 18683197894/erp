@@ -70,7 +70,7 @@
             <div class="layui-col-lg6">
               <label class="layui-form-label">时间</label>
               <div class="layui-input-block">
-                <input type="text" name="time" lay-verify="required" class="layui-input" id="start">
+                <input type="text" name="time" lay-verify="required" class="layui-input" id="start2">
               </div>
             </div>
             <div class="layui-col-lg6">

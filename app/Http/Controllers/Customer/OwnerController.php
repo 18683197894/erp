@@ -8,6 +8,8 @@ use App\Model\Customer\CustomerUser as User;
 use App\Model\Engineering\House;
 use App\Model\Sys\User as SysUser;
 use App\Model\Customer\Schedule;
+use App\Model\Engineering\Schedule as EngineeringSchedule;
+use App\Model\Engineering\Album;
 class OwnerController extends Controller
 {
     public function owner(Request $request)
@@ -196,7 +198,24 @@ class OwnerController extends Controller
     	$model->save();
     	$this->success_message('修改成功');
     }
+    public function engineering_schedule(Request $request)
+    {
+		$house = House::find($request->house_id);
+        $schedule = EngineeringSchedule::where('house_id',$house->id)->orderBy('serial_number')->get();
+        if(!$house) die('数据不存在');
+        return view('Customer.Owner.engineering_schedule',[
+            'house'=>$house,
+            'schedule'=>$schedule
+        ]);
+    }
 
+    public function album(Request $request)
+    {
+    	$album = Album::where('house_id',$request->house_id)->get();
+    	return view('Customer.Owner.album',[
+    		'album' => $album
+    	]);
+    }
     public function schedule(Request $request)
     {	
     	if($request->isMethod('get'))
@@ -265,6 +284,21 @@ class OwnerController extends Controller
     {
     	$id = $request->id;
     	Schedule::where('id',$id)->delete();
+    	$this->success_message('删除成功');
+    }
+
+    public function house_del(Request $request)
+    {
+    	$id = $request->id;
+    	$model = House::find($id);
+    	if($model)
+    	{
+    		$model->user_id = null;
+    		$model->total = null;
+    		$model->save();
+
+    		Schedule::where('house_id',$model->id)->delete();
+    	}
     	$this->success_message('删除成功');
     }
 }

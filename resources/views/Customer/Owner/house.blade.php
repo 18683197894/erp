@@ -84,7 +84,13 @@
 	  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 	</script>
   <script type="text/html" id="schedule">
-    <a class="layui-btn layui-btn-xs" lay-event="schedule">查看</a>
+    <a class="layui-btn layui-btn-xs layui-btn-normal" lay-event="schedule">进入</a>
+  </script>
+  <script type="text/html" id="engineering-schedule">
+    <a class="layui-btn layui-btn-xs layui-btn-normal" lay-event="engineering-schedule">查看</a>
+  </script>
+  <script type="text/html" id="album">
+    <a class="layui-btn layui-btn-xs layui-btn-normal" lay-event="album">查看</a>
   </script>
 </div>
 
@@ -112,7 +118,7 @@
       ,toolbar: '#test-table-toolbar-toolbarDemo'
       ,title: '预约拜访'
       ,cols: [[
-         {title:'楼盘',fixed: 'left',unresize:true,width:150,templet:function(d){
+         {title:'楼盘',fixed: 'left',unresize:true,width:110,templet:function(d){
           return d.project.name;
         }}
         ,{field:'room_number', title:'房号',unresize:true}
@@ -146,8 +152,10 @@
             return '';
           }
         }}
-        ,{title:'跟进进度',unresize:true,toolbar: '#schedule',width:120}
-        ,{fixed: 'right', title:'操作',fixed: 'right', toolbar: '#test-table-toolbar-barDemo',unresize:true,width:120}
+        ,{title:'跟进进度',unresize:true,toolbar: '#schedule',width:90}
+        ,{title:'施工进度',unresize:true,toolbar: '#engineering-schedule',width:90}
+        ,{title:'相册',unresize:true,toolbar: '#album',width:80}
+        ,{fixed: 'right', title:'操作',fixed: 'right', toolbar: '#test-table-toolbar-barDemo',unresize:true,width:110}
       ]]
       ,page: true
     ,parseData: function(res){ //res 即为原始返回的数据
@@ -224,9 +232,9 @@
     table.on('tool(test-table-toolbar)', function(obj){
       var data = obj.data;
       if(obj.event === 'del'){
-        layer.confirm('确定删除: '+data.schedule+' 吗', function(index){
+        layer.confirm('确定删除房号: '+data.room_number+' 吗', function(index){
         	$.ajax({
-          	url:'{{ url("/developer/project/appointment-del") }}',
+          	url:'{{ url("/customer/owner/house-del") }}',
           	type : 'post',
           	data : {id:data.id,_token:token},
           	success : function(res)
@@ -282,6 +290,32 @@
             tab.reload();
           }
         });        
+      }else if(obj.event === 'engineering-schedule')
+      {
+        var width = ($(window).width() *  1)+'px';
+        var height = ($(window).height() * 1)+'px';
+        var schedule = layer.open({
+          type: 2,
+          title: '房号: '+data.room_number,
+          shadeClose: true,
+          shade: false,
+          maxmin: true, //开启最大化最小化按钮
+          area: [width, height],
+          content: '{{ url("/customer/owner/house/engineering-schedule") }}?house_id='+data.id
+        });     
+      }else if(obj.event === 'album')
+      {
+        var width = ($(window).width() *  1)+'px';
+        var height = ($(window).height() * 1)+'px';
+        var schedule = layer.open({
+          type: 2,
+          title: '房号: '+data.room_number,
+          shadeClose: true,
+          shade: false,
+          maxmin: true, //开启最大化最小化按钮
+          area: [width, height],
+          content: '{{ url("/customer/owner/house/album") }}?house_id='+data.id
+        });     
       }
     });
 
@@ -315,7 +349,7 @@
           layMsgError('新增失败');
         }
       })
-
+      return false;
     })
     form.on('submit(edit)',function(data){
       data = data.field;

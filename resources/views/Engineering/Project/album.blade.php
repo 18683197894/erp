@@ -14,18 +14,36 @@
         <form class="layui-form" id="myform"lay-filter="component-form-group"> 
           <div class="layui-form-item">
             <label class="layui-form-label">拍摄时间</label>
-            <div class="layui-input-inline">
+            <div class="layui-input-block">
               <input type="text" name="time" lay-verify="required" class="layui-input" id="start">
             </div>
           </div>
      	  <div class="layui-form-item">
             <label class="layui-form-label">进度</label>
-            <div class="layui-input-inline">
+            <div class="layui-input-block">
               <select name="schedule_id" lay-filter="required" lay-search="" lay-verify="required">
                 <option value="">直接选择或搜索选择</option>
                 @foreach($schedule as $c)
                 <option value="{{ $c->id }}">{{ $c->stage.' '.$c->matter.' '.$c->details }}</option>
                 @endforeach
+              </select>
+            </div>
+          </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">类别</label>
+            <div class="layui-input-block">
+              <select name="class" lay-filter="required" lay-search="" lay-verify="required">
+                <option value="">直接选择或搜索选择</option>
+                <option value="玄关">玄关</option>
+                <option value="阳台">阳台</option>
+                <option value="客厅">客厅</option>
+                <option value="餐厅">餐厅</option>
+                <option value="餐厅">厨房</option>
+                <option value="主卧">主卧</option>
+                <option value="主卧">次卧</option>
+                <option value="书房">书房</option>
+                <option value="卫生间">卫生间</option>
+                <option value="洗手间">洗手间</option>
               </select>
             </div>
           </div>
@@ -54,17 +72,17 @@
 </div>
 <div class="layui-card edit" style="display:none">
       <div class="layui-card-body" style="padding: 15px;">
-        <form class="layui-form" id="edit"lay-filter="component-form-group"> 
+        <form class="layui-form" id="edit"lay-filter="edit"> 
           <input type="hidden" name="id" value="">
           <div class="layui-form-item">
             <label class="layui-form-label">拍摄时间</label>
-            <div class="layui-input-inline">
+            <div class="layui-input-block">
               <input type="text" name="time" lay-verify="required" class="layui-input" id="start2">
             </div>
           </div>
      	  <div class="layui-form-item">
             <label class="layui-form-label">进度</label>
-            <div class="layui-input-inline">
+            <div class="layui-input-block">
               <select name="schedule_id" lay-filter="required" lay-search="" lay-verify="required">
                 <option value="">直接选择或搜索选择</option>
                 @foreach($schedule as $c)
@@ -73,7 +91,24 @@
               </select>
             </div>
           </div>
-
+          <div class="layui-form-item">
+            <label class="layui-form-label">类别</label>
+            <div class="layui-input-block">
+              <select name="class" lay-filter="required" lay-search="" lay-verify="required">
+                <option value="">直接选择或搜索选择</option>
+                <option value="玄关">玄关</option>
+                <option value="阳台">阳台</option>
+                <option value="客厅">客厅</option>
+                <option value="餐厅">餐厅</option>
+                <option value="餐厅">厨房</option>
+                <option value="主卧">主卧</option>
+                <option value="主卧">次卧</option>
+                <option value="书房">书房</option>
+                <option value="卫生间">卫生间</option>
+                <option value="洗手间">洗手间</option>
+              </select>
+            </div>
+          </div>
           <div class="layui-form-item ">
             <div class="layui-input-block">
             <br>
@@ -111,7 +146,7 @@
 	<script type="text/html" id="test-table-toolbar-toolbarDemo">
 	  <div class="layui-btn-container">
 	    <button class="layui-btn layui-btn-sm  layui-btn-danger" lay-event="getCheckData">批量删除</button>
-	    <button class="layui-btn layui-btn-sm" onclick="open_show('新增图片','.add',0.4,0.6)">新增图片</button>
+	    <button class="layui-btn layui-btn-sm" onclick="open_show('新增图片','.add',0.5,0.7)">新增图片</button>
 	  </div>
 	</script>
 
@@ -149,6 +184,7 @@
       ,cols: [[
          {type: 'checkbox', fixed: 'left',width:80}
         ,{field:'schedule_name', title:'进度',unresize:true}
+        ,{field:'class', title:'类别',unresize:true}
         ,{field:'time', title:'拍摄时间',unresize:true}
         ,{title:'图片',unresize:true,templet:function(d){
         	return " <a lay-event='check'><img src ='"+d.re_image+"'/></a>";
@@ -263,11 +299,15 @@
           })
         });
       } else if(obj.event === 'edit'){
-      			document.getElementById("edit").reset();
+      		document.getElementById("edit").reset();
     			$('.edit').find("input[name='id']").val(data.id);
-    			$('.edit').find("input[name='time']").val(data.time);
-    			$('.edit').find('dd[lay-value="'+data.schedule_id+'"]').click();
-    			var width = ($(window).width() * 0.4)+'px';
+          form.val("edit", {
+            "id" : data.id,
+            'time' : data.time,
+            'class' : data.class,
+            'schedule_id' :data.schedule_id
+          }); 
+    			var width = ($(window).width() * 0.5)+'px';
     			var height = ($(window).height() * 0.6)+'px';
     			edit = layer.open({
     			type : 1,
@@ -303,6 +343,7 @@
       	datas = new FormData();
         datas.append('image',$('input[type="file"]').get(0).files[0]);
         datas.append('time',data.time);
+        datas.append('class',data.class);
         datas.append('house_id',$('#house_id').val());
         datas.append('schedule_id',data.schedule_id);
         datas.append('_token',token);

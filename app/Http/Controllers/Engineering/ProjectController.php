@@ -8,6 +8,7 @@ use App\Model\Developer\Project;
 use App\Model\Engineering\House;
 use App\Model\Engineering\Huxing;
 use App\Model\Engineering\Schedule;
+use App\Model\Customer\Schedule as CustomerSchedule;
 use App\Model\Engineering\Album;
 class ProjectController extends Controller
 {
@@ -372,6 +373,7 @@ class ProjectController extends Controller
         if($model)
         {
             Schedule::where('house_id',$id)->delete();
+            CustomerSchedule::where('house_id',$model->id)->delete();
             $album = Album::where('house_id',$id)->get();
             foreach($album as $v)
             {
