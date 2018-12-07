@@ -407,8 +407,10 @@ class ProjectController extends Controller
         if(!$house) return $this->error_message('房间号不存在',$house_schedule);
         $model = Schedule::where('house_id',$data['house_id'])->where('status',2)->where('serial_number',(intval($data['serial_number']) - 1))->first();           
         if($data['serial_number'] != 1 && !$model) $this->error_message('提交失败 不能越级更新进度',$house_schedule);
-        if($data['start'] < $model->end) $this->error_message('提交失败 开始时间小于上阶段结束时间',$house_schedule);
+        
+        if($data['serial_number'] != 1 && $data['start'] < $model->end) $this->error_message('提交失败 开始时间小于上阶段结束时间',$house_schedule);
         $status = 1;
+
         if(!empty($data['start']) && !empty($data['end']) && !empty($data['liable']) && !empty($data['check']))
         {
             $data['status'] = 2;
