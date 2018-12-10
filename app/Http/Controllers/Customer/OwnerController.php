@@ -10,6 +10,7 @@ use App\Model\Sys\User as SysUser;
 use App\Model\Customer\Schedule;
 use App\Model\Engineering\Schedule as EngineeringSchedule;
 use App\Model\Engineering\Album;
+use App\Model\Engineering\Demand;
 class OwnerController extends Controller
 {
     public function owner(Request $request)
@@ -133,6 +134,7 @@ class OwnerController extends Controller
             return view('Customer.Owner.house',[
             	'user' => $user,
             	'house' => $house,
+            	'style' => array('简欧','简美','港式','美式','欧式','混搭','田园','现代','新古典','东南亚','日式','宜家','北欧','简约','韩式','地中海','中式','法式','工业风','新中式','清水房','其他'),
                 'title' => $user->username,
                 'url' => $urls['scheme'].'://'.$urls['host'].$urls['path'].$this->baseKey($request->all())
             ]);
@@ -148,6 +150,9 @@ class OwnerController extends Controller
                     }])
                     ->with(['Project'=>function($query){
                     	return $query->select('id','name');
+                    }])
+                    ->with(['Demand'=>function($query){
+                    	return $query->select('id','house_id','style','like','demand','arrangement');
                     }])
                     ->orderBy('created_at','DESC')
                     ->offset(($request->page -1) * $request->limit)
@@ -300,5 +305,35 @@ class OwnerController extends Controller
     		Schedule::where('house_id',$model->id)->delete();
     	}
     	$this->success_message('删除成功');
+    }
+
+    public function demand_edit(Request $request)
+    {
+    	$data = $request->except('_token');
+    	$model = Demand::where('house_id',$data['house_id'])->first();
+    	if($model)
+    	{
+    		$model->arrangement = $data['arrangement'];
+    		$model->style = $data['style'];
+    		$model->like = $data['like'];
+    		$model->demand = $data['demand'];
+    		if($model->save())
+    		{
+				$this->success_message('反馈成功');
+    		}else
+    		{
+    			$this->error_message('反馈失败');
+    		}
+    	}else
+    	{
+    		$res = Demand::create($data);
+    		if($res)
+    		{
+    			$this->success_message('反馈成功');
+    		}else
+    		{
+    			$this->error_message('反馈失败');
+    		}
+    	}
     }
 }

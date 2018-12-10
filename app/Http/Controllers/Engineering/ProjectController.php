@@ -10,6 +10,8 @@ use App\Model\Engineering\Huxing;
 use App\Model\Engineering\Schedule;
 use App\Model\Customer\Schedule as CustomerSchedule;
 use App\Model\Engineering\Album;
+use App\Model\Engineering\Demand;
+
 class ProjectController extends Controller
 {
 	public function project(Request $request)
@@ -371,9 +373,14 @@ class ProjectController extends Controller
         $id = $request->id;
         $model = House::find($id);
         if($model)
-        {
+        {   
+            if(\session('user')['type'] != 10 && !empty($model->user_id))
+            {
+                $this->error_message('已禁止删除');
+            }
             Schedule::where('house_id',$id)->delete();
             CustomerSchedule::where('house_id',$model->id)->delete();
+            Demand::where('house_id',$model->id)->delete();
             $album = Album::where('house_id',$id)->get();
             foreach($album as $v)
             {

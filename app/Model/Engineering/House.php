@@ -32,4 +32,8 @@ class House extends Model
     {
         return $this->hasMany('App\Model\Customer\Schedule','house_id','id');
     }
+    public function Demand()
+    {
+        return $this->hasOne('App\Model\Engineering\Demand','house_id','id');
+    }
 }

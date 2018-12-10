@@ -163,6 +163,7 @@ Route::group(['middleware'=>['rule']],function(){
 	Route::post('/customer/owner/house-del','Customer\OwnerController@house_del');
 	Route::get('/customer/owner/house/engineering-schedule','Customer\OwnerController@engineering_schedule');
 	Route::get('/customer/owner/house/album','Customer\OwnerController@album');
+	Route::post('customer/owner/house/demand-edit','Customer\OwnerController@demand_edit');
 
 	Route::any('/customer/owner/house/schedule','Customer\OwnerController@schedule');
 	Route::post('/customer/owner/house/schedule-add','Customer\OwnerController@schedule_add');

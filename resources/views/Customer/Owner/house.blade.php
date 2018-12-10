@@ -57,7 +57,45 @@
     </div> 
 </form>
 </div>
-
+<div class="layui-card demand" style="display:none">
+  <form class="layui-form layui-form-pane" style="margin: 15px;" lay-filter="demand">
+    <input type="hidden" name="house_id" value="">
+    <div class="layui-form-item" >
+      <label class="layui-form-label">装修层次</label>
+      <div class="layui-input-block">
+        <input name="arrangement" value="" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input" type="text">
+      </div>
+    </div>
+    <div class="layui-form-item" >
+      <label class="layui-form-label">装修风格</label>
+      <div class="layui-input-block">
+        <select name="style" lay-search="" lay-verify="required">
+          <option value="">直接选择或搜索选择</option>
+          @foreach($style as $v)
+          <option value="{{ $v }}">{{ $v }}</option>
+          @endforeach
+        </select>
+      </div>
+    </div>
+    <div class="layui-form-item layui-form-text" >
+      <label class="layui-form-label">喜好</label>
+      <div class="layui-input-block">
+        <textarea cols="30" rows="2" name="like" lay-verify="required" placeholder="请输入" class="layui-textarea"></textarea>
+      </div>
+    </div>
+    <div class="layui-form-item layui-form-text" >
+      <label class="layui-form-label">房改需求</label>
+      <div class="layui-input-block">
+        <textarea cols="30" rows="2" name="demand" lay-verify="required" placeholder="请输入" class="layui-textarea"></textarea>
+      </div>
+    </div>
+    <div class="layui-form-item ">
+      <div class="layui-footer">
+          <button class="layui-btn" style="margin-top: 10px;" lay-submit="" lay-filter="demand">立即提交</button>
+      </div>
+    </div> 
+</form>
+</div>
 @endsection
 
 @section('content')
@@ -92,6 +130,9 @@
   <script type="text/html" id="album">
     <a class="layui-btn layui-btn-xs layui-btn-normal" lay-event="album">查看</a>
   </script>
+  <script type="text/html" id="demand">
+    <a class="layui-btn layui-btn-xs layui-btn-normal" lay-event="demand">反馈</a>
+  </script>
 </div>
 
 @endsection
@@ -118,7 +159,7 @@
       ,toolbar: '#test-table-toolbar-toolbarDemo'
       ,title: '预约拜访'
       ,cols: [[
-         {title:'楼盘',fixed: 'left',unresize:true,width:110,templet:function(d){
+         {title:'楼盘',fixed: 'left',unresize:true,width:100,templet:function(d){
           return d.project.name;
         }}
         ,{field:'room_number', title:'房号',unresize:true}
@@ -142,20 +183,21 @@
             return '';
           }
         }}
-        ,{field:'total', title:'装修金额',width:120,unresize:true}
-        ,{title:'当前进度',unresize:true,width:120,templet:function(d){
-          if(d.owner_schedules[0])
-          {
-            return d.owner_schedules[0]['person'];
-          }else
-          {
-            return '';
-          }
-        }}
-        ,{title:'跟进进度',unresize:true,toolbar: '#schedule',width:90}
-        ,{title:'施工进度',unresize:true,toolbar: '#engineering-schedule',width:90}
-        ,{title:'相册',unresize:true,toolbar: '#album',width:80}
-        ,{fixed: 'right', title:'操作',fixed: 'right', toolbar: '#test-table-toolbar-barDemo',unresize:true,width:110}
+        ,{field:'total', title:'装修金额',width:110,unresize:true}
+        // ,{title:'当前进度',unresize:true,width:110,templet:function(d){
+        //   if(d.owner_schedules[0])
+        //   {
+        //     return d.owner_schedules[0]['person'];
+        //   }else
+        //   {
+        //     return '';
+        //   }
+        // }}
+        ,{title:'跟进进度',unresize:true,toolbar: '#schedule'}
+        ,{title:'施工进度',unresize:true,toolbar: '#engineering-schedule'}
+        ,{title:'相册',unresize:true,toolbar: '#album'}
+        ,{title:'需求',unresize:true,toolbar: '#demand'}
+        ,{fixed: 'right', title:'操作',fixed: 'right', toolbar: '#test-table-toolbar-barDemo',unresize:true,width:120}
       ]]
       ,page: true
     ,parseData: function(res){ //res 即为原始返回的数据
@@ -316,9 +358,64 @@
           area: [width, height],
           content: '{{ url("/customer/owner/house/album") }}?house_id='+data.id
         });     
+      }else if(obj.event === 'demand')
+      {
+          var width = ($(window).width() * 0.75)+'px';
+          var height = ($(window).height() * 0.85)+'px';
+          if(!data.demand)
+          {
+            data.demand = new Array();
+          }
+          form.val("demand", {
+            "house_id" : data.id,
+            'arrangement' : data.demand.arrangement,
+            'style' : data.demand.style,
+            'like' : data.demand.like,
+            'demand' : data.demand.demand
+          }); 
+          demand = layer.open({
+            type : 1,
+            title : '编辑',
+            fix: false, //不固定
+            maxmin: true,
+            shadeClose: true,
+            shade: 0.4,
+            area : [width,height],
+            content : $('.demand')
+          })
       }
     });
-
+    form.on('submit(demand)',function(data){
+      data = data.field;
+      data._token = token;
+      $.ajax({
+        url : '{{ url("customer/owner/house/demand-edit") }}',
+        type : 'post',
+        data : data,
+        success : function(res)
+        { 
+          res = $.parseJSON(res);
+          if(res.code == 200)
+          {
+            layer.close(demand);
+            layMsgOk(res.msg);
+            $('#name').val('');
+            tab.reload({
+              where : {_token:token,user_id:$('#user_id').val()},
+              page : {cuur:1}
+            })
+          }else
+          {
+            layMsgError(res.msg);
+          }
+        },
+        error : function(error)
+        {
+          layMsgError('新增失败');
+        }
+      })
+      return false;
+    })
     form.on('submit(add)',function(data){
       data = data.field;
       data._token = token;
