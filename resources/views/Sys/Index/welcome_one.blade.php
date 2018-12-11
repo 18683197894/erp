@@ -1,331 +1,156 @@
-待开发
-<!-- 
+@extends('public')
 
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <title>控制台主页</title>
-  <meta name="renderer" content="webkit">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
-  <link rel="stylesheet" href="{{ asset('/layui/layuiadmin/layui/css/layui.css') }}" media="all">
-  <link rel="stylesheet" href="{{ asset('/layui/layuiadmin/style/admin.css') }}" media="all">
-</head>
-<body>
-  
-  <div class="layui-fluid">
-    <div class="layui-row layui-col-space15">
-      <div class="layui-col-md8">
-        <div class="layui-row layui-col-space15">
-          <div class="layui-col-md6">
-            <div class="layui-card">
-              <div class="layui-card-header">快捷方式</div>
-              <div class="layui-card-body">
-                
-                <div class="layui-carousel layadmin-carousel layadmin-shortcut">
-                  <div carousel-item>
-                    <ul class="layui-row layui-col-space10">
-                      <li class="layui-col-xs3">
-                        <a lay-href="home/homepage1.html">
-                          <i class="layui-icon layui-icon-console"></i>
-                          <cite>主页一</cite>
-                        </a>
-                      </li>
-                      <li class="layui-col-xs3">
-                        <a lay-href="home/homepage2.html">
-                          <i class="layui-icon layui-icon-chart"></i>
-                          <cite>主页二</cite>
-                        </a>
-                      </li>
-                      <li class="layui-col-xs3">
-                        <a lay-href="component/layer/list.html">
-                          <i class="layui-icon layui-icon-template-1"></i>
-                          <cite>弹层</cite>
-                        </a>
-                      </li>
-                      <li class="layui-col-xs3">
-                        <a layadmin-event="im">
-                          <i class="layui-icon layui-icon-chat"></i>
-                          <cite>聊天</cite>
-                        </a>
-                      </li>
-                      <li class="layui-col-xs3">
-                        <a lay-href="component/progress/index.html">
-                          <i class="layui-icon layui-icon-find-fill"></i>
-                          <cite>进度条</cite>
-                        </a>
-                      </li>
-                      <li class="layui-col-xs3">
-                        <a lay-href="app/workorder/list.html">
-                          <i class="layui-icon layui-icon-survey"></i>
-                          <cite>工单</cite>
-                        </a>
-                      </li>
-                      <li class="layui-col-xs3">
-                        <a lay-href="user/user/list.html">
-                          <i class="layui-icon layui-icon-user"></i>
-                          <cite>用户</cite>
-                        </a>
-                      </li>
-                      <li class="layui-col-xs3">
-                        <a lay-href="set/system/website.html">
-                          <i class="layui-icon layui-icon-set"></i>
-                          <cite>设置</cite>
-                        </a>
-                      </li>
-                    </ul>
-                    <ul class="layui-row layui-col-space10">
-                      <li class="layui-col-xs3">
-                        <a lay-href="set/user/info.html">
-                          <i class="layui-icon layui-icon-set"></i>
-                          <cite>我的资料</cite>
-                        </a>
-                      </li>
-                      <li class="layui-col-xs3">
-                        <a lay-href="set/user/info.html">
-                          <i class="layui-icon layui-icon-set"></i>
-                          <cite>我的资料</cite>
-                        </a>
-                      </li>
-                      <li class="layui-col-xs3">
-                        <a lay-href="set/user/info.html">
-                          <i class="layui-icon layui-icon-set"></i>
-                          <cite>我的资料</cite>
-                        </a>
-                      </li>
-                      <li class="layui-col-xs3">
-                        <a lay-href="set/user/info.html">
-                          <i class="layui-icon layui-icon-set"></i>
-                          <cite>我的资料</cite>
-                        </a>
-                      </li>
-                      <li class="layui-col-xs3">
-                        <a lay-href="set/user/info.html">
-                          <i class="layui-icon layui-icon-set"></i>
-                          <cite>我的资料</cite>
-                        </a>
-                      </li>
-                      <li class="layui-col-xs3">
-                        <a lay-href="set/user/info.html">
-                          <i class="layui-icon layui-icon-set"></i>
-                          <cite>我的资料</cite>
-                        </a>
-                      </li>
-                      <li class="layui-col-xs3">
-                        <a lay-href="set/user/info.html">
-                          <i class="layui-icon layui-icon-set"></i>
-                          <cite>我的资料</cite>
-                        </a>
-                      </li>
-                      <li class="layui-col-xs3">
-                        <a lay-href="set/user/info.html">
-                          <i class="layui-icon layui-icon-set"></i>
-                          <cite>我的资料</cite>
-                        </a>
-                      </li>
-                    </ul>
-                    
-                  </div>
-                </div>
-                
-              </div>
-            </div>
-          </div>
-          <div class="layui-col-md6">
-            <div class="layui-card">
-              <div class="layui-card-header">待办事项</div>
-              <div class="layui-card-body">
+@section('css')
+  <link rel="stylesheet" href="{{ asset('/layui/layuiadmin/style/template.css') }}" media="all">
+@endsection
 
-                <div class="layui-carousel layadmin-carousel layadmin-backlog">
-                  <div carousel-item>
-                    <ul class="layui-row layui-col-space10">
-                      <li class="layui-col-xs6">
-                        <a lay-href="app/content/comment.html" class="layadmin-backlog-body">
-                          <h3>待审评论</h3>
-                          <p><cite>66</cite></p>
-                        </a>
-                      </li>
-                      <li class="layui-col-xs6">
-                        <a lay-href="app/forum/list.html" class="layadmin-backlog-body">
-                          <h3>待审帖子</h3>
-                          <p><cite>12</cite></p>
-                        </a>
-                      </li>
-                      <li class="layui-col-xs6">
-                        <a lay-href="template/goodslist.html" class="layadmin-backlog-body">
-                          <h3>待审商品</h3>
-                          <p><cite>99</cite></p>
-                        </a>
-                      </li>
-                      <li class="layui-col-xs6">
-                        <a href="javascript:;" onclick="layer.tips('不跳转', this, {tips: 3});" class="layadmin-backlog-body">
-                          <h3>待发货</h3>
-                          <p><cite>20</cite></p>
-                        </a>
-                      </li>
-                    </ul>
-                    <ul class="layui-row layui-col-space10">
-                      <li class="layui-col-xs6">
-                        <a href="javascript:;" class="layadmin-backlog-body">
-                          <h3>待审友情链接</h3>
-                          <p><cite style="color: #FF5722;">5</cite></p>
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="layui-col-md12">
-            <div class="layui-card">
-              <div class="layui-card-header">数据概览</div>
-              <div class="layui-card-body">
-                
-                <div class="layui-carousel layadmin-carousel layadmin-dataview" data-anim="fade" lay-filter="LAY-index-dataview">
-                  <div carousel-item id="LAY-index-dataview">
-                    <div><i class="layui-icon layui-icon-loading1 layadmin-loading"></i></div>
-                    <div></div>
-                    <div></div>
-                  </div>
-                </div>
-                
-              </div>
-            </div>
-            <div class="layui-card">
-              <div class="layui-tab layui-tab-brief layadmin-latestData">
-                <ul class="layui-tab-title">
-                  <li class="layui-this">今日热搜</li>
-                  <li>今日热帖</li>
-                </ul>
-                <div class="layui-tab-content">
-                  <div class="layui-tab-item layui-show">
-                    <table id="LAY-index-topSearch"></table>
-                  </div>
-                  <div class="layui-tab-item">
-                    <table id="LAY-index-topCard"></table>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      <div class="layui-col-md4">
-        <div class="layui-card">
-          <div class="layui-card-header">版本信息</div>
-          <div class="layui-card-body layui-text">
-            <table class="layui-table">
-              <colgroup>
-                <col width="100">
-                <col>
-              </colgroup>
-              <tbody>
-                <tr>
-                  <td>当前版本</td>
-                  <td>
-                    <script type="text/html" template>
-                 
-                      <a href="http://fly.layui.com/docs/3/" target="_blank" style="padding-left: 15px;">更新日志</a>
-                    </script>
-                  </td>
-                </tr>
-                <tr>
-                  <td>基于框架</td>
-                  <td>
-                    <script type="text/html" template>
-                     
-                    </script>
-                 </td>
-                </tr>
-                <tr>
-                  <td>主要特色</td>
-                  <td>零门槛 / 响应式 / 清爽 / 极简</td>
-                </tr>
-                <tr>
-                  <td>获取渠道</td>
-                  <td style="padding-bottom: 0;">
-                    <div class="layui-btn-container">
-                      <a href="http://www.layui.com/admin/" target="_blank" class="layui-btn layui-btn-danger">获取授权</a>
-                      <a href="http://fly.layui.com/download/layuiAdmin/" target="_blank" class="layui-btn">立即下载</a>
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-        
-        <div class="layui-card">
-          <div class="layui-card-header">效果报告</div>
-          <div class="layui-card-body layadmin-takerates">
-            <div class="layui-progress" lay-showPercent="yes">
-              <h3>转化率（日同比 28% <span class="layui-edge layui-edge-top" lay-tips="增长" lay-offset="-15"></span>）</h3>
-              <div class="layui-progress-bar" lay-percent="65%"></div>
-            </div>
-            <div class="layui-progress" lay-showPercent="yes">
-              <h3>签到率（日同比 11% <span class="layui-edge layui-edge-bottom" lay-tips="下降" lay-offset="-15"></span>）</h3>
-              <div class="layui-progress-bar" lay-percent="32%"></div>
-            </div>
-          </div>
-        </div>
-        
-        <div class="layui-card">
-          <div class="layui-card-header">实时监控</div>
-          <div class="layui-card-body layadmin-takerates">
-            <div class="layui-progress" lay-showPercent="yes">
-              <h3>CPU使用率</h3>
-              <div class="layui-progress-bar" lay-percent="58%"></div>
-            </div>
-            <div class="layui-progress" lay-showPercent="yes">
-              <h3>内存占用率</h3>
-              <div class="layui-progress-bar layui-bg-red" lay-percent="90%"></div>
-            </div>
-          </div>
-        </div>
-        
-        <div class="layui-card">
-          <div class="layui-card-header">产品动态</div>
-          <div class="layui-card-body">
-            <div class="layui-carousel layadmin-carousel layadmin-news" data-autoplay="true" data-anim="fade" lay-filter="news">
-              <div carousel-item>
-                <div><a href="http://fly.layui.com/docs/2/" target="_blank" class="layui-bg-red">layuiAdmin 快速上手文档</a></div>
-                <div><a href="http://fly.layui.com/vipclub/list/layuiadmin/" target="_blank" class="layui-bg-green">layuiAdmin 会员讨论专区</a></div> 
-                <div><a href="http://www.layui.com/admin/#get" target="_blank" class="layui-bg-blue">获得 layui 官方后台模板系统</a></div>
-              </div>
-            </div>
+@section('content')
+<div class="layui-fluid layadmin-message-fluid">
+  <div class="layui-row">
+    <div class="layui-col-md12">
+      <form class="layui-form">
+        <div class="layui-form-item layui-form-text">
+          <div class="layui-input-block">
+            <textarea id="demo" class="layui-textarea" style="display: none;"></textarea>
           </div>
         </div>
 
-        <div class="layui-card">
-          <div class="layui-card-header">
-            作者心语
-            <i class="layui-icon layui-icon-tips" lay-tips="要支持的噢" lay-offset="5"></i>
-          </div>
-          <div class="layui-card-body layui-text layadmin-text">
-            <p>一直以来，layui 秉承无偿开源的初心，虔诚致力于服务各层次前后端 Web 开发者，在商业横飞的当今时代，这一信念从未动摇。即便身单力薄，仍然重拾决心，埋头造轮，以尽可能地填补产品本身的缺口。</p>
-            <p>在过去的一段的时间，我一直在寻求持久之道，已维持你眼前所见的一切。而 layuiAdmin 是我们尝试解决的手段之一。我相信真正有爱于 layui 生态的你，定然不会错过这一拥抱吧。</p>
-            <p>子曰：君子不用防，小人防不住。请务必通过官网正规渠道，获得 <a href="http://www.layui.com/admin/" target="_blank">layuiAdmin</a>！</p>
-            <p>—— 贤心（<a href="http://www.layui.com/" target="_blank">layui.com</a>）</p>
+        <div class="layui-form-item" style="overflow: hidden;">
+          <div class="layui-input-block layui-input-right">
+            <button class="layui-btn" lay-submit lay-filter="formDemo">发表</button>
           </div>
         </div>
-      </div>
-      
+      </form>
+    </div>
+    <div class="layui-col-md12 layadmin-homepage-list-imgtxt message-content">
+       <div class="flow-default" id="test-flow-auto" style="margin-bottom: 0px;"></div>
+<!--        <div class="media-body">
+          <a href="javascript:;" class="media-left" style="float: left;">
+             <img src="../../layuiadmin/style/res/template/portrait.png" height="46px" width="46px">
+          </a>
+          <div class="pad-btm">
+            <p class="fontColor"><a href="javascript:;">胡歌</a></p>
+            <p class="min-font">
+              <span class="layui-breadcrumb" lay-separator="-">
+                <a href="javascript:;" class="layui-icon layui-icon-cellphone"></a>
+                <a href="javascript:;">从移动</a>
+                <a href="javascript:;">11分钟前</a>
+              </span>
+            </p>         
+         </div>
+          <p class="message-text">历经打磨，@索尼中国 再献新作品—OLED电视A8F完美诞生。很开心一起参加了A8F的“首映礼”！[鼓掌]正如我们演员对舞台的热爱，索尼对科技与艺术的追求才创造出了让人惊喜的作品。作为A1兄弟款，A8F沿袭了黑科技“屏幕发声技术”和高清画质，色彩的出众表现和高端音质，让人在体验的时候如同身临其境。A8F，这次的“视帝”要颁发给你！  索尼官网预售： O网页链接 索尼旗舰店预售：</p>
+       </div> -->
+    <!--    <div class="layui-row message-content-btn">
+          <a href="javascript:;" class="layui-btn">更多</a>
+       </div> -->
+     </div>
+
     </div>
   </div>
-  <script src="{{ asset('/layui/layuiadmin/layui/layui.js?t=1') }}"></script>  
-  <script src="{{ asset('/layui/layuiadmin/layui/custom.js') }}"></script>  
+</div>
+@endsection
 
-  <script>
+@section('js')
+<script type="text/javascript">
   layui.config({
     base: '{{ asset("/layui/layuiadmin/") }}/' //静态资源所在路径
   }).extend({
     index: 'lib/index' //主入口模块
-  }).use(['index', 'welcome_one']);
-  </script>
-</body>
-</html>
+  }).use(['index','form','layedit','flow'], function(){
+      form = layui.form;
+      layedit = layui.layedit;
+      $ = layui.jquery;
+      flow = layui.flow;
+      token = $("meta[name='csrf-token']").attr('content');
 
- -->
+      // flow.load({
+      //   elem: '#test-flow-auto' //流加载容器
+      //   ,done: function(page, next){ //执行下一页的回调
+          
+      //     //模拟数据插入
+      //     setTimeout(function(){
+      //       var lis = [];
+      //       for(var i = 0; i < 8; i++){
+      //         lis.push('<div style="width:100px;height:100px">'+ ( (page-1)*8 + i + 1 ) +'</div>')
+      //       }
+            
+      //       //执行下一页渲染，第二参数为：满足“加载更多”的条件，即后面仍有分页
+      //       //pages为Ajax返回的总页数，只有当前页小于总页数的情况下，才会继续出现加载更多
+      //       next(lis.join(''), page < 10); //假设总页数为 10
+      //     }, 500);
+      //   }
+      // });
+      flow.load({
+        elem: '#test-flow-auto' //指定列表容器
+        ,done: function(page, next){ //到达临界点（默认滚动触发），触发下一页
+          var lis = [];
+          //以jQuery的Ajax请求为例，请求下一页数据（注意：page是从2开始返回）
+          $.post('/message/liuyan?page='+page+'&_token='+token, function(res){
+            //假设你的列表返回在data集合中
+            res = $.parseJSON(res);
+            layui.each(res.data, function(index, item){
+              lis.push(
+                "<div class='media-body'><a href='javascript:;' class='media-left' style='float: left;'><img src='"+item.user.head_portrait+"' height='46px' width='46px'></a><div class='pad-btm'><p class='fontColor'><a href='javascript:;'>"+item.user.username+"</a></p><p class='min-font'><span class='layui-breadcrumb' lay-separator='-' style='visibility: visible'><a href='javascript:;'>"+item.time+"</a></span></p></div><p class='message-text'>"+item.content+"</p></div>"
+                );
+            }); 
+            
+            //执行下一页渲染，第二参数为：满足“加载更多”的条件，即后面仍有分页
+            //pages为Ajax返回的总页数，只有当前页小于总页数的情况下，才会继续出现加载更多
+            next(lis.join(''), page < res.pages);    
+          });
+        }
+      });
+
+      message = layedit.build('demo',{
+      height: 200,
+      tool: [
+        'strong' //加粗
+        ,'italic' //斜体
+        ,'underline' //下划线
+        ,'del' //删除线
+        
+        ,'|' //分割线
+        
+        ,'left' //左对齐
+        ,'center' //居中对齐
+        ,'right' //右对齐
+        ,'link' //超链接
+        ,'unlink' //清除链接
+        ,'face' //表情
+        // ,'image' //插入图片
+        // ,'help' //帮助
+      ]
+    }); //建立编辑器
+
+    form.on('submit(formDemo)', function(data){
+      var content = layedit.getContent(message);
+      if(!layedit.getText(message)) return false;
+      $.ajax({
+        'url' : '{{url("/message/liuyan-add")}}',
+        'type' : 'post',
+        'data' : {content:content,_token:token},
+        success : function(res)
+        {
+          res = $.parseJSON(res);
+          if(res.code == 200)
+          {
+            layedit.setContent(message,'');
+            $('#test-flow-auto').prepend("<div class='media-body'><a href='javascript:;' class='media-left' style='float: left;'><img src='"+res.data.user.head_portrait+"' height='46px' width='46px'></a><div class='pad-btm'><p class='fontColor'><a href='javascript:;'>"+res.data.user.username+"</a></p><p class='min-font'><span class='layui-breadcrumb' lay-separator='-' style='visibility: visible'><a href='javascript:;'>刚刚</a></span></p></div><p class='message-text'>"+res.data.content+"</p></div>");
+            layMsgOk(res.msg);
+          }else
+          {
+            layMsgError(res.msg);
+          }
+        },
+        error : function(error)
+        {
+          layMsgError('留言失败');
+        }
+      })
+
+
+      return false;
+    });
+  })
+</script>
+@endsection

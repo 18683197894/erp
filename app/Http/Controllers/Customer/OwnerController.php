@@ -301,7 +301,7 @@ class OwnerController extends Controller
     		$model->user_id = null;
     		$model->total = null;
     		$model->save();
-
+            Demand::where('house_id',$model->id)->delete();
     		Schedule::where('house_id',$model->id)->delete();
     	}
     	$this->success_message('删除成功');

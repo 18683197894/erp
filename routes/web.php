@@ -21,6 +21,9 @@ Route::group(['middleware'=>['user']],function(){
 	Route::post('/user/personal-edit','Sys\UserController@personal_edit');
 	Route::post('/user/personal-head_portrait','Sys\UserController@personal_head_portrait');
 
+	Route::post('/message/liuyan-add','Message\MessageController@liuyan_add');
+	Route::any('/message/liuyan','Message\MessageController@liuyan');
+
 Route::group(['middleware'=>['rule']],function(){
 
 	/**

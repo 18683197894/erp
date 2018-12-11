@@ -91,7 +91,7 @@
     </div>
     <div class="layui-form-item ">
       <div class="layui-footer">
-          <button class="layui-btn" style="margin-top: 10px;" lay-submit="" lay-filter="demand">立即提交</button>
+          <button class="layui-btn" style="margin-top: 10px;" lay-submit="" lay-filter="demand">立即更新</button>
       </div>
     </div> 
 </form>
