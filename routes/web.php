@@ -172,6 +172,21 @@ Route::group(['middleware'=>['rule']],function(){
 	Route::post('/customer/owner/house/schedule-add','Customer\OwnerController@schedule_add');
 	Route::post('/customer/owner/house/schedule-edit','Customer\OwnerController@schedule_edit');
 	Route::post('/customer/owner/house/schedule-del','Customer\OwnerController@schedule_del');
+
+	Route::any('/supplier/supply','Supplier\SupplierController@supply');
+	Route::post('/supplier/supply-add','Supplier\SupplierController@supply_add');
+	Route::post('/supplier/supply-edit','Supplier\SupplierController@supply_edit');
+	Route::post('/supplier/supply-del','Supplier\SupplierController@supply_del');
+
+	Route::any('/supplier/category','Supplier\SupplierController@category');
+	Route::post('/supplier/category-add','Supplier\SupplierController@category_add');
+	Route::post('/supplier/category-edit','Supplier\SupplierController@category_edit');
+	Route::post('/supplier/category-del','Supplier\SupplierController@category_del');
+
+	Route::any('/supplier/material','Supplier\SupplierController@material');
+	Route::post('/supplier/material-add','Supplier\SupplierController@material_add');
+	Route::post('/supplier/material-edit','Supplier\SupplierController@material_edit');
+	Route::post('/supplier/material-del','Supplier\SupplierController@material_del');
 });
 });
 Route::get('/login',function() {	
