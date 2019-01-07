@@ -29,7 +29,8 @@ class DrawingController extends Controller
        	}else
     	{
 			$house_id = $request->house_id;
-            $data = Drawing::where('house_id',$house_id)
+            $data = Drawing::select('*')
+                    ->where('house_id',$house_id)
                     ->where('status','>',0)
                     ->orderBy('created_at','DESC')
                     ->offset(($request->page -1) * $request->limit)

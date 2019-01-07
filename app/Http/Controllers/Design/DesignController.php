@@ -26,7 +26,8 @@ class DesignController extends Controller
         }else if($request->isMethod('post'))
         {
             $project_id = $request->post('project_id',false)?$request->project_id:'';
-            $data = Huxing::where('project_id','like','%'.$project_id.'%')
+            $data = Huxing::select('*')
+                    ->where('project_id','like','%'.$project_id.'%')
                     ->where('status','>',0)
                     ->with(['Project'=>function($query){
                     	return $query->select('id','name')->get();
@@ -205,11 +206,16 @@ class DesignController extends Controller
 		{
 			$room_number = $request->post('name',false)?$request->name:'';
 			$project_id = $request->post('project_id',false)?$request->project_id:'';
-			$data = House::where('room_number','like','%'.$room_number.'%')
+			$data = House::select('*')
+                    ->where('room_number','like','%'.$room_number.'%')
 					->where('project_id','like','%'.$project_id.'%')
 	                ->where('status','>',0)
-                    ->with('Huxing')
-                    ->with('Demand')
+                    ->with(['Huxing'=>function($query){
+                        return $query->select('*')->get();
+                    }])
+                    ->with(['Demand'=>function($query){
+                        return $query->select('*')->get();
+                    }])
 	                ->with(['Project'=>function($query){
                         return $query->select('id','name')->get();
                     }])
