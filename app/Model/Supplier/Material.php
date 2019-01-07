@@ -15,4 +15,8 @@ class Material extends Model
     {
     	return $this->hasOne('App\Model\Supplier\Supply','id','supply_id');
     }
+    public function Category()
+    {
+    	return $this->hasOne('App\Model\Supplier\Category','id','category_id');
+    }
 }

@@ -127,24 +127,19 @@ Route::group(['middleware'=>['rule']],function(){
 	Route::post('/developer/project/feedback-add','Developer\ProjectController@feedback_add');
 
 
-
+	/**
+	*	engineering 工程模块
+	*	project 项目
+	* 	house 房间
+	* 	schedule 进度
+	* 	album 相册
+	*/
 	Route:: any('/engineering/project','Engineering\ProjectController@project');
 	Route:: post('/engineering/project-add','Engineering\ProjectController@project_add');
 	Route:: post('/engineering/project-edit','Engineering\ProjectController@project_add');
 	Route:: post('/engineering/project-del','Engineering\ProjectController@project_del');
 
-	Route::any('/engineering/project/huxing','Engineering\ProjectController@huxing');
-	Route::post('/engineering/project/huxing-add','Engineering\ProjectController@huxing_add');
-	Route::post('/engineering/project/huxing-edit','Engineering\ProjectController@huxing_edit');
-	Route::post('/engineering/project/huxing-del','Engineering\ProjectController@huxing_del');
-	Route::post('/engineering/project/huxing-upload','Engineering\ProjectController@huxing_upload');
-	Route::get('/huxing/download','Engineering\ProjectController@huxing_download');
-	Route::post('/engineering/project/huxing-edit','Engineering\ProjectController@huxing_edit');
-
 	Route::any('/engineering/project/house','Engineering\ProjectController@house');
-	Route::post('/engineering/project/house-add','Engineering\ProjectController@house_add');
-	Route::post('/engineering/project/house-edit','Engineering\ProjectController@house_edit');
-	Route::post('/engineering/project/house-del','Engineering\ProjectController@house_del');
 
 	Route::get('/engineering/project/house/schedule','Engineering\ProjectController@schedule');
 	Route::post('/engineering/project/house/schedule-add','Engineering\ProjectController@schedule_add');
@@ -154,7 +149,13 @@ Route::group(['middleware'=>['rule']],function(){
 	Route::post('/engineering/project/house/album-edit','Engineering\ProjectController@album_edit');
 	Route::post('/engineering/project/house/album-del','Engineering\ProjectController@album_del');
 	Route::get('/engineering/project/house/album-check','Engineering\ProjectController@album_check');
-
+	
+	/**
+	*	customer 客户模块
+	*	owner 客户
+	* 	house 房间
+	* 	schedule 交涉进度
+	*/
 	Route::any('/customer/owner','Customer\OwnerController@owner');
 	Route::post('/customer/owner-add','Customer\OwnerController@owner_add');
 	Route::post('/customer/owner-edit','Customer\OwnerController@owner_edit');
@@ -173,6 +174,12 @@ Route::group(['middleware'=>['rule']],function(){
 	Route::post('/customer/owner/house/schedule-edit','Customer\OwnerController@schedule_edit');
 	Route::post('/customer/owner/house/schedule-del','Customer\OwnerController@schedule_del');
 
+	/**
+	*	supplier 材料模块
+	*	category 开发商
+	* 	house 房间
+	* 	material 材料
+	*/
 	Route::any('/supplier/supply','Supplier\SupplierController@supply');
 	Route::post('/supplier/supply-add','Supplier\SupplierController@supply_add');
 	Route::post('/supplier/supply-edit','Supplier\SupplierController@supply_edit');
@@ -187,6 +194,39 @@ Route::group(['middleware'=>['rule']],function(){
 	Route::post('/supplier/material-add','Supplier\SupplierController@material_add');
 	Route::post('/supplier/material-edit','Supplier\SupplierController@material_edit');
 	Route::post('/supplier/material-del','Supplier\SupplierController@material_del');
+
+	/**
+	*	design 设计模块
+	*	huxing 户型
+	* 	house 房间
+	* 	drawing 设计图
+	* 	material 材料清单
+	*/
+	Route::any('/design/huxing','Design\DesignController@huxing');
+	Route::post('/design/huxing-add','Design\DesignController@huxing_add');
+	Route::post('/design/huxing-edit','Design\DesignController@huxing_edit');
+	Route::post('/design/huxing-del','Design\DesignController@huxing_del');
+	Route::post('/design/huxing-upload','Design\DesignController@huxing_upload');
+	Route::get('/huxing/download','Design\DesignController@huxing_download');
+
+	Route::any('/design/house','Design\DesignController@house');
+	Route::post('/design/house-add','Design\DesignController@house_add');
+	Route::any('/design/house-edit','Design\DesignController@house_edit');
+	Route::post('/design/house-del','Design\DesignController@house_del');
+
+	Route::any('/design/house/drawing','Design\DrawingController@drawing');
+	Route::post('/design/house/drawing-add','Design\DrawingController@drawing_add');
+	Route::post('/design/house/drawing-edit','Design\DrawingController@drawing_edit');
+	Route::post('/design/house/drawing-del','Design\DrawingController@drawing_del');
+	Route::post('/design/house/drawing-upload','Design\DrawingController@drawing_upload');
+	Route::get('/design/house/drawing-download','Design\DrawingController@drawing_download');
+
+	Route::any('/design/house/material','Design\MaterialController@material');
+	Route::post('/design/house/material-edit','Design\MaterialController@material_edit');
+	Route::post('/design/house/material-del','Design\MaterialController@material_del');
+
+	Route::any('/design/house/material-selection','Design\MaterialController@material_selection');
+	Route::post('/design/house/material-selection-add','Design\MaterialController@material_selection_add');
 });
 });
 Route::get('/login',function() {	

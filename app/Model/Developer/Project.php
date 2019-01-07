@@ -29,4 +29,8 @@ class Project extends Model
     {
         return $this->hasMany('App\Model\Engineering\House','project_id','id');
     }
+    public function Huxings()
+    {
+        return $this->hasMany('App\Model\Design\huxing','project_id','id');
+    }
 }

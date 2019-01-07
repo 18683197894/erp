@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Model\Engineering;
+namespace App\Model\Design;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Huxing extends Model
+class Drawing extends Model
 {
-    protected $table = 'engineering_huxing';
+    protected $table = 'design_drawing';
     protected $dateFormat = 'U';
     protected $primaryKey = 'id';
     protected $guarded = [];

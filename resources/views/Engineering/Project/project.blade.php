@@ -96,9 +96,6 @@
   <script type="text/html" id="house">
     <a class="layui-btn layui-btn-xs layui-btn-normal" lay-event="house">进入</a>
   </script>
-    <script type="text/html" id="huxing">
-    <a class="layui-btn layui-btn-xs layui-btn-normal" lay-event="huxing">进入</a>
-  </script>
 </div>
 @endsection
 
@@ -134,7 +131,6 @@
         ,{field:'admission_time', title:'入场时间',unresize:true}
         ,{field:'estimate_time', title:'预计完成时间',unresize:true}
         ,{title:'进度',unresize:true,toolbar:'#house'}
-        ,{title:'户型',unresize:true,toolbar:'#huxing'}
         ,{fixed: 'right', title:'操作',fixed: 'right', toolbar: '#test-table-toolbar-barDemo',unresize:true,width:120}
       ]]
       ,page: {curr:$('#page').val(),limit:$('#limit').val()}

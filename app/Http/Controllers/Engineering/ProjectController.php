@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Model\Developer\Project;
 use App\Model\Engineering\House;
-use App\Model\Engineering\Huxing;
+use App\Model\Design\Huxing;
 use App\Model\Engineering\Schedule;
 use App\Model\Customer\Schedule as CustomerSchedule;
 use App\Model\Engineering\Album;
@@ -138,8 +138,8 @@ class ProjectController extends Controller
 		    {     
                 if(isset($value['schedules'][0]))
                 {   
-                    $details = !empty($value['schedules'][0]['details'])?'-'.$value['schedules'][0]['details']:'';
-                    $data[$key]['schedule_name'] = $value['schedules'][0]['stage'].'-'.$value['schedules'][0]['matter'].$details;
+                    
+                    $data[$key]['schedule_name'] = $value['schedules'][0]['details'];
                 }else
                 {
                     $data[$key]['schedule_name'] = '未开工';
@@ -158,240 +158,9 @@ class ProjectController extends Controller
 			$this->tableData($total,$data,'获取成功',0);
 		}
 	}
-	public function huxing(Request $request)
-	{
-       if($request->isMethod('get'))
-        {
-            $urls = parse_url(\url()->previous());
-            $project = Project::find($request->project_id);
-            if(!$project)
-            {
-                return back();
-            }
-            return view('Engineering.Project.huxing',[
-                'project' => $project,
-                'title' => $project->name,
-                'url' => $urls['scheme'].'://'.$urls['host'].$urls['path'].$this->baseKey($request->all())
-            ]);
-        }else if($request->isMethod('post'))
-        {
-            $name = $request->post('name',false)?$request->name:'';
-            $data = Huxing::where('project_id',$request->project_id)
-                    ->where('name','like','%'.$name.'%')
-                    ->where('status','>',0)
-                    ->orderBy('created_at','DESC')
-                    ->offset(($request->page -1) * $request->limit)
-                    ->limit($request->limit)
-                    ->get()
-                    ->toArray();
-            $total = Huxing::where('project_id',$request->project_id)
-                            ->where('status','>',0)
-                            ->where('name','like','%'.$name.'%')
-                            ->count();
-            $this->tableData($total,$data,'获取成功',0);
-        }
-	}
 
-	public function huxing_add(Request $request)
-	{
-		$name = $request->name;
-		$project_id = $request->project_id;
-		if(Huxing::where('name',$name)->first())
-		{
-			$this->error_message('户型已存在');
-		}
 
-		if(Huxing::create(['name'=>$name,'project_id'=>$project_id]))
-		{
-			$this->success_message('添加成功');
-		}else
-		{
-			$this->success_message('添加失败');
-		}
-	}
-	public function huxing_edit(Request $request)
-	{
-		$name = $request->name;
-		$huxing = Huxing::find($request->id);
-		$oldName = Huxing::where('name',$name)->where('project_id',$request->project_id)->first();
-		if($oldName && $oldName->id != $huxing->id)
-		{
-			$this->error_message('户型已存在');
-		}
-		$huxing->name = $name;
-		$huxing->save();
-		$this->success_message('修改成功');
-	}
 
-	public function huxing_del(Request $request)
-	{
-		$id = $request->id;
-    	if(!is_array($id))
-    	{
-    		$id = array($id);
-    	}
-    	foreach($id as $v)
-    	{	
-    		$model = Huxing::find($v);
-    		if($model->dwg_image)
-    		{
-    			@unlink('.'.$model->dwg_image);
-    		}
-    		if($model->effect_image)
-    		{
-    			@unlink('.'.$model->effect_image);
-    		}
-    	}
-    	Huxing::destroy($id);
-    	$this->success_message('删除成功');
-	}
-	public function huxing_upload(Request $request)
-	{
-		$id = $request->id;
-		$huxing = Huxing::find($id);
-		if(!$huxing)
-		{
-			$this->error_message('上传失败 数据不存在');
-		}
-
-        if($request->hasFile('dwg_upload'))
-        {
-            if($request->file('dwg_upload')->isValid())
-            {
-                $extension = $request->dwg_upload->extension();
-                if($extension != 'dwg')
-                {
-                	$this->error_message('请上传DWG文件');
-                }
-                $newName = $huxing->name.'户型'.mt_rand(1111,9999).'.'.$extension;
-                $url = $request->dwg_upload->storeAs('/engineering/project/huxing/dwg',$newName,'upload');
-                if($url)
-                {   
-                    $image = $huxing->dwg_image;
-                    $path = env('UPLOAD').'/'.$url;
-                    $huxing->dwg_image = $path;
-                    $res = $huxing->save();
-                    if($res)
-                    {  
-                        if($image)
-                        {
-                            @unlink(substr($image,1));
-                        }
-                        $this->success_message('上传成功',['src'=>asset($path)]);
-                    }else
-                    {
-                        @unlink(substr($path,1));
-                        $this->error_message('上传失败');
-                    }
-                }
-            }
-        }
-        if($request->hasFile('effect_image'))
-        {
-            if($request->file('effect_image')->isValid())
-            {
-                $extension = $request->effect_image->extension();
-                if($extension != 'jpg' && $extension != 'jpeg' && $extension != 'png')
-                {
-                	$this->error_message('请上传图片');
-                }
-                $newName = $huxing->name.'户型'.mt_rand(1111,9999).'.'.$extension;
-                $url = $request->effect_image->storeAs('/engineering/project/huxing/image',$newName,'upload');
-                if($url)
-                {   
-                    $image = $huxing->effect_image;
-                    $path = env('UPLOAD').'/'.$url;
-                    $huxing->effect_image = $path;
-                    $res = $huxing->save();
-                    if($res)
-                    {  
-                        if($image)
-                        {
-                            @unlink(substr($image,1));
-                        }
-                        $this->success_message('上传成功',['src'=>asset($path)]);
-                    }else
-                    {
-                        @unlink(substr($path,1));
-                        $this->error_message('上传失败');
-                    }
-                }
-            }
-        }
-	}
-    public function huxing_download(Request $request)
-    {
-    	$model = Huxing::find($request->a);
-    	if(!$model)
-    	{
-    		die('下载失败');
-    	}
-
-    	if($request->c = 'dwg_image')
-    	{
-    		return response()->download('.'.$model->dwg_image);
-    	}
-
-    	die('下载失败');
-    }
-
-    public function house_add(Request $request)
-    {
-    	$data = $request->except('_token');
-    	if(House::where('room_number',$data['room_number'])->where('floor',$data['floor'])->where('building',$data['building'])->where('unit',$data['unit'])->where('project_id',$data['project_id'])->first())
-    	{
-    		$this->error_message('房号已被添加');
-    	}
-
-    	if(House::create($data))
-    	{
-    		$this->success_message('新增成功');
-    	}else
-    	{
-    		$this->error_message('新增失败');
-    	}
-    }
-
-    public function house_edit(Request $request)
-    {
-        $data = $request->except('_token');
-        $model = House::find($data['id']);
-        if(!$model)
-        {
-            $this->error_message('数据不存在');
-        }
-        $oldHouse = House::where('room_number',$data['room_number'])->where('floor',$data['floor'])->where('building',$data['building'])->where('unit',$data['unit'])->where('project_id',$model->project_id)->first();
-        if($oldHouse->id && $oldHouse->id != $model->id)
-        {
-            $this->error_message('当前房号已存在');
-        }
-        House::where('id',$data['id'])->update($data);
-        $this->success_message('修改成功');
-    }
-    public function house_del(Request $request)
-    {
-        $id = $request->id;
-        $model = House::find($id);
-        if($model)
-        {   
-            if(\session('user')['type'] != 10 && !empty($model->user_id))
-            {
-                $this->error_message('已禁止删除');
-            }
-            Schedule::where('house_id',$id)->delete();
-            CustomerSchedule::where('house_id',$model->id)->delete();
-            Demand::where('house_id',$model->id)->delete();
-            $album = Album::where('house_id',$id)->get();
-            foreach($album as $v)
-            {
-                @unlink('.'.$v->image);
-                @unlink('.'.$v->re_image);
-            }
-            Album::where('house_id',$id)->delete();
-            House::where('id',$id)->delete();
-        }
-        $this->success_message('删除成功');
-    }
     public function schedule(Request $request)
     {
         $house = House::find($request->house_id);
@@ -470,8 +239,8 @@ class ProjectController extends Controller
             {     
                 if(!empty($value['schedule']))
                 {   
-                    $details = !empty($value['schedule']['details'])?'-'.$value['schedule']['details']:'';
-                    $data[$key]['schedule_name'] = $value['schedule']['stage'].'-'.$value['schedule']['matter'].$details;
+                    $details = $value['schedule']['details'];
+                    $data[$key]['schedule_name'] = $details;
                 }else
                 {
                     $data[$key]['schedule_name'] = '无';

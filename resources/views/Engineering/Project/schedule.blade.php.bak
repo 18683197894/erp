@@ -114,7 +114,9 @@ a{
         <thead>
           <tr>
             <th>序号</th>
-            <th style="width:15%">施工进度</th>
+            <th>阶段</th>
+            <th>事项</th>
+            <th>施工细节</th>
             <th>开工时间</th>
             <th>结束时间</th>
             <th>状态</th>
@@ -125,18 +127,19 @@ a{
 
         <tbody>
           
-
-          <tr fid="1">
+          <tr findex="1">
             <td name="serial_number">1</td>
-            <td name="details">开工仪式</td>
+            <td rowspan='22' name="stage">基础阶段</td>
+            <td name="matter">开工交底</td>
+            <td name="details"></td>
             <td>
-              <input class="layui-input" value="{{ isset($schedule[0]->start)?$schedule[0]->start:'' }}" placeholder="开始日" name="start" id="start2">
+              <input class="layui-input" placeholder="开始日" value="{{ isset($schedule[0]->start)?$schedule[0]->start:'' }}" name="start" id="start1">
             </td>
             <td>
-              <input class="layui-input" value="{{ isset($schedule[0]->end)? $schedule[0]->end :'' }}" placeholder="截止日" name="end" id="end2">
+              <input class="layui-input" placeholder="截止日" value="{{ isset($schedule[0]->end)? $schedule[0]->end :'' }}" name="end" id="end1">
             </td>
             <td>
-              @if(isset($schedule[0]) && $schedule[0]['status'] == 2)
+              @if(isset($schedule[0])  && $schedule[0]['status'] == 2)
               <button class="layui-btn layui-btn-sm layui-btn-normal">已完成</button>
               @else
               <button class="layui-btn layui-btn-sm layui-btn-danger">未完成</button>
@@ -149,18 +152,19 @@ a{
               <input name="check" value="{{ isset($schedule[0]->check)?$schedule[0]->check :'' }}"  lay-verify="required" placeholder="验收人" autocomplete="off" class="layui-input" type="text">
             </td>
             <td>
-            <button class="layui-btn layui-btn-sm house_edit" lay-submit="" lay-filter="house_edit">提交</button>
+            <button class="layui-btn layui-btn-sm  house_edit" lay-submit="" lay-filter="house_edit">提交</button>
             </td>
           </tr>
 
-          <tr index="3" fid="1">
+          <tr fid="1">
             <td name="serial_number">2</td>
-            <td name="details">拆除补烂</td>
+            <td name="matter">正式施工</td>
+            <td name="details"></td>
             <td>
-              <input class="layui-input" value="{{ isset($schedule[1]->start)?$schedule[1]->start:'' }}" placeholder="开始日" name="start" id="start3">
+              <input class="layui-input" value="{{ isset($schedule[1]->start)?$schedule[1]->start:'' }}" placeholder="开始日" name="start" id="start2">
             </td>
             <td>
-              <input class="layui-input" value="{{ isset($schedule[1]->end)? $schedule[1]->end :'' }}" placeholder="截止日" name="end" id="end3">
+              <input class="layui-input" value="{{ isset($schedule[1]->end)? $schedule[1]->end :'' }}" placeholder="截止日" name="end" id="end2">
             </td>
             <td>
               @if(isset($schedule[1]) && $schedule[1]['status'] == 2)
@@ -179,14 +183,16 @@ a{
             <button class="layui-btn layui-btn-sm house_edit" lay-submit="" lay-filter="house_edit">提交</button>
             </td>
           </tr>
-          <tr pid="3" fid="1">
+
+          <tr index="3" fid="1">
             <td name="serial_number">3</td>
-            <td name="details">砌砖墙</td>
+            <td rowspan="3" name="matter">拆除开挖</td>
+            <td name="details">拆墙</td>
             <td>
-              <input class="layui-input" value="{{ isset($schedule[2]->start)?$schedule[2]->start:'' }}" placeholder="开始日" name="start" id="start4">
+              <input class="layui-input" value="{{ isset($schedule[2]->start)?$schedule[2]->start:'' }}" placeholder="开始日" name="start" id="start3">
             </td>
             <td>
-              <input class="layui-input" value="{{ isset($schedule[2]->end)? $schedule[2]->end :'' }}" placeholder="截止日" name="end" id="end4">
+              <input class="layui-input" value="{{ isset($schedule[2]->end)? $schedule[2]->end :'' }}" placeholder="截止日" name="end" id="end3">
             </td>
             <td>
               @if(isset($schedule[2]) && $schedule[2]['status'] == 2)
@@ -207,7 +213,7 @@ a{
           </tr>
           <tr pid="3" fid="1">
             <td name="serial_number">4</td>
-            <td name="details">中央空调</td>
+            <td name="details">铲铁皮</td>
             <td>
               <input class="layui-input" value="{{ isset($schedule[3]->start)?$schedule[3]->start:'' }}" placeholder="开始日" name="start" id="start4">
             </td>
@@ -233,7 +239,7 @@ a{
           </tr>
           <tr pid="3" fid="1">
             <td name="serial_number">5</td>
-            <td name="details">地暖施工</td>
+            <td name="details">水电开槽</td>
             <td>
               <input class="layui-input" value="{{ isset($schedule[4]->start)?$schedule[4]->start:'' }}" placeholder="开始日" name="start" id="start5">
             </td>
@@ -261,7 +267,8 @@ a{
 
           <tr index="6" fid="1">
             <td name="serial_number">6</td>
-            <td name="details">放线管理验收</td>
+            <td rowspan="3" name="matter">水电改造</td>
+            <td name="details">厨房改造</td>
             <td>
               <input class="layui-input" value="{{ isset($schedule[5]->start)?$schedule[5]->start:'' }}" placeholder="开始日" name="start" id="start6">
             </td>
@@ -287,7 +294,7 @@ a{
           </tr>
           <tr pid="6" fid="1">
             <td name="serial_number">7</td>
-            <td name="details">水电部分</td>
+            <td name="details">卫生间水路改造</td>
             <td>
               <input class="layui-input" value="{{ isset($schedule[6]->start)?$schedule[6]->start:'' }}" placeholder="开始日" name="start" id="start7">
             </td>
@@ -313,7 +320,7 @@ a{
           </tr>
           <tr pid="6" fid="1">
             <td name="serial_number">8</td>
-            <td name="details">防水施工</td>
+            <td name="details">生活阳台/分区水路改造</td>
             <td>
               <input class="layui-input" value="{{ isset($schedule[7]->start)?$schedule[7]->start:'' }}" placeholder="开始日" name="start" id="start8">
             </td>
@@ -340,7 +347,8 @@ a{
 
           <tr index="9" fid="1">
             <td name="serial_number">9</td>
-            <td name="details">木作部分</td>
+            <td rowspan="3" name="matter">电路改造</td>
+            <td name="details">线路改造</td>
             <td>
               <input class="layui-input" value="{{ isset($schedule[8]->start)?$schedule[8]->start:'' }}" placeholder="开始日" name="start" id="start9">
             </td>
@@ -366,7 +374,7 @@ a{
           </tr>
           <tr pid="9" fid="1">
             <td name="serial_number">10</td>
-            <td name="details">隐蔽工程验收</td>
+            <td name="details">开关调整</td>
             <td>
               <input class="layui-input" value="{{ isset($schedule[9]->start)?$schedule[9]->start:'' }}" placeholder="开始日" name="start" id="start10">
             </td>
@@ -392,7 +400,7 @@ a{
           </tr>
           <tr pid="9" fid="1">
             <td name="serial_number">11</td>
-            <td name="details">厨卫墙地砖</td>
+            <td name="details">插座调整</td>
             <td>
               <input class="layui-input" value="{{ isset($schedule[10]->start)?$schedule[10]->start:'' }}" placeholder="开始日" name="start" id="start11">
             </td>
@@ -420,7 +428,8 @@ a{
 
           <tr index="12" fid="1">
             <td name="serial_number">12</td>
-            <td name="details">墙顶面基础施工</td>
+            <td rowspan="3" name="matter">造型施工</td>
+            <td name="details">吊顶</td>
             <td>
               <input class="layui-input" value="{{ isset($schedule[11]->start)?$schedule[11]->start:'' }}" placeholder="开始日" name="start" id="start12">
             </td>
@@ -446,7 +455,7 @@ a{
           </tr>
           <tr pid="12" fid="1">
             <td name="serial_number">13</td>
-            <td name="details">油漆</td>
+            <td name="details">墙面/电视墙</td>
             <td>
               <input class="layui-input" value="{{ isset($schedule[12]->start)?$schedule[12]->start:'' }}" placeholder="开始日" name="start" id="start13">
             </td>
@@ -472,7 +481,7 @@ a{
           </tr>
           <tr pid="12" fid="1">
             <td name="serial_number">14</td>
-            <td name="details">乳胶漆</td>
+            <td name="details">其他部分</td>
             <td>
               <input class="layui-input" value="{{ isset($schedule[13]->start)?$schedule[13]->start:'' }}" placeholder="开始日" name="start" id="start14">
             </td>
@@ -501,7 +510,8 @@ a{
 
           <tr index="15" fid="1">
             <td name="serial_number">15</td>
-            <td name="details">客厅地砖</td>
+            <td rowspan="3" name="matter">场面施工</td>
+            <td name="details">回填</td>
             <td>
               <input class="layui-input" value="{{ isset($schedule[14]->start)?$schedule[14]->start:'' }}" placeholder="开始日" name="start" id="start15">
             </td>
@@ -527,7 +537,7 @@ a{
           </tr>
           <tr pid="15" fid="1">
             <td name="serial_number">16</td>
-            <td name="details">面饰验收</td>
+            <td name="details">防水</td>
             <td>
               <input class="layui-input" value="{{ isset($schedule[15]->start)?$schedule[15]->start:'' }}" placeholder="开始日" name="start" id="start16">
             </td>
@@ -553,7 +563,7 @@ a{
           </tr>
           <tr pid="15" fid="1">
             <td name="serial_number">17</td>
-            <td name="details">成品门安装</td>
+            <td name="details">贴砖</td>
             <td>
               <input class="layui-input" value="{{ isset($schedule[16]->start)?$schedule[16]->start:'' }}" placeholder="开始日" name="start" id="start17">
             </td>
@@ -581,7 +591,8 @@ a{
 
           <tr index="18" fid="1">
             <td name="serial_number">18</td>
-            <td name="details">橱柜安装</td>
+            <td rowspan="2" name="matter">墙面施工</td>
+            <td name="details">墙面处理</td>
             <td>
               <input class="layui-input" value="{{ isset($schedule[17]->start)?$schedule[17]->start:'' }}" placeholder="开始日" name="start" id="start18">
             </td>
@@ -607,7 +618,7 @@ a{
           </tr>
           <tr pid="18" fid="1">
             <td name="serial_number">19</td>
-            <td name="details">地板安装</td>
+            <td name="details">墙面刷漆/壁纸</td>
             <td>
               <input class="layui-input" value="{{ isset($schedule[18]->start)?$schedule[18]->start:'' }}" placeholder="开始日" name="start" id="start19">
             </td>
@@ -635,7 +646,8 @@ a{
 
           <tr index="20" fid="1">
             <td name="serial_number">20</td>
-            <td name="details">洁具安装</td>
+            <td rowspan="3" name="matter">初步检查</td>
+            <td name="details">检查水电</td>
             <td>
               <input class="layui-input" value="{{ isset($schedule[19]->start)?$schedule[19]->start:'' }}" placeholder="开始日" name="start" id="start20">
             </td>
@@ -661,7 +673,7 @@ a{
           </tr>
           <tr pid="20" fid="1">
             <td name="serial_number">21</td>
-            <td name="details">定制家具安装</td>
+            <td name="details">检查墙面/砖/防水</td>
             <td>
               <input class="layui-input" value="{{ isset($schedule[20]->start)?$schedule[20]->start:'' }}" placeholder="开始日" name="start" id="start21">
             </td>
@@ -687,7 +699,7 @@ a{
           </tr>
           <tr pid="20" fid="1">
             <td name="serial_number">22</td>
-            <td name="details">灯具、魔镜安装</td>
+            <td name="details">初步卫生打理</td>
             <td>
               <input class="layui-input" value="{{ isset($schedule[21]->start)?$schedule[21]->start:'' }}" placeholder="开始日" name="start" id="start22">
             </td>
@@ -716,7 +728,9 @@ a{
 <!-- **************************************************************** -->
           <tr index="23" findex="23">
             <td name="serial_number">23</td>
-            <td name="details">成品家具安装</td>
+            <td rowspan='14' name="stage">精细阶段</td>
+            <td rowspan="3" name="matter">门窗安装</td>
+            <td name="details">窗户安装</td>
             <td>
               <input class="layui-input" value="{{ isset($schedule[22]->start)?$schedule[22]->start:'' }}" placeholder="开始日" name="start" id="start23">
             </td>
@@ -742,7 +756,7 @@ a{
           </tr>
           <tr pid="23" fid="23">
             <td name="serial_number">24</td>
-            <td name="details">定制成品安装验收</td>
+            <td name="details">门安装</td>
             <td>
               <input class="layui-input" value="{{ isset($schedule[23]->start)?$schedule[23]->start:'' }}" placeholder="开始日" name="start" id="start24">
             </td>
@@ -768,7 +782,7 @@ a{
           </tr>
           <tr pid="23" fid="23">
             <td name="serial_number">25</td>
-            <td name="details">软装搭配</td>
+            <td name="details">缝隙处理</td>
             <td>
               <input class="layui-input" value="{{ isset($schedule[24]->start)?$schedule[24]->start:'' }}" placeholder="开始日" name="start" id="start25">
             </td>
@@ -796,7 +810,8 @@ a{
 
           <tr index="26" fid="23">
             <td name="serial_number">26</td>
-            <td name="details">竣工联合验收单</td>
+            <td rowspan="2" name="matter">厨卫安装</td>
+            <td name="details">厨房橱柜等</td>
             <td>
               <input class="layui-input" value="{{ isset($schedule[25]->start)?$schedule[25]->start:'' }}" placeholder="开始日" name="start" id="start26">
             </td>
@@ -822,7 +837,7 @@ a{
           </tr>
           <tr pid="26" fid="23">
             <td name="serial_number">27</td>
-            <td name="details">竣工验收</td>
+            <td name="details">卫生间安装</td>
             <td>
               <input class="layui-input" value="{{ isset($schedule[26]->start)?$schedule[26]->start:'' }}" placeholder="开始日" name="start" id="start27">
             </td>
@@ -850,7 +865,8 @@ a{
 
           <tr index="28" fid="23">
             <td name="serial_number">28</td>
-            <td name="details">竣工仪式</td>
+            <td rowspan="3" name="matter">灯具安装</td>
+            <td name="details">灯具进场</td>
             <td>
               <input class="layui-input" value="{{ isset($schedule[27]->start)?$schedule[27]->start:'' }}" placeholder="开始日" name="start" id="start28">
             </td>
@@ -874,7 +890,332 @@ a{
             <button class="layui-btn layui-btn-sm house_edit" lay-submit="" lay-filter="house_edit">提交</button>
             </td>
           </tr>
+          <tr pid="28" fid="23">
+            <td name="serial_number">29</td>
+            <td name="details">灯具安装</td>
+            <td>
+              <input class="layui-input" value="{{ isset($schedule[28]->start)?$schedule[28]->start:'' }}" placeholder="开始日" name="start" id="start29">
+            </td>
+            <td>
+              <input class="layui-input" value="{{ isset($schedule[28]->end)? $schedule[28]->end :'' }}" placeholder="截止日" name="end" id="end29">
+            </td>
+            <td>
+              @if(isset($schedule[28]) && $schedule[28]['status'] == 2)
+              <button class="layui-btn layui-btn-sm layui-btn-normal">已完成</button>
+              @else
+              <button class="layui-btn layui-btn-sm layui-btn-danger">未完成</button>
+              @endif
+            </td>
+            <td>
+              <input name="liable" value="{{ isset($schedule[28]->liable)?$schedule[28]->liable :'' }}" lay-verify="required" placeholder="责任人" autocomplete="off" class="layui-input" type="text">
+            </td>
+            <td>
+              <input name="check" value="{{ isset($schedule[28]->check)?$schedule[28]->check :'' }}"  lay-verify="required" placeholder="验收人" autocomplete="off" class="layui-input" type="text">
+            </td>
+            <td>
+            <button class="layui-btn layui-btn-sm house_edit" lay-submit="" lay-filter="house_edit">提交</button>
+            </td>
+          </tr>
+          <tr pid="28" fid="23">
+            <td name="serial_number">30</td>
+            <td name="details">灯具调试</td>
+            <td>
+              <input class="layui-input" value="{{ isset($schedule[29]->start)?$schedule[29]->start:'' }}" placeholder="开始日" name="start" id="start30">
+            </td>
+            <td>
+              <input class="layui-input" value="{{ isset($schedule[29]->end)? $schedule[29]->end :'' }}" placeholder="截止日" name="end" id="end30">
+            </td>
+            <td>
+              @if(isset($schedule[29]) && $schedule[29]['status'] == 2)
+              <button class="layui-btn layui-btn-sm layui-btn-normal">已完成</button>
+              @else
+              <button class="layui-btn layui-btn-sm layui-btn-danger">未完成</button>
+              @endif
+            </td>
+            <td>
+              <input name="liable" value="{{ isset($schedule[29]->liable)?$schedule[29]->liable :'' }}" lay-verify="required" placeholder="责任人" autocomplete="off" class="layui-input" type="text">
+            </td>
+            <td>
+              <input name="check" value="{{ isset($schedule[29]->check)?$schedule[29]->check :'' }}"  lay-verify="required" placeholder="验收人" autocomplete="off" class="layui-input" type="text">
+            </td>
+            <td>
+            <button class="layui-btn layui-btn-sm house_edit" lay-submit="" lay-filter="house_edit">提交</button>
+            </td>
+          </tr>
 
+          <tr index="31" fid="23">
+            <td name="serial_number">31</td>
+            <td rowspan="3" name="matter">电器安装</td>
+            <td name="details">电器进场</td>
+            <td>
+              <input class="layui-input" value="{{ isset($schedule[30]->start)?$schedule[30]->start:'' }}" placeholder="开始日" name="start" id="start31">
+            </td>
+            <td>
+              <input class="layui-input" value="{{ isset($schedule[30]->end)? $schedule[30]->end :'' }}" placeholder="截止日" name="end" id="end31">
+            </td>
+            <td>
+              @if(isset($schedule[30]) && $schedule[30]['status'] == 2)
+              <button class="layui-btn layui-btn-sm layui-btn-normal">已完成</button>
+              @else
+              <button class="layui-btn layui-btn-sm layui-btn-danger">未完成</button>
+              @endif
+            </td>
+            <td>
+              <input name="liable" value="{{ isset($schedule[30]->liable)?$schedule[30]->liable :'' }}" lay-verify="required" placeholder="责任人" autocomplete="off" class="layui-input" type="text">
+            </td>
+            <td>
+              <input name="check" value="{{ isset($schedule[30]->check)?$schedule[30]->check :'' }}"  lay-verify="required" placeholder="验收人" autocomplete="off" class="layui-input" type="text">
+            </td>
+            <td>
+            <button class="layui-btn layui-btn-sm house_edit" lay-submit="" lay-filter="house_edit">提交</button>
+            </td>
+          </tr>
+          <tr pid="31" fid="23">
+            <td name="serial_number">32</td>
+            <td name="details">电气安装</td>
+            <td>
+              <input class="layui-input" value="{{ isset($schedule[31]->start)?$schedule[31]->start:'' }}" placeholder="开始日" name="start" id="start32">
+            </td>
+            <td>
+              <input class="layui-input" value="{{ isset($schedule[31]->end)? $schedule[31]->end :'' }}" placeholder="截止日" name="end" id="end32">
+            </td>
+            <td>
+              @if(isset($schedule[31]) && $schedule[31]['status'] == 2)
+              <button class="layui-btn layui-btn-sm layui-btn-normal">已完成</button>
+              @else
+              <button class="layui-btn layui-btn-sm layui-btn-danger">未完成</button>
+              @endif
+            </td>
+            <td>
+              <input name="liable" value="{{ isset($schedule[31]->liable)?$schedule[31]->liable :'' }}" lay-verify="required" placeholder="责任人" autocomplete="off" class="layui-input" type="text">
+            </td>
+            <td>
+              <input name="check" value="{{ isset($schedule[31]->check)?$schedule[31]->check :'' }}"  lay-verify="required" placeholder="验收人" autocomplete="off" class="layui-input" type="text">
+            </td>
+            <td>
+            <button class="layui-btn layui-btn-sm house_edit" lay-submit="" lay-filter="house_edit">提交</button>
+            </td>
+          </tr>
+          <tr pid="31" fid="23">
+            <td name="serial_number">33</td>
+            <td name="details">电气调试</td>
+            <td>
+              <input class="layui-input" value="{{ isset($schedule[32]->start)?$schedule[32]->start:'' }}" placeholder="开始日" name="start" id="start33">
+            </td>
+            <td>
+              <input class="layui-input" value="{{ isset($schedule[32]->end)? $schedule[32]->end :'' }}" placeholder="截止日" name="end" id="end33">
+            </td>
+            <td>
+              @if(isset($schedule[32]) && $schedule[32]['status'] == 2)
+              <button class="layui-btn layui-btn-sm layui-btn-normal">已完成</button>
+              @else
+              <button class="layui-btn layui-btn-sm layui-btn-danger">未完成</button>
+              @endif
+            </td>
+            <td>
+              <input name="liable" value="{{ isset($schedule[32]->liable)?$schedule[32]->liable :'' }}" lay-verify="required" placeholder="责任人" autocomplete="off" class="layui-input" type="text">
+            </td>
+            <td>
+              <input name="check" value="{{ isset($schedule[32]->check)?$schedule[32]->check :'' }}"  lay-verify="required" placeholder="验收人" autocomplete="off" class="layui-input" type="text">
+            </td>
+            <td>
+            <button class="layui-btn layui-btn-sm house_edit" lay-submit="" lay-filter="house_edit">提交</button>
+            </td>
+          </tr>
+
+          <tr index="34" fid="23">
+            <td name="serial_number">34</td>
+            <td rowspan="3" name="matter">家居安装</td>
+            <td name="details">家居进场</td>
+            <td>
+              <input class="layui-input" value="{{ isset($schedule[33]->start)?$schedule[33]->start:'' }}" placeholder="开始日" name="start" id="start34">
+            </td>
+            <td>
+              <input class="layui-input" value="{{ isset($schedule[33]->end)? $schedule[33]->end :'' }}" placeholder="截止日" name="end" id="end34">
+            </td>
+            <td>
+              @if(isset($schedule[33]) && $schedule[33]['status'] == 2)
+              <button class="layui-btn layui-btn-sm layui-btn-normal">已完成</button>
+              @else
+              <button class="layui-btn layui-btn-sm layui-btn-danger">未完成</button>
+              @endif
+            </td>
+            <td>
+              <input name="liable" value="{{ isset($schedule[33]->liable)?$schedule[33]->liable :'' }}" lay-verify="required" placeholder="责任人" autocomplete="off" class="layui-input" type="text">
+            </td>
+            <td>
+              <input name="check" value="{{ isset($schedule[33]->check)?$schedule[33]->check :'' }}"  lay-verify="required" placeholder="验收人" autocomplete="off" class="layui-input" type="text">
+            </td>
+            <td>
+            <button class="layui-btn layui-btn-sm house_edit" lay-submit="" lay-filter="house_edit">提交</button>
+            </td>
+          </tr>
+          <tr pid="35" fid="23">
+            <td name="serial_number">35</td>
+            <td name="details">家具安装与摆放</td>
+            <td>
+              <input class="layui-input" value="{{ isset($schedule[34]->start)?$schedule[34]->start:'' }}" placeholder="开始日" name="start" id="start35">
+            </td>
+            <td>
+              <input class="layui-input" value="{{ isset($schedule[34]->end)? $schedule[34]->end :'' }}" placeholder="截止日" name="end" id="end35">
+            </td>
+            <td>
+              @if(isset($schedule[34]) && $schedule[34]['status'] == 2)
+              <button class="layui-btn layui-btn-sm layui-btn-normal">已完成</button>
+              @else
+              <button class="layui-btn layui-btn-sm layui-btn-danger">未完成</button>
+              @endif
+            </td>
+            <td>
+              <input name="liable" value="{{ isset($schedule[34]->liable)?$schedule[34]->liable :'' }}" lay-verify="required" placeholder="责任人" autocomplete="off" class="layui-input" type="text">
+            </td>
+            <td>
+              <input name="check" value="{{ isset($schedule[34]->check)?$schedule[34]->check :'' }}"  lay-verify="required" placeholder="验收人" autocomplete="off" class="layui-input" type="text">
+            </td>
+            <td>
+            <button class="layui-btn layui-btn-sm house_edit" lay-submit="" lay-filter="house_edit">提交</button>
+            </td>
+          </tr>
+          <tr pid="35" fid="23">
+            <td name="serial_number">36</td>
+            <td name="details">家居检查</td>
+            <td>
+              <input class="layui-input" value="{{ isset($schedule[35]->start)?$schedule[35]->start:'' }}" placeholder="开始日" name="start" id="start36">
+            </td>
+            <td>
+              <input class="layui-input" value="{{ isset($schedule[35]->end)? $schedule[35]->end :'' }}" placeholder="截止日" name="end" id="end36">
+            </td>
+            <td>
+              @if(isset($schedule[35]) && $schedule[35]['status'] == 2)
+              <button class="layui-btn layui-btn-sm layui-btn-normal">已完成</button>
+              @else
+              <button class="layui-btn layui-btn-sm layui-btn-danger">未完成</button>
+              @endif
+            </td>
+            <td>
+              <input name="liable" value="{{ isset($schedule[35]->liable)?$schedule[35]->liable :'' }}" lay-verify="required" placeholder="责任人" autocomplete="off" class="layui-input" type="text">
+            </td>
+            <td>
+              <input name="check" value="{{ isset($schedule[35]->check)?$schedule[35]->check :'' }}"  lay-verify="required" placeholder="验收人" autocomplete="off" class="layui-input" type="text">
+            </td>
+            <td>
+            <button class="layui-btn layui-btn-sm house_edit" lay-submit="" lay-filter="house_edit">提交</button>
+            </td>
+          </tr>
+
+<!-- *************************************************************************************
+************************************************************************************* -->
+
+          <tr findex="37">
+            <td name="serial_number">37</td>
+            <td rowspan='4' name="stage">竣工阶段</td>
+            <td name="matter">保洁</td>
+            <td name="details"></td>
+            <td>
+              <input class="layui-input" value="{{ isset($schedule[36]->start)?$schedule[36]->start:'' }}" placeholder="开始日" name="start" id="start37">
+            </td>
+            <td>
+              <input class="layui-input" value="{{ isset($schedule[36]->end)? $schedule[36]->end :'' }}" placeholder="截止日" name="end" id="end37">
+            </td>
+            <td>
+              @if(isset($schedule[36]) && $schedule[36]['status'] == 2)
+              <button class="layui-btn layui-btn-sm layui-btn-normal">已完成</button>
+              @else
+              <button class="layui-btn layui-btn-sm layui-btn-danger">未完成</button>
+              @endif
+            </td>
+            <td>
+              <input name="liable" value="{{ isset($schedule[36]->liable)?$schedule[36]->liable :'' }}" lay-verify="required" placeholder="责任人" autocomplete="off" class="layui-input" type="text">
+            </td>
+            <td>
+              <input name="check" value="{{ isset($schedule[36]->check)?$schedule[36]->check :'' }}"  lay-verify="required" placeholder="验收人" autocomplete="off" class="layui-input" type="text">
+            </td>
+            <td>
+            <button class="layui-btn layui-btn-sm house_edit" lay-submit="" lay-filter="house_edit">提交</button>
+            </td>
+          </tr>
+
+          <tr fid="37">
+            <td name="serial_number">38</td>
+            <td name="matter">质量检查</td>
+            <td name="details"></td>
+            <td>
+              <input class="layui-input" value="{{ isset($schedule[37]->start)?$schedule[37]->start:'' }}" placeholder="开始日" name="start" id="start38">
+            </td>
+            <td>
+              <input class="layui-input" value="{{ isset($schedule[37]->end)? $schedule[37]->end :'' }}" placeholder="截止日" name="end" id="end38">
+            </td>
+            <td>
+              @if(isset($schedule[37]) && $schedule[37]['status'] == 2)
+              <button class="layui-btn layui-btn-sm layui-btn-normal">已完成</button>
+              @else
+              <button class="layui-btn layui-btn-sm layui-btn-danger">未完成</button>
+              @endif
+            </td>
+            <td>
+              <input name="liable" value="{{ isset($schedule[37]->liable)?$schedule[37]->liable :'' }}" lay-verify="required" placeholder="责任人" autocomplete="off" class="layui-input" type="text">
+            </td>
+            <td>
+              <input name="check" value="{{ isset($schedule[37]->check)?$schedule[37]->check :'' }}"  lay-verify="required" placeholder="验收人" autocomplete="off" class="layui-input" type="text">
+            </td>
+            <td>
+            <button class="layui-btn layui-btn-sm house_edit" lay-submit="" lay-filter="house_edit">提交</button>
+            </td>
+          </tr>
+          <tr fid="37">
+            <td name="serial_number">39</td>
+            <td name="matter">参套检查</td>
+            <td name="details"></td>
+            <td>
+              <input class="layui-input" value="{{ isset($schedule[38]->start)?$schedule[38]->start:'' }}" placeholder="开始日" name="start" id="start39">
+            </td>
+            <td>
+              <input class="layui-input" value="{{ isset($schedule[38]->end)? $schedule[38]->end :'' }}" placeholder="截止日" name="end" id="end39">
+            </td>
+            <td>
+              @if(isset($schedule[38]) && $schedule[38]['status'] == 2)
+              <button class="layui-btn layui-btn-sm layui-btn-normal">已完成</button>
+              @else
+              <button class="layui-btn layui-btn-sm layui-btn-danger">未完成</button>
+              @endif
+            </td>
+            <td>
+              <input name="liable" value="{{ isset($schedule[38]->liable)?$schedule[38]->liable :'' }}" lay-verify="required" placeholder="责任人" autocomplete="off" class="layui-input" type="text">
+            </td>
+            <td>
+              <input name="check" value="{{ isset($schedule[38]->check)?$schedule[38]->check :'' }}"  lay-verify="required" placeholder="验收人" autocomplete="off" class="layui-input" type="text">
+            </td>
+            <td>
+            <button class="layui-btn layui-btn-sm house_edit" lay-submit="" lay-filter="house_edit">提交</button>
+            </td>
+          </tr>
+          <tr fid="37">
+            <td name="serial_number">40</td>
+            <td name="matter">确认验收</td>
+            <td name="details"></td>
+            <td>
+              <input class="layui-input" value="{{ isset($schedule[39]->start)?$schedule[39]->start:'' }}" placeholder="开始日" name="start" id="start40">
+            </td>
+            <td>
+              <input class="layui-input" value="{{ isset($schedule[39]->end)? $schedule[39]->end :'' }}" placeholder="截止日" name="end" id="end40">
+            </td>
+            <td>
+              @if(isset($schedule[39]) && $schedule[39]['status'] == 2)
+              <button class="layui-btn layui-btn-sm layui-btn-normal">已完成</button>
+              @else
+              <button class="layui-btn layui-btn-sm layui-btn-danger">未完成</button>
+              @endif
+            </td>
+            <td>
+              <input name="liable" value="{{ isset($schedule[39]->liable)?$schedule[39]->liable :'' }}" lay-verify="required" placeholder="责任人" autocomplete="off" class="layui-input" type="text">
+            </td>
+            <td>
+              <input name="check" value="{{ isset($schedule[39]->check)?$schedule[39]->check :'' }}"  lay-verify="required" placeholder="验收人" autocomplete="off" class="layui-input" type="text">
+            </td>
+            <td>
+            <button class="layui-btn layui-btn-sm house_edit" lay-submit="" lay-filter="house_edit">提交</button>
+            </td>
+          </tr>
 
         </tbody>
 
@@ -899,19 +1240,19 @@ a{
           $('.house_edit').on('click',function(){
           var tr = $(this).parents('tr');
           var serial_number = tr.find("td[name='serial_number']").html();
-          // var matter = tr.find("td[name='matter']").html();
-          // if(!matter)
-          // {
-          //   var index = tr.attr('pid');
-          //   matter = $("tr[index='"+index+"']").find("td[name='matter']").html();
-          // }
+          var matter = tr.find("td[name='matter']").html();
+          if(!matter)
+          {
+            var index = tr.attr('pid');
+            matter = $("tr[index='"+index+"']").find("td[name='matter']").html();
+          }
           
-          // var stage = tr.find("td[name='stage']").html();
-          // if(!stage)
-          // {
-          //   var findex = tr.attr('fid');
-          //   stage = $("tr[findex='"+findex+"']").find("td[name='stage']").html();
-          // }
+          var stage = tr.find("td[name='stage']").html();
+          if(!stage)
+          {
+            var findex = tr.attr('fid');
+            stage = $("tr[findex='"+findex+"']").find("td[name='stage']").html();
+          }
           var details =  tr.find("td[name='details']").html();
           var start = tr.find("input[name='start']").val();
           var end = tr.find("input[name='end']").val();
@@ -944,7 +1285,7 @@ a{
           $.ajax({
             url : "{{url('/engineering/project/house/schedule-add')}}",
             type : 'post',
-            data : {serial_number:serial_number,details:details,start:start,end:end,liable:liable,check:check,house_id:'{{$house->id}}',_token:$("meta[name='csrf-token']").attr('content')},
+            data : {serial_number:serial_number,matter:matter,stage:stage,details:details,start:start,end:end,liable:liable,check:check,house_id:'{{$house->id}}',_token:$("meta[name='csrf-token']").attr('content')},
             success : function(res)
             {
               res = $.parseJSON(res);

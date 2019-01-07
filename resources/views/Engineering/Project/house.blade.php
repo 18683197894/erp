@@ -5,235 +5,8 @@
 @endsection
 
 @section('open')
-<div class="layui-card add" style="display:none">
-      <div class="layui-card-body" style="padding: 15px;">
-        <form class="layui-form" id="myform"lay-filter="component-form-group">
-          <div class="layui-form-item" >
-            <label class="layui-form-label">房号</label>
-            <div class="layui-input-block">
-              <input name="room_number" value="" lay-verify="required" placeholder="请输入房号" autocomplete="off" class="layui-input" type="text">
-            </div>
-          </div>
-          <div class="layui-form-item">
-            <label class="layui-form-label">楼层</label>
-            <div class="layui-input-block">
-              <select name="floor" lay-verify="required">
-                <option value="">请选择</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-                <option value="7">7</option>
-                <option value="8">8</option>
-                <option value="9">9</option>
-                <option value="10">10</option>
-                <option value="11">11</option>
-                <option value="12">12</option>
-                <option value="13">13</option>
-                <option value="14">14</option>
-                <option value="15">15</option>
-                <option value="16">16</option>
-                <option value="17">17</option>
-                <option value="18">18</option>
-                <option value="19">19</option>
-                <option value="20">20</option>
-                <option value="21">21</option>
-                <option value="22">22</option>
-                <option value="23">23</option>
-                <option value="24">24</option>
-                <option value="25">25</option>
-                <option value="26">26</option>
-                <option value="27">27</option>
-                <option value="28">28</option>
-                <option value="29">29</option>
-                <option value="30">30</option>
-              </select>
-            </div>
-          </div>
-          <div class="layui-form-item">
-            <label class="layui-form-label">楼栋</label>
-            <div class="layui-input-block">
-              <select name="building" lay-verify="required">
-                <option value="">请选择</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-                <option value="7">7</option>
-                <option value="8">8</option>
-                <option value="9">9</option>
-                <option value="10">10</option>
-                <option value="11">11</option>
-                <option value="12">12</option>
-                <option value="13">13</option>
-                <option value="14">14</option>
-                <option value="15">15</option>
-              </select>
-            </div>
-          </div>
-          <div class="layui-form-item">
-            <label class="layui-form-label">单元</label>
-            <div class="layui-input-block">
-              <select name="unit" lay-verify="required">
-                <option value="">请选择</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-                <option value="7">7</option>
-                <option value="8">8</option>
-                <option value="9">9</option>
-                <option value="10">10</option>
-              </select>
-            </div>
-          </div>
-          <div class="layui-form-item">
-            <label class="layui-form-label">户型</label>
-            <div class="layui-input-block">
-              <select name="huxing_id">
-                <option value="">请选择</option>
-                @foreach($huxing as $v)
-                <option value="{{ $v->id }}">{{ $v->name }}</option>
-                @endforeach
-              </select>
-            </div>
-          </div>
-          <div class="layui-form-item" >
-            <label class="layui-form-label">面积</label>
-            <div class="layui-input-block">
-              <input name="acreage" value="" lay-verify="acreage" placeholder="请输入面积" autocomplete="off" class="layui-input" type="text">
-            </div>
-          </div>
-          <div class="layui-form-item ">
-            <div class="layui-input-block">
-            <br>
-              <div class="layui-footer">
-                <button class="layui-btn" lay-submit="" lay-filter="add">立即提交</button>
-              </div>
-            </div>
-          </div> 
 
-        </form>
-      </div>
-</div>
-<div class="layui-card edit" style="display:none">
-      <div class="layui-card-body" style="padding: 15px;">
-        <form class="layui-form" id="edit"lay-filter="component-form-group">
-          <input type="hidden" name="id" value="">
-          <div class="layui-form-item" >
-            <label class="layui-form-label">房号</label>
-            <div class="layui-input-block">
-              <input name="room_number" value="" lay-verify="required" placeholder="请输入房号" autocomplete="off" class="layui-input" type="text">
-            </div>
-          </div>
-          <div class="layui-form-item floor">
-            <label class="layui-form-label">楼层</label>
-            <div class="layui-input-block">
-              <select name="floor" lay-verify="required">
-                <option value="">请选择</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-                <option value="7">7</option>
-                <option value="8">8</option>
-                <option value="9">9</option>
-                <option value="10">10</option>
-                <option value="11">11</option>
-                <option value="12">12</option>
-                <option value="13">13</option>
-                <option value="14">14</option>
-                <option value="15">15</option>
-                <option value="16">16</option>
-                <option value="17">17</option>
-                <option value="18">18</option>
-                <option value="19">19</option>
-                <option value="20">20</option>
-                <option value="21">21</option>
-                <option value="22">22</option>
-                <option value="23">23</option>
-                <option value="24">24</option>
-                <option value="25">25</option>
-                <option value="26">26</option>
-                <option value="27">27</option>
-                <option value="28">28</option>
-                <option value="29">29</option>
-                <option value="30">30</option>
-              </select>
-            </div>
-          </div>
-          <div class="layui-form-item building">
-            <label class="layui-form-label">楼栋</label>
-            <div class="layui-input-block">
-              <select name="building" lay-verify="required">
-                <option value="">请选择</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-                <option value="7">7</option>
-                <option value="8">8</option>
-                <option value="9">9</option>
-                <option value="10">10</option>
-                <option value="11">11</option>
-                <option value="12">12</option>
-                <option value="13">13</option>
-                <option value="14">14</option>
-                <option value="15">15</option>
-              </select>
-            </div>
-          </div>
-          <div class="layui-form-item unit">
-            <label class="layui-form-label">单元</label>
-            <div class="layui-input-block">
-              <select name="unit" lay-verify="required">
-                <option value="">请选择</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-                <option value="7">7</option>
-                <option value="8">8</option>
-                <option value="9">9</option>
-                <option value="10">10</option>
-              </select>
-            </div>
-          </div>
-          <div class="layui-form-item huxing_id">
-            <label class="layui-form-label">户型</label>
-            <div class="layui-input-block">
-              <select name="huxing_id">
-                <option value="">请选择</option>
-                @foreach($huxing as $v)
-                <option value="{{ $v->id }}">{{ $v->name }}</option>
-                @endforeach
-              </select>
-            </div>
-          </div>
-          <div class="layui-form-item" >
-            <label class="layui-form-label">面积</label>
-            <div class="layui-input-block">
-              <input name="acreage" value="" lay-verify="acreage" placeholder="请输入面积" autocomplete="off" class="layui-input" type="text">
-            </div>
-          </div>
-          <div class="layui-form-item ">
-            <div class="layui-input-block">
-            <br>
-              <div class="layui-footer">
-                <button class="layui-btn" lay-submit="" lay-filter="edit">立即提交</button>
-              </div>
-            </div>
-          </div> 
 
-        </form>
-      </div> 
-</div>
 @endsection
 
 @section('content')
@@ -241,7 +14,7 @@
 	<div class="demoTable" style="padding-bottom: 10px">
 		<div class="layui-input-inline">
       <input type="hidden" name="project_id" id="project_id" value="{{ $project->id }}">
-		  <input class="layui-input" name="name" value="{{ isset($request['name'])?$request['name']:'' }}" val="{{ isset($request['name'])?$request['name']:'' }}" id="name" placeholder="项目名搜索" autocomplete="off">
+		  <input class="layui-input" name="name" value="{{ isset($request['name'])?$request['name']:'' }}" val="{{ isset($request['name'])?$request['name']:'' }}" id="name" placeholder="房号搜索" autocomplete="off">
       <input type="hidden" id="page" name="page" value="{{ isset($request['page'])?$request['page']:1 }}">
       <input type="hidden" id="limit" name="limit" value="{{ isset($request['limit'])?$request['limit']:10 }}">
 		</div>
@@ -249,16 +22,9 @@
 	</div>
 	<table class="layui-hide" id="test-table-toolbar" lay-filter="test-table-toolbar"></table>
 
-	<script type="text/html" id="test-table-toolbar-toolbarDemo">
-	  <div class="layui-btn-container">
-	    <button class="layui-btn layui-btn-sm" onclick="open_show('新增房号','.add',0.6,0.8)">新增房号</button>
-	  </div>
-	</script>
 
-	<script type="text/html" id="test-table-toolbar-barDemo">
-	  <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-	  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
-	</script>
+
+
   <script type="text/html" id="schedule">
     <a class="layui-btn layui-btn-xs layui-btn-normal" lay-event="schedule">进度更新</a>
   </script>
@@ -302,7 +68,6 @@
         ,{field:'schedule_name', title:'当前进度',unresize:true,width:230}
         ,{title:'相册',unresize:true,toolbar: '#album'}
         ,{title:'进度更新',unresize:true,toolbar: '#schedule'}
-        ,{fixed: 'right', title:'操作',fixed: 'right', toolbar: '#test-table-toolbar-barDemo',unresize:true,width:120}
       ]]
       ,page: {curr:$('#page').val(),limit:$('#limit').val()}
     ,parseData: function(res){ //res 即为原始返回的数据

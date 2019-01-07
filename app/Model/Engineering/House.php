@@ -17,7 +17,7 @@ class House extends Model
 
     public function Huxing()
     {
-    	return $this->hasOne('App\Model\Engineering\Huxing','id','huxing_id');
+    	return $this->hasOne('App\Model\Design\Huxing','id','huxing_id');
     }
     public function Schedules()
     {

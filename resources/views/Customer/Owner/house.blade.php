@@ -167,7 +167,13 @@
         ,{field:'building', title:'楼栋',unresize:true}
         ,{field:'unit', title:'单元',unresize:true}
         ,{title:'户型',unresize:true,templet:function(d){
-          return d.huxing.name;
+          if(d.huxing)
+          {
+            return d.huxing.name;
+          }else
+          {
+            return '';
+          }
         }}
         ,{field:'acreage', title:'面积',unresize:true}
         ,{title:'已付款',unresize:true,width:120,templet:function(d){
