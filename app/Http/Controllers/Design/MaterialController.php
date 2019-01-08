@@ -93,51 +93,55 @@ class MaterialController extends Controller
     		]);
     	}else
     	{	
-    		$category_id = $request->get('category_id','');
+            $category_id = $request->get('category_id','');
+    		$class_id = $request->get('class_id','');
     		$code = $request->get('code','');
-			$data = SupplierMaterial::select('*')
-					->where('status','>',0)
-					->where('category_id','like','%'.$category_id.'%')
-					->where('code','like','%'.$code.'%')
-					->with(['Category'=>function($query){
-						return $query->select('id','name','class')->get();
-					}])
-                    ->orderBy('created_at','DESC')
+			$data = \DB::table('supplier_material')
+                    ->select('supplier_material.*','supplier_category.id as cate_id','supplier_category.class as class_name','supplier_category.name as category_name')
+                    ->join('supplier_category','supplier_material.category_id','=','supplier_category.id')
+                    ->where([
+                        ['supplier_material.status','>',0],
+                        ['supplier_material.category_id','like','%'.$category_id.'%'],
+                        ['supplier_category.class','like','%'.$class_id.'%'],
+                        ['supplier_material.code','like','%'.$code.'%']
+                    ])
+                    ->orderBy('supplier_material.created_at','DESC')
                     ->offset(($request->page -1) * $request->limit)
                     ->limit($request->limit)
                     ->get()
                     ->toArray();
             foreach($data as $k => $v)
             {
-            	$data[$k]['category_name'] = $v['category']['name'];
-            	$data[$k]['class_name'] = $v['category']['class'];
-
-            	if($v['promotion'] == 1)
+            	if($v->promotion == 1)
             	{
-            		if($v['start'] <= date('Y-m-d',time()))
+            		if($v->start <= date('Y-m-d',time()))
             		{
-            			if(!empty($v['end']) && $v['end'] < date('Y-m-d',time()))
+            			if(!empty($v->end) && $v->end < date('Y-m-d',time()))
             			{
-            				$data[$k]['promotion_price'] = '促销已结束';
+            				$data[$k]->promotion_price = '促销已结束';
             			}
-            			if(empty($v['promotion_price']))
+            			if(empty($v->promotion_price))
             			{
-            				$data[$k]['promotion_price'] = '无促销';
+            				$data[$k]->promotion_price = '无促销';
             			}
             		}else
             		{
-            			$data[$k]['promotion_price'] = '促销未开始';
+            			$data[$k]->promotion_price = '促销未开始';
             		}
             	}else
             	{
-            		$data[$k]['promotion_price'] = '无促销';
+            		$data[$k]->promotion_price = '无促销';
             	}
             }
-            $total = SupplierMaterial::select('id')
-					->where('status','>',0)
-            		->where('category_id','like','%'.$category_id.'%')
-					->where('code','like','%'.$code.'%')
-                    ->count();
+            $total = \DB::table('supplier_material')
+                    ->select('supplier_material.*','supplier_category.id as cate_id','supplier_category.class as class_name','supplier_category.name as category_name')
+                    ->join('supplier_category','supplier_material.category_id','=','supplier_category.id')
+                    ->where([
+                        ['supplier_material.status','>',0],
+                        ['supplier_material.category_id','like','%'.$category_id.'%'],
+                        ['supplier_category.class','like','%'.$class_id.'%'],
+                        ['supplier_material.code','like','%'.$code.'%']
+                    ])->count();
             $this->tableData($total,$data,'获取成功',0);
     	}
     }

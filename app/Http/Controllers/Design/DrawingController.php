@@ -20,7 +20,7 @@ class DrawingController extends Controller
     			return back();
     		}
     		$title = $house->project->name.$house->unit.'单元'.$house->building.'栋'.$house->floor.'层'.$house->room_number.'号';
-    		return view('Design.Drawing.Drawing',[
+    		return view('Design.Drawing.drawing',[
     			'request'=>$request->all(),
     			'url' => $urls['scheme'].'://'.$urls['host'].$urls['path'].$this->baseKey($request->all()),
     			'house'=>$house,

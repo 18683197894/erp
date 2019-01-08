@@ -67,7 +67,16 @@
 	<div class="demoTable" style="padding-bottom: 10px">
     <form class="layui-form">
       <div class="layui-input-inline">
-          <select name="category_id" id="project_id" lay-filter="required" lay-verify="required">
+          <select name="class_id" id="class_id" lay-filter="required" lay-verify="required">
+            <option value="">选择类别</option>
+            <option value="主材">主材</option>
+            <option value="辅材">辅材</option>
+            <option value="家电">家电</option>
+            <option value="家居">家居</option>
+          </select>
+      </div>
+      <div class="layui-input-inline">
+          <select name="category_id" id="category_id" lay-filter="required" lay-verify="required">
             <option value="">选择品类</option>
             @foreach($categroy as $c)
             <option value="{{ $c->id }}">{{ $c->name }}</option>
@@ -151,7 +160,8 @@
     $('.demoTable .layui-btn').on('click',function(){
       var code = $('#code').val();      
       var category_id = $('#category_id').val();
-      tab.reload({where:{code:code,category_id:category_id,_token:token},page:{curr:1}});
+      var class_id = $('#class_id').val();
+      tab.reload({where:{code:code,class_id:class_id,category_id:category_id,_token:token},page:{curr:1}});
     });
     //监听行工具事件
     table.on('tool(test-table-toolbar)', function(obj){
