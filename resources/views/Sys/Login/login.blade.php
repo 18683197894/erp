@@ -3,6 +3,7 @@
     alert("{{ session('error') }}");
     parent.indexHerf('/login');
     @else
+      parent.parent.indexHerf('/login');
       parent.indexHerf('/login');
     @endif
 

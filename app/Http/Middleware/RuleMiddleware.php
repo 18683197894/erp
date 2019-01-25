@@ -37,7 +37,10 @@ class RuleMiddleware
         {   
             foreach($v->rules as $kk => $vv)
             {   
-                $rules[$kk] = $vv->url;
+                if(!in_array($vv->url, $rules))
+                {
+                    array_push($rules,$vv->url);
+                }
             }
         }
         if(!in_array('/'.$path,$rules))

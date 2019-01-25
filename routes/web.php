@@ -195,6 +195,9 @@ Route::group(['middleware'=>['rule']],function(){
 	Route::post('/supplier/material-edit','Supplier\SupplierController@material_edit');
 	Route::post('/supplier/material-del','Supplier\SupplierController@material_del');
 
+
+	Route::any('/supplier/query','Supplier\QueryController@query');
+	Route::any('/supplier/query-project','Supplier\QueryController@query_project');
 	/**
 	*	design 设计模块
 	*	huxing 户型

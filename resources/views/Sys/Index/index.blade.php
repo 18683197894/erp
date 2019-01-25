@@ -49,7 +49,7 @@ img.circle-border {
             </a>
           </li>
           <li class="layui-nav-item layui-hide-xs" lay-unselect>
-            <a href="https://www.jianshanglianmeng.com" target="_blank" title="前台">
+            <a href="http://www.jsjju.cn" target="_blank" title="前台">
               <i class="layui-icon layui-icon-website"></i>
             </a>
           </li>

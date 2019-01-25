@@ -36,4 +36,8 @@ class House extends Model
     {
         return $this->hasOne('App\Model\Engineering\Demand','house_id','id');
     }
+    public function Material()
+    {
+        return $this->hasMany('App\Model\Design\Material','house_id','id');
+    }
 }
