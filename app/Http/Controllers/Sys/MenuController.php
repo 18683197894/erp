@@ -55,7 +55,31 @@ class MenuController extends Controller
     		$this->error_message('新增失败');
     	}
     }
-
+    public function menu_edit(Request $request)
+    {   
+        $data = $request->except('_token');
+        $model = Menu::find($data['id']);
+        if(!$model)
+        {
+            $this->error_message('数据不存在');
+        }
+        if($model->status == 2)
+        {
+            $this->error_message('系统默认菜单 已禁止编辑'); 
+        }
+        $model->status = $data['status'];
+        $model->title = $data['title'];
+        $model->lcon = $data['lcon'];
+        $model->url = $data['url'];
+        $model->sort = $data['sort'];
+        if($model->save())
+        {
+            $this->success_message('编辑成功');
+        }else
+        {
+            $this->error_message('编辑失败');
+        }
+    }
     public function menu_del(Request $request)
     {	
     	$menu = Menu::find($request->id);
@@ -63,7 +87,7 @@ class MenuController extends Controller
     	{	
             if($menu->status == 2)
             {
-                $this->error_message('系统默认菜单 无法删除');
+                $this->error_message('系统默认菜单 已禁止删除');
             }
     		$del = array($menu->id);
 

@@ -1,9 +1,9 @@
 
-function layMsgOk(message) {
-  layer.msg(message, {icon:1});
+function layMsgOk(message,fun=null) {
+  layer.msg(message, {icon:1},fun);
 }
-function layMsgError(message) {
-  layer.msg(message, {icon:2, anim:6,time:1500});
+function layMsgError(message,fun=null) {
+  layer.msg(message, {icon:2, anim:6,time:1500},fun);
 }
 function open_show(title,url,w,h,pid,ptitle)
 {   

@@ -139,11 +139,68 @@
         </form>
       </div>
 </div>
+<div class="layui-card edit" style="display:none">
+      <div class="layui-card-body" style="padding: 15px;">
+        <form id="myform" class="layui-form layui-form-pane" lay-filter="edit">
+                @csrf
+                <input type="hidden" name="id" value="">
+                <div class="layui-form-item">
+                    <label for="name" class="layui-form-label">
+                        标题
+                    </label>
+                    <div class="layui-input-block">
+                        <input type="text" name="title" required="" lay-verify="title"
+                        autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label for="name" class="layui-form-label">
+                        图标样式
+                    </label>
+                    <div class="layui-input-block">
+                        <input type="lcon" name="lcon"  lay-verify="lcon"
+                        autocomplete="off"  class="layui-input">
+                    </div>
+                    <div class="hint-block">详情请参考：<a class="aurl" href="https://www.layui.com/doc/element/icon.html#table" target="_blank">layui-icon</a></div>
+                </div>
+                <div class="layui-form-item">
+                    <label for="name" class="layui-form-label">
+                        排序
+                    </label>
+                    <div class="layui-input-block">
+                        <input type="text" name="sort" required="" lay-verify="required|sort"
+                        autocomplete="off"  class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                  <label class="layui-form-label">状态</label>
+                  <div class="layui-input-block" style="border:1px solid rgb(230, 230, 230);">
+                    <input type="radio" name="status" value="1" title="启用">
+                    <input type="radio" name="status" value="0" title="禁用">
+                  </div>
+                </div>
+
+                <div class="layui-form-item">
+                  <label class="layui-form-label">路由地址</label>
+                  <div class="layui-input-block">
+                    <input type="text" disabled="disabled" name="url"
+                        autocomplete="off"  class="layui-input">
+                  </div>
+                 </div>
+                 <br>
+                 <br>
+                <div class="layui-form-item">
+                <button class="layui-btn" lay-submit="" lay-filter="edit" >编辑</button>
+              </div>
+        </form>
+      </div>
+</div>
 @endsection
 
 @section('content')
           <div class="layui-card-body" >
-              <button class="layui-btn" onClick="open_show('创建菜单','.level1',0.5,0.75)" style="">创建菜单</button>
+              <button class="layui-btn layui-btn-normal" onClick="open_show('创建菜单','.level1',0.5,0.75)" style="">创建菜单</button>
             
           <table class="layui-table" style="border-left: 0;border-right:0" lay-size="lg" lay-even="" lay-skin="line">
             <colgroup>
@@ -152,8 +209,8 @@
               <col width="120">
               <col width="200">
               <col width="120">
-              <col width="180">
-              <col width="180">
+              <col width="150">
+              <col width="210">
               <col>
             </colgroup>
             <thead>
@@ -178,7 +235,8 @@
                 <td><i class="layui-icon {{ $v->lcon }}"></i></td>
                 <td><input type="text" id="{{ $v->id }}" val="{{ $v->sort }}"  class="layui-input level_one sorts" name="sort" value="{{ $v->sort }}"></td>
                 <td>
-                  <button class="layui-btn  layui-btn-sm" onClick="open_show('上级目录: {{ $v->title }}','.level2',0.5,0.8,'{{ $v->id }}')">创建菜单</button>
+                  <button class="layui-btn  layui-btn-sm layui-btn-normal" onClick="open_show('上级目录: {{ $v->title }}','.level2',0.5,0.8,'{{ $v->id }}')">创建菜单</button>
+                  <button class="layui-btn  layui-btn-sm" onClick="menuEdit('{{json_encode($v)}}')">编辑</button>
                   <button class="layui-btn layui-btn-danger  layui-btn-sm" onClick="menu_del(this,'{{ $v->id }}','{{ $v->title }}',1)">删除</button>
                   
                 </td>
@@ -193,10 +251,11 @@
                 <td><input type="text" id="{{ $val->id }}" val="{{ $val->sort }}"  class="layui-input level_two sorts" name="sort" value="{{ $val->sort }}"></td>
                 <td>
                   @if($val->url == '#')
-                  <button class="layui-btn  layui-btn-sm" onClick="open_show('上级目录: {{ $val->title }}','.level2',0.5,0.8,'{{ $val->id }}')">创建菜单</button>
+                  <button class="layui-btn  layui-btn-sm layui-btn-normal" onClick="open_show('上级目录: {{ $val->title }}','.level2',0.5,0.8,'{{ $val->id }}')">创建菜单</button>
                   @else
                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                   @endif
+                  <button class="layui-btn  layui-btn-sm" onClick="menuEdit('{{json_encode($val)}}')">编辑</button>
                   <button class="layui-btn layui-btn-danger  layui-btn-sm" onClick="menu_del(this,'{{ $val->id }}','{{ $val->title }}',2)">删除</button>
 
                 </td>
@@ -211,6 +270,7 @@
                 <td><input type="text" id="{{ $value->id }}" val="{{ $value->sort }}" class="layui-input level_three sorts" name="sort" value="{{ $value->sort }}"></td>
                 <td>
                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  <button class="layui-btn  layui-btn-sm" onClick="menuEdit('{{json_encode($value)}}')">编辑</button>
                   <button class="layui-btn layui-btn-danger  layui-btn-sm" onClick="menu_del(this,'{{ $value->id }}','{{ $value->title }}',3)">删除</button>
                 </td>
               </tr>
@@ -307,54 +367,108 @@
         }
       })
       return false;
+    });
+    $('.sorts').on('blur',function(){
+      var inp = $(this);
+      var sort = $(this).val();
+      var id = $(this).attr('id');
+      var usedSort = $(this).attr('val');
+      if(sort.length <= 0 || !sort.match(/^[0-9]*$/))
+      {
+          $(this).val(usedSort);
+          layer.alert('请输入数字排序',{title:'错误',icon:5,btn:['确认']});
+          return false;
+      }
+      if(sort == usedSort)
+      { 
+        return false;
+      }
+
+      $.ajax({
+        url : "{{ url('/nav/menu-sort') }}",
+        type : 'post',
+        data : {id:id,sort:sort,_token:token},
+        success : function(res)
+        {
+          var res = $.parseJSON(res);
+          if(res.code == 200)
+          {
+            inp.attr('val',sort);
+            // layMsgOk(res.info);
+          }else if(res.code == 501)
+          {
+            inp.val(usedSort);
+            layMsgError(res.msg);
+          }
+          else
+          {
+            inp.val(usedSort);
+            layMsgError('操作失败');
+          }
+        },
+        error : function(error)
+        {
+          inp.val(usedSort);
+          layMsgError('操作失败');
+        }
+      })
+    })
+    form.on('submit(edit)',function(data){
+      // console.log(data);
+      data = data.field;
+      data._token = token;
+      $.ajax("{{ url('/nav/menu-edit/') }}",{
+        type : 'post',
+        data : data,
+        success : function(res)
+        { 
+          res = $.parseJSON(res);
+          if(res.code == 200)
+          {
+            layer.close(edit);
+            layMsgOk(res.msg,function(){
+              window.location.reload();
+            });
+          }else if(res.code == 501)
+          {
+            layMsgError(res.msg);
+          }
+        },
+        error : function(error)
+        {
+          layMsgError('操作失败');
+        }
+      });
       return false;
     });
-          $('.sorts').on('blur',function(){
-          var inp = $(this);
-          var sort = $(this).val();
-          var id = $(this).attr('id');
-          var usedSort = $(this).attr('val');
-          if(sort.length <= 0 || !sort.match(/^[0-9]*$/))
-          {
-              $(this).val(usedSort);
-              layer.alert('请输入数字排序',{title:'错误',icon:5,btn:['确认']});
-              return false;
-          }
-          if(sort == usedSort)
-          { 
-            return false;
-          }
-
-          $.ajax({
-            url : "{{ url('/nav/menu-sort') }}",
-            type : 'post',
-            data : {id:id,sort:sort,_token:token},
-            success : function(res)
-            {
-              var res = $.parseJSON(res);
-              if(res.code == 200)
-              {
-                inp.attr('val',sort);
-                // layMsgOk(res.info);
-              }else if(res.code == 501)
-              {
-                inp.val(usedSort);
-                layMsgError(res.msg);
-              }
-              else
-              {
-                inp.val(usedSort);
-                layMsgError('操作失败');
-              }
-            },
-            error : function(error)
-            {
-              inp.val(usedSort);
-              layMsgError('操作失败');
-            }
-          })
-        })
   });
+      function menuEdit(data)
+      {
+        data = $.parseJSON(data);
+        // console.log(data.status);return false;
+        var width = ($(window).width() * 0.5)+'px';
+        var height = ($(window).height() * 0.8)+'px';
+        form.val('edit',{
+          'title' : data.title,
+          'lcon' : data.lcon,
+          'sort' : data.sort,
+          'status' : data.status+'',
+          'url' : data.url,
+          'id'  : data.id,
+
+
+        });
+          edit = layer.open({
+          type : 1,
+          title : '编辑菜单',
+          fix: false, //不固定
+          maxmin: true,
+          shadeClose: true,
+          shade: 0.4,
+          area : [width,height],
+          content : $('.edit')          
+        });
+      }
 
       function menu_del(obj,id,name,itps)
       {

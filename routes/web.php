@@ -42,6 +42,7 @@ Route::group(['middleware'=>['rule']],function(){
 	*/
 	Route::get('/nav/menu/','Sys\MenuController@menu');
 	Route::post('/nav/menu-add/','Sys\MenuController@menu_add');
+	Route::post('/nav/menu-edit/','Sys\MenuController@menu_edit');
 	Route::post('/nav/menu-del/','Sys\MenuController@menu_del');
 	Route::post('/nav/menu-sort/','Sys\MenuController@menu_sort');
 
