@@ -9,13 +9,13 @@
       <div class="layui-card-body" style="padding: 15px;">
         <form class="layui-form" id="myform"lay-filter="component-form-group">
           <div class="layui-form-item" >
-            <label class="layui-form-label">公司名称</label>
+            <label class="layui-form-label">开发商名称</label>
             <div class="layui-input-block">
               <input name="company_name" value="" lay-verify="required" placeholder="请输入公司名称" autocomplete="off" class="layui-input" type="text">
             </div>
           </div>
           <div class="layui-form-item layui-form-text" >
-            <label class="layui-form-label">公司地址</label>
+            <label class="layui-form-label">开发商地址</label>
             <div class="layui-input-block">
               <textarea name="company_address" lay-verify="required" placeholder="请输入公司地址" class="layui-textarea"></textarea>
             </div>
@@ -36,13 +36,13 @@
         <form class="layui-form" lay-filter="component-form-group">
         	<input type="hidden" name="id" value="id">
           <div class="layui-form-item" >
-            <label class="layui-form-label">公司名称</label>
+            <label class="layui-form-label">开发商名称</label>
             <div class="layui-input-block">
               <input name="company_name" value="" lay-verify="required" placeholder="请输入公司名称" autocomplete="off" class="layui-input" type="text">
             </div>
           </div>
           <div class="layui-form-item layui-form-text" >
-            <label class="layui-form-label">公司地址</label>
+            <label class="layui-form-label">开发商地址</label>
             <div class="layui-input-block">
               <textarea name="company_address" lay-verify="required" placeholder="请输入公司地址" class="layui-textarea"></textarea>
             </div>
@@ -113,11 +113,11 @@
       ,title: '开发商'
       ,where:{company_name:$('#name').val(),_token:token}
       ,cols: [[
-         {field:'company_name', title:'公司名称',fixed: 'left',unresize:true}
-        ,{field:'company_address', title:'公司地址',unresize:false,width:500}
-        ,{field:'created_at', title:'录入时间',unresize:true}
-        ,{title:'联系人', toolbar:'#contacts',unresize:true}
-        ,{title:'信息', toolbar:'#information',unresize:true}
+         {field:'company_name', title:'开发商公司名称',fixed: 'left',unresize:true}
+        ,{field:'company_address', title:'开发商公司地址',unresize:false,width:500}
+        ,{field:'created_at', title:'信息录入时间',unresize:true}
+        ,{title:'核心联系人', toolbar:'#contacts',unresize:true}
+        ,{title:'核心信息', toolbar:'#information',unresize:true}
         ,{fixed:'right', title:'操作', toolbar: '#test-table-toolbar-barDemo',unresize:true,width:120}
       ]]
       ,page: {curr:$('#page').val(),limit:$('#limit').val()}
@@ -231,19 +231,33 @@
           })
       }else if(obj.event === 'check')
       {   
-        var name = $('#name').attr('val');
-        var page = tab.config.page.curr;
-        var limit = tab.config.page.limit;
+        layui.full(openMax('项目联系人','/developer/contacts?company_id='+data.id));
 
-        window.location.href="/developer/contacts?company_id="+data.id+"&company_name="+name+"&page="+page+"&limit="+limit;
+        // var name = $('#name').attr('val');
+        // var page = tab.config.page.curr;
+        // var limit = tab.config.page.limit;
+        // window.location.href="/developer/contacts?company_id="+data.id+"&company_name="+name+"&page="+page+"&limit="+limit;
       }else if(obj.event === 'information')
       {
-        var name = $('#name').attr('val');
-        var page = tab.config.page.curr;
-        var limit = tab.config.page.limit;
-        window.location.href="/developer/information?company_id="+data.id+"&company_name="+name+"&page="+page+"&limit="+limit;
+        layui.full(openMax('核心信息','/developer/information?company_id='+data.id));
+        // var name = $('#name').attr('val');
+        // var page = tab.config.page.curr;
+        // var limit = tab.config.page.limit;
+        // window.location.href="/developer/information?company_id="+data.id+"&company_name="+name+"&page="+page+"&limit="+limit;
       }
     });
+    openMax = function(title,url){
+      layer.open({
+        type : 2,
+        title : title,
+        fix: false, //不固定
+        maxmin: true,
+        shadeClose: true,
+        area : [$(window).width() * 0.95+'px',$(window).height() * 0.9+'px'],
+        shade: 0.4,
+        content : url
+      })
+    }
     form.on('submit(add)',function(data){
       data = data.field;
       data._token = token;

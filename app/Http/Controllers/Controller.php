@@ -25,7 +25,7 @@ class Controller extends BaseController
 
     public function tableData($total = 0,$data = [],$msg='',$code=200,$pages = null)
     {
-            $ret = array('code'=>$code,'data'=>$data,'msg'=>$msg,'total'=>$total,'pages'=>$pages);
+            $ret = array('code'=>$code,'data'=>$data,'msg'=>$msg,'total'=>$total,'count'=>$total,'pages'=>$pages);
             die(json_encode($ret));       
     }
 

@@ -81,7 +81,7 @@ class DesignController extends Controller
 	}
 
 	public function huxing_del(Request $request)
-	{
+	{  
 		$id = $request->id;
     	if(!is_array($id))
     	{

@@ -12,7 +12,8 @@ class Project extends Model
     protected $guarded = [];
     protected $casts = [
         'created_at'   => 'date:Y-m-d H:i',
-        'updated_at'   => 'datetime:Y-m-d H:i'
+        'updated_at'   => 'datetime:Y-m-d H:i',
+        'screening_time' => 'datetime:Y-m-d H:i'
     ];
 
     public function Company()
@@ -31,6 +32,6 @@ class Project extends Model
     }
     public function Huxings()
     {
-        return $this->hasMany('App\Model\Design\huxing','project_id','id');
+        return $this->hasMany('App\Model\Design\Huxing','project_id','id');
     }
 }

@@ -30,7 +30,7 @@ class ProjectController extends Controller
     				->with(['Appointments'=>function($query){
     					return $query->select('project_id','id','schedule')->where('status','>',0)->orderBy('time','DESC')->get();
     				}])
-                    ->where('status','>',0)
+                    ->where('status','>=',0)
     				->orderBy('created_at','DESC')
 		    		->offset(($request->page -1) * $request->limit)
 		    		->limit($request->limit)
@@ -94,16 +94,16 @@ class ProjectController extends Controller
             {
                 $this->error_message('已禁止删除');
             }
-            Project::where('id',$request->id)->update(['status'=>-1]);
-            ProjectContacts::where('project_id',$request->id)->update(['status'=>-1]);
-            ProjectInformation::where('project_id',$request->id)->update(['status'=>-1]);
+            Project::where('id',$request->id)->delete();
+            ProjectContacts::where('project_id',$request->id)->delete();
+            ProjectInformation::where('project_id',$request->id)->delete();
             $appointment = Appointment::where('project_id',$request->id)->get();
             if($appointment)
             {
                 foreach($appointment as $v)
                 {
-                    Appointment::where('id',$v->id)->update(['status'=>-1]);
-                    Feedback::where('appointment_id',$v->id)->update(['status'=>-1]);
+                    Appointment::where('id',$v->id)->delete();
+                    Feedback::where('appointment_id',$v->id)->delete();
                 }
             }
         }
@@ -115,7 +115,7 @@ class ProjectController extends Controller
     {   
         if($request->isMethod('get'))
         {      
-            $urls = parse_url(\url()->previous());
+            // $urls = parse_url(\url()->previous());
             $project = Project::find($request->project_id);
             if(!$project)
             {
@@ -123,8 +123,8 @@ class ProjectController extends Controller
             }
             return view('Developer.Project.contacts',[
                 'project' => $project,
-                'title' => $project->name,
-                'url' => $urls['scheme'].'://'.$urls['host'].$urls['path'].$this->baseKey($request->all())
+                'title' => $project->name
+                // 'url' => $urls['scheme'].'://'.$urls['host'].$urls['path'].$this->baseKey($request->all())
             ]);
         }else if($request->isMethod('post'))
         {
@@ -198,7 +198,7 @@ class ProjectController extends Controller
     {
         if($request->isMethod('get'))
         {
-            $urls = parse_url(\url()->previous());
+            // $urls = parse_url(\url()->previous());
             $project = Project::find($request->project_id);
             if(!$project)
             {
@@ -206,8 +206,8 @@ class ProjectController extends Controller
             }
             return view('Developer.Project.information',[
                 'project' => $project,
-                'title' => $project->name,
-                'url' => $urls['scheme'].'://'.$urls['host'].$urls['path'].$this->baseKey($request->all())
+                'title' => $project->name
+                // 'url' => $urls['scheme'].'://'.$urls['host'].$urls['path'].$this->baseKey($request->all())
             ]);
         }else if($request->isMethod('post'))
         {
@@ -284,7 +284,7 @@ class ProjectController extends Controller
     	if($request->isMethod('get'))
         {   
         	$user = User::where('status','>',0)->get();
-            $urls = parse_url(\url()->previous());
+            // $urls = parse_url(\url()->previous());
             $project = Project::find($request->project_id);
             if(!$project)
             {
@@ -293,8 +293,8 @@ class ProjectController extends Controller
             return view('Developer.Project.appointment',[
                 'project' => $project,
                 'user'	=> $user,
-                'title' => $project->name,
-                'url' => $urls['scheme'].'://'.$urls['host'].$urls['path'].$this->baseKey($request->all())
+                'title' => $project->name
+                // 'url' => $urls['scheme'].'://'.$urls['host'].$urls['path'].$this->baseKey($request->all())
             ]);
         }else if($request->isMethod('post'))
         {
@@ -358,7 +358,8 @@ class ProjectController extends Controller
 	}
 
 	public function feedback_add(Request $request)
-	{
+	{   
+        $data['id'] = $request->id;
 		$data = $request->except('_token');
 		$data['higher_team'] = isset($data['higher_team'])?1:0;
 		$data['higher_post'] = isset($data['higher_post'])?1:0;
@@ -378,18 +379,23 @@ class ProjectController extends Controller
 				$this->error_message('非负责人无法反馈');
 			}
 		}
-		if(Feedback::where('appointment_id',$data['appointment_id'])->first())
-		{
-			$this->error_message('已反馈 请勿重复反馈');
-		}
-
-		if(Feedback::create($data))
-		{
-			$this->success_message('反馈成功');
+		if($data['id'])
+		{     
+            Feedback::where('id',$data['id'])->update($data);
+            $this->success_message('反馈成功');
 		}else
-		{
-			$this->error_message('反馈失败');
-		}
+        {   
+            unset($data['id']);
+            if(Feedback::create($data))
+            {
+                $this->success_message('反馈成功');
+            }else
+            {
+                $this->error_message('反馈失败');
+            }
+        }
+
+
 
 	}
 
@@ -400,4 +406,94 @@ class ProjectController extends Controller
 		Feedback::where('appointment_id',$id)->delete();
 		return $this->success_message('删除成功');
 	}
+
+    public function screening(Request $request)
+    {
+        if($request->isMethod('get'))
+        {
+            return view('Developer.Project.screening');
+        }else
+        {
+            $data = Project::select('developer_project.name','developer_project.source','developer_project.screening_time','developer_project.status','developer_project.id','developer_company.company_name')
+            ->join('developer_company',function($join){
+                $join->on('developer_project.company_id','=','developer_company.id');
+            })
+            ->where('developer_project.status','>=',0)
+            ->orderBy('developer_project.created_at','DESC')
+            ->offset(($request->page - 1) * $request->limit)
+            ->limit($request->limit)
+            ->get();
+            foreach($data as $k => $v)
+            {
+                if($data[$k]['screening_time'])
+                {
+                    $data[$k]['status'] = $v['status']?'有效':'无效'; 
+                }else
+                {
+                    $data[$k]['status'] = '';
+                }
+            }
+            $total = Project::select('developer_project.name','developer_company.company_name')
+                ->join('developer_company',function($join){
+                    $join->on('developer_project.company_id','=','developer_company.id');
+                })
+                ->where('developer_project.status','>=',0)
+                ->count();
+            $this->tableData($total,$data,'获取成功',0);
+        }
+    }
+
+    public function screening_edit(Request $request)
+    {
+        $model = Project::find($request->id);
+        if(!$model) $this->error_message('数据不存在');
+
+        if($model->status < 2)
+        {
+            $model->status = $request->status === 'on'?1:0;
+        }
+        $model->source = $request->source;
+        $model->screening_time = time();
+        $model->save();
+        $this->success_message("编辑成功");
+    }
+
+    public function summary(Request $request)
+    {
+        if($request->isMethod('get'))
+        {
+            return view('Developer.Project.summary');
+        }else
+        {
+            $data = Project::select('*')
+                    ->with('Company')
+                    ->with(['Appointments'=>function($query){
+                        return $query->select('id','project_id','schedule')
+                                    ->where('status','>','0')
+                                    ->orderBy('time','DESC');
+                    }])
+                    ->where('status','>=',0)
+                    ->offset(($request->page - 1) * $request->limit)
+                    ->limit($request->limit)
+                    ->orderBy('created_at','DESC')
+                    ->get();
+            foreach($data as $k => $v)
+            {
+                $data[$k]->company_name = $v->company->company_name;
+                $data[$k]->appointments_name = $v->appointments[0]->schedule;
+                $data[$k]->remarks = $v->appointments[0]->remarks;
+                $data[$k]->user_name = User::find($v->appointments[0]->user_id)->username;
+                if($v->appointments[0]->feedback)
+                {
+                    $data[$k]->now_result = $v->appointments[0]->feedback->now_result;
+                    $data[$k]->next_stage = $v->appointments[0]->feedback->next_stage;
+                }
+            }
+            $total = Project::select('*')
+                    ->where('status','>=',0)
+                    ->count();
+            $this->tableData($total,$data,'获取成功',0);
+
+        }
+    }
 }

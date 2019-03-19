@@ -206,8 +206,9 @@
       </form>
 </div>
 <div class="layui-card feedback_add" style="display:none">
-        <form class="layui-form layui-form-pane" id="feedback_add"  style="margin: 15px;" lay-filter="component-form-group">
+        <form class="layui-form layui-form-pane" id="feedback_add"  style="margin: 15px;" lay-filter="feedback_add">
           <input type="hidden" name="appointment_id" value="">
+          <input type="hidden" name="id" value="">
           <div class="layui-col-md6">
             <div class="layui-card layui-form layui-form-text" lay-filter="component-form-element">
               <div class="layui-card-header">是否需要更高岗位介入</div>
@@ -339,9 +340,10 @@
 	</script>
 
 	<script type="text/html" id="test-table-toolbar-barDemo">
-	  <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-	  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+    <a class='layui-btn layui-btn-xs  layui-btn-normal' lay-event='feedback'>反馈</a>
 	</script>
+<!--       <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a> -->
 </div>
 
 @endsection
@@ -369,27 +371,31 @@
       ,title: '预约拜访'
       ,cols: [[
          // {type: 'checkbox', fixed: 'left'}
-        {field:'schedule', title:'进度',fixed: 'left',unresize:true,width:110}
+        {field:'schedule', title:'当前阶段',fixed: 'left',unresize:true,width:110}
         ,{field:'time', title:'拜访时间',unresize:true,width:110}
         ,{field:'address', title:'拜访地点',unresize:true}
         ,{field:'participant', title:'参与人员',unresize:true}
-        ,{field:'visitingobj', title:'拜访对象',unresize:true}
-        ,{field:'contact_seniors', title:'接触到高层',unresize:true,width:100}
+        // ,{field:'visitingobj', title:'拜访对象',unresize:true}
+        ,{field:'contact_seniors', title:'接触高层',unresize:true,width:100}
         ,{field:'advances', title:'提前预约',unresize:true,width:90}
-        ,{field:'preparation', title:'准备情况',unresize:true}
         ,{field:'expected', title:'预计效果',unresize:true}
+        ,{field:'username', title:'项目负责人',unresize:true}
         ,{field:'remarks', title:'备注',unresize:true}
-        ,{field:'username', title:'负责人',unresize:true}
-        ,{title:'反馈',unresize:true,templet:function(d){
-          if(d.feedback !== null)
-          {
-            return "<a class='layui-btn layui-btn-xs  layui-btn-normal' lay-event='check'>查看</a>";
+        // ,{field:'remarks', title:'更高职位介入',unresize:true}
+        // ,{field:'remarks', title:'团队介入',unresize:true}
+        // ,{field:'remarks', title:'其他帮助支持',unresize:true}
+        ,{field:'remarks', title:'项目建议',unresize:true}
+        // ,{field:'preparation', title:'准备情况',unresize:true}
+        // ,{title:'反馈',unresize:true,templet:function(d){
+        //   if(d.feedback !== null)
+        //   {
+        //     return "<a class='layui-btn layui-btn-xs  layui-btn-normal' lay-event='check'>查看</a>";
 
-          }else
-          {
-            return "<a class='layui-btn layui-btn-xs  layui-btn-normal' lay-event='feedback'>反馈</a>";
-          }
-        }}
+        //   }else
+        //   {
+        //     return "<a class='layui-btn layui-btn-xs  layui-btn-normal' lay-event='feedback'>反馈</a>";
+        //   }
+        // }}
         ,{fixed: 'right', title:'操作',toolbar: '#test-table-toolbar-barDemo',unresize:true,width:120}
       ]]
       ,page: true
@@ -436,10 +442,10 @@
           		if(res.code == 200)
           		{
 
-					layer.close(index);
-					layMsgOk(res.msg);
-					// location.reload(true);
-					tab.reload();
+      					layer.close(index);
+      					layMsgOk(res.msg);
+      					// location.reload(true);
+      					tab.reload();
           		}else
           		{
           			layMsgError(res.msg);
@@ -536,6 +542,30 @@
       {
           document.getElementById("feedback_add").reset();
           $('.feedback_add').find("input[name='appointment_id']").val(data.id);
+          if(data.feedback)
+          { 
+            console.log(data.feedback);
+            form.val('feedback_add',{
+              'id' : data.feedback.id,
+              'higher_post':data.feedback.higher_post,
+              'higher_team':data.feedback.higher_team,
+              'now_result':data.feedback.now_result,
+              'other_support':data.feedback.other_support,
+              'next_stage':data.feedback.next_stage,
+              'project_proposal':data.feedback.project_proposal
+            });
+          }else
+          {
+            form.val('feedback_add',{
+              'id':'',
+              'higher_post':0,
+              'higher_team':0,
+              'now_result':'',
+              'other_support':'',
+              'next_stage':'',
+              'project_proposal':''
+            });
+          }
 
           var width = ($(window).width() * 0.8)+'px';
           var height = ($(window).height() * 0.9)+'px';

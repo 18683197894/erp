@@ -13,8 +13,8 @@ function open_show(title,url,w,h,pid,ptitle)
     var width = $(window).width(); 
     var height = $(window).height();
     document.getElementById("myform").reset();
-              $('.add').find('input[type="file"]').val('');
-          $('.add').find('.layui-upload-choose').html('');
+    $('.add').find('input[type="file"]').val('');
+    $('.add').find('.layui-upload-choose').html('');
     if(w)
     {
       area = [(width * w)+'px',(height * h)+'px']

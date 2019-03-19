@@ -92,7 +92,7 @@ class CompanyController extends Controller
     {   
         if($request->isMethod('get'))
         {      
-            $urls = parse_url(\url()->previous());
+            // $urls = parse_url(\url()->previous());
             $company = Company::find($request->company_id);
             if(!$company)
             {
@@ -100,8 +100,8 @@ class CompanyController extends Controller
             }
             return view('Developer.Company.contacts',[
                 'company' => $company,
-                'title' => $company->company_name,
-                'url' => $urls['scheme'].'://'.$urls['host'].$urls['path'].$this->baseKey($request->all())
+                'title' => $company->company_name
+                // 'url' => $urls['scheme'].'://'.$urls['host'].$urls['path'].$this->baseKey($request->all())
             ]);
         }else if($request->isMethod('post'))
         {
@@ -177,7 +177,7 @@ class CompanyController extends Controller
     {
         if($request->isMethod('get'))
         {
-            $urls = parse_url(\url()->previous());
+            // $urls = parse_url(\url()->previous());
             $company = Company::find($request->company_id);
             if(!$company)
             {
@@ -185,8 +185,8 @@ class CompanyController extends Controller
             }
             return view('Developer.Company.information',[
                 'company' => $company,
-                'title' => $company->company_name,
-                'url' => $urls['scheme'].'://'.$urls['host'].$urls['path'].$this->baseKey($request->all())
+                'title' => $company->company_name
+                // 'url' => $urls['scheme'].'://'.$urls['host'].$urls['path'].$this->baseKey($request->all())
             ]);
         }else if($request->isMethod('post'))
         {

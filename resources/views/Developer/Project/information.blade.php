@@ -100,7 +100,7 @@
 	<script type="text/html" id="test-table-toolbar-toolbarDemo">
 	  <div class="layui-btn-container">
 	    <button class="layui-btn layui-btn-sm  layui-btn-danger" lay-event="getCheckData">批量删除</button>
-	    <button class="layui-btn layui-btn-sm" onclick="open_show('新增联系人','.add',0.5,0.8)">新增信息</button>
+	    <button class="layui-btn layui-btn-sm" onclick="open_show('新增信息','.add',0.5,0.8)">新增信息</button>
 	  </div>
 	</script>
 

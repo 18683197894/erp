@@ -181,13 +181,13 @@
       ,cols: [[
          {field:'name', title:'项目名称',fixed: 'left',unresize:true}
         ,{field:'re_address', title:'项目地址',unresize:true}
-        ,{field:'disc_time', title:'开盘时间',unresize:true}
-        ,{field:'company_name', title:'开发商',unresize:true}
-        ,{field:'schedule', title:'当前进度',unresize:true}
+        // ,{field:'disc_time', title:'开盘时间',unresize:true}
+        // ,{field:'company_name', title:'开发商',unresize:true}
+        ,{field:'created_at', title:'项目信息录入时间',unresize:true}
         ,{field:'label', title:'状态',unresize:true}
-        ,{title:'联系人',unresize:true,toolbar:'#check',width:100}
-        ,{title:'信息',unresize:true,toolbar:'#information',width:100}
-        ,{title:'进度',unresize:true,toolbar:'#appointment',width:100}
+        ,{title:'项目联系人',unresize:true,toolbar:'#check',width:120}
+        ,{title:'项目信息',unresize:true,toolbar:'#information',width:120}
+        ,{title:'项目进度',unresize:true,toolbar:'#appointment',width:120}
         ,{fixed: 'right', title:'操作',fixed: 'right', toolbar: '#test-table-toolbar-barDemo',unresize:true,width:120}
       ]]
       ,page: {curr:$('#page').val(),limit:$('#limit').val()}
@@ -232,10 +232,10 @@
           		if(res.code == 200)
           		{
 
-					layer.close(index);
-					layMsgOk(res.msg);
-					// location.reload(true);
-					tab.reload();
+      					layer.close(index);
+      					layMsgOk(res.msg);
+      					// location.reload(true);
+      					tab.reload();
           		}else
           		{
           			layMsgError(res.msg);
@@ -315,24 +315,40 @@
           })
       }else if(obj.event === 'check')
       {   
-        var name = $('#name').attr('val');
-        var page = tab.config.page.curr;
-        var limit = tab.config.page.limit;
-        window.location.href="/developer/project/contacts?project_id="+data.id+"&name="+name+"&page="+page+"&limit="+limit;
+        openMax('项目联系人',"/developer/project/contacts?project_id="+data.id);
+        // var name = $('#name').attr('val');
+        // var page = tab.config.page.curr;
+        // var limit = tab.config.page.limit;
+        // window.location.href="/developer/project/contacts?project_id="+data.id+"&name="+name+"&page="+page+"&limit="+limit;
       }else if(obj.event === 'information')
       {
-        var name = $('#name').attr('val');
-        var page = tab.config.page.curr;
-        var limit = tab.config.page.limit;
-        window.location.href="/developer/project/information?project_id="+data.id+"&name="+name+"&page="+page+"&limit="+limit;
+        openMax('项目信息',"/developer/project/information?project_id="+data.id);
+        // var name = $('#name').attr('val');
+        // var page = tab.config.page.curr;
+        // var limit = tab.config.page.limit;
+        // window.location.href="/developer/project/information?project_id="+data.id+"&name="+name+"&page="+page+"&limit="+limit;
       }else if(obj.event === 'appointment')
       {
-        var name = $('#name').attr('val');
-        var page = tab.config.page.curr;
-        var limit = tab.config.page.limit;
-        window.location.href="/developer/project/appointment?project_id="+data.id+"&name="+name+"&page="+page+"&limit="+limit;
+        openMax('项目进度',"/developer/project/appointment?project_id="+data.id);
+        // var name = $('#name').attr('val');
+        // var page = tab.config.page.curr;
+        // var limit = tab.config.page.limit;
+        // window.location.href="/developer/project/appointment?project_id="+data.id+"&name="+name+"&page="+page+"&limit="+limit;
       }
     });
+
+    openMax = function(title,url){
+      layer.open({
+        type : 2,
+        title : title,
+        fix: false, //不固定
+        maxmin: true,
+        shadeClose: true,
+        area : [$(window).width() * 0.95+'px',$(window).height() * 0.9+'px'],
+        shade: 0.4,
+        content : url
+      })
+    }
     form.on('submit(add)',function(data){
       data = data.field;
       data._token = token;

@@ -26,6 +26,11 @@ Route::group(['middleware'=>['user']],function(){
 
 Route::group(['middleware'=>['rule']],function(){
 
+	Route::any('/app/message','App\MessageController@message');
+	Route::post('/app/message-edit','App\MessageController@message_edit');
+	Route::any('/app/message-detail','App\MessageController@message_detail');
+
+	Route::any('/app/msg_letter','App\MsgController@msg_letter');
 	/**
 	*	user 用户
 	* 	department 部门
@@ -82,13 +87,14 @@ Route::group(['middleware'=>['rule']],function(){
 	Route::post('/user/user-del','Sys\UserController@user_del');
 
 	/**
-	*	developer 开发商模块
+	*	developer 市场部模块
 	*	project 项目
 	* 	company 开发商管理
 	* 	contacts 联系人
 	* 	information 信息
 	* 	appointment 项目洽谈
 	* 	feedback 项目洽谈反馈
+	* 	screening 信息筛选
 	*/
 	Route::any('/developer/company','Developer\CompanyController@company');
 	Route::post('/developer/company-add','Developer\CompanyController@company_add');
@@ -127,7 +133,12 @@ Route::group(['middleware'=>['rule']],function(){
 
 	Route::post('/developer/project/feedback-add','Developer\ProjectController@feedback_add');
 
+	Route::any('/developer/project/screening','Developer\ProjectController@screening');
+	Route::post('/developer/project/screening-edit','Developer\ProjectController@screening_edit');
 
+	Route::any('/commerce/company','Developer\CompanyController@company');
+	Route::any('/commerce/project','Developer\ProjectController@project');
+	Route::any('/commerce/summary','Developer\ProjectController@summary');
 	/**
 	*	engineering 工程模块
 	*	project 项目

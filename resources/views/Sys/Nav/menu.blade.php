@@ -122,8 +122,8 @@
                 <div class="layui-form-item">
                   <label class="layui-form-label">路由地址</label>
                   <div class="layui-input-block">
-                    <select name="url" lay-verify="required">
-                      <option value="#">#</option>
+                    <select name="url" lay-search="" lay-verify="required">
+                      <option value="">直接选择或搜索选择</option>
                       @foreach($path as $val)
                       <option value="{{ $val }}">{{ $val }}</option>
                       @endforeach
