@@ -10,14 +10,12 @@
         <form class="layui-form" id="myform"lay-filter="component-form-group">
           <div class="layui-form-item" >
             <label class="layui-form-label">真实姓名</label>
-            <div class="layui-input-block">
+            <div class="layui-input-inline">
               <input name="username" value="" lay-verify="required|username" placeholder="请输入" autocomplete="off" class="layui-input" type="text">
             </div>
-          </div>
-          <div class="layui-form-item">
-            <label class="layui-form-label">性别</label>
-            <div class="layui-input-block">
-              <input type="radio" name="sex" value="1" title="男">
+          	<label class="layui-form-label">性别</label>
+            <div class="layui-input-inline">
+              <input type="radio" name="sex" checked="checked" value="1" title="男">
               <input type="radio" name="sex" value="2" title="女">
             </div>
           </div>
@@ -25,13 +23,13 @@
           <div class="layui-form-item">
             <div class="layui-inline">
               <label class="layui-form-label">手机</label>
-              <div class="layui-input-block">
+              <div class="layui-input-inline">
                 <input name="phone" value="" lay-verify="phone" autocomplete="off" class="layui-input" type="tel">
               </div>
             </div>
             <div class="layui-inline">
               <label class="layui-form-label">邮箱</label>
-              <div class="layui-input-block">
+              <div class="layui-input-inline">
                 <input name="email" value="" lay-verify="emails" autocomplete="off" class="layui-input" type="text">
               </div>
             </div>
@@ -51,13 +49,19 @@
           <div class="layui-form-item">
             <label class="layui-form-label">绑定房屋</label>
               <div class="layui-input-block">
-                <select name="house_id" lay-search="">
+                <select name="house_id"  lay-verify="required" lay-search="">
                   <option value="">直接选择或搜索选择</option>
                   @foreach($house as $p)
-                  <option value="{{ $p->id }}">{{ $p->Project->name.$p->unit.'单元'.$p->building.'栋'.$p->floor.'层'.$p->room_number.'号' }}</option>
+                  <option value="{{ $p->id }}">{{ $p->project->name.$p->building.'栋'.$p->unit.'单元'.$p->floor.'层'.$p->room_number.'号' }}</option>
                   @endforeach
                 </select>
               </div>
+          </div>
+          <div class="layui-form-item" >
+            <label class="layui-form-label">合同金额</label>
+            <div class="layui-input-block">
+              <input name="total" value="" lay-verify="required|total" placeholder="请输入" autocomplete="off" class="layui-input" type="text">
+            </div>
           </div>
           <div class="layui-form-item ">
             <div class="layui-input-block">
@@ -76,13 +80,11 @@
           <input type="hidden" name="id" value="">
           <div class="layui-form-item" >
             <label class="layui-form-label">真实姓名</label>
-            <div class="layui-input-block">
+            <div class="layui-input-inline">
               <input name="username" value="" lay-verify="required|username" placeholder="请输入" autocomplete="off" class="layui-input" type="text">
             </div>
-          </div>
-          <div class="layui-form-item">
             <label class="layui-form-label">性别</label>
-            <div class="layui-input-block">
+            <div class="layui-input-inline">
                   <input type="radio" name="sex" value="1" title="男">
                   <input type="radio" name="sex" value="2" title="女">
             </div>
@@ -91,13 +93,13 @@
           <div class="layui-form-item">
             <div class="layui-inline">
               <label class="layui-form-label">手机</label>
-              <div class="layui-input-block">
+              <div class="layui-input-inline">
                 <input name="phone" value="" lay-verify="phone" autocomplete="off" class="layui-input" type="tel">
               </div>
             </div>
             <div class="layui-inline">
               <label class="layui-form-label">邮箱</label>
-              <div class="layui-input-block">
+              <div class="layui-input-inline">
                 <input name="email" value="" lay-verify="emails" autocomplete="off" class="layui-input" type="text">
               </div>
             </div>
@@ -114,6 +116,12 @@
               <textarea name="remarks" placeholder="请输入备注" class="layui-textarea"></textarea>
             </div>
           </div>
+          <div class="layui-form-item" >
+            <label class="layui-form-label">合同金额</label>
+            <div class="layui-input-block">
+              <input name="total" value="" lay-verify="required|total" placeholder="请输入" autocomplete="off" class="layui-input" type="text">
+            </div>
+          </div>
           <div class="layui-form-item ">
             <div class="layui-input-block">
             <br>
@@ -125,6 +133,50 @@
         </form>
       </div>
 </div>
+<div class="layui-card demand" style="display:none">
+  <form class="layui-form layui-form-pane" style="padding: 15px;" lay-filter="demand">
+    <input type="hidden" name="house_id" value="">
+    <div class="layui-form-item" >
+      <div class="layui-row layui-col-space10">
+        <div class="layui-col-lg6">
+          <label class="layui-form-label">装修层次</label>
+          <div class="layui-input-block">
+            <input name="arrangement" value="" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input" type="text">
+          </div>
+        </div>
+
+        <div class="layui-col-lg6">
+          <label class="layui-form-label">装修风格</label>
+          <div class="layui-input-block">
+            <select name="style" lay-search="" lay-verify="required">
+              <option value="">直接选择或搜索选择</option>
+              @foreach($style as $v)
+              <option value="{{ $v }}">{{ $v }}</option>
+              @endforeach
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="layui-form-item layui-form-text" >
+      <label class="layui-form-label">喜好</label>
+      <div class="layui-input-block">
+        <textarea cols="30" rows="2" name="like" lay-verify="required" placeholder="请输入" class="layui-textarea"></textarea>
+      </div>
+    </div>
+    <div class="layui-form-item layui-form-text" >
+      <label class="layui-form-label">房改需求</label>
+      <div class="layui-input-block">
+        <textarea cols="30" rows="2" name="demand" lay-verify="required" placeholder="请输入" class="layui-textarea"></textarea>
+      </div>
+    </div>
+    <div class="layui-form-item ">
+      <div class="layui-footer">
+          <button class="layui-btn" style="margin-top: 10px;" lay-submit="" lay-filter="demand">立即更新</button>
+      </div>
+    </div> 
+  </form>
+</div>
 @endsection
 
 @section('content')
@@ -132,8 +184,6 @@
 	<div class="demoTable" style="padding-bottom: 10px">
 		<div class="layui-input-inline">
 		  <input class="layui-input" name="name" value="{{ isset($request['name'])?$request['name']:'' }}" val="{{ isset($request['name'])?$request['name']:'' }}" id="name" placeholder="姓名搜索" autocomplete="off">
-      <input type="hidden" id="page" name="page" value="{{ isset($request['page'])?$request['page']:1 }}">
-      <input type="hidden" id="limit" name="limit" value="{{ isset($request['limit'])?$request['limit']:10 }}">
 		</div>
 		<button class="layui-btn">搜索</button>
 	</div>
@@ -149,9 +199,11 @@
 	  <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
 	  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 	</script>
-  <script type="text/html" id="house">
-    <a class="layui-btn layui-btn-xs layui-btn-normal" lay-event="house">进入</a>
+  <script type="text/html" id="schedule">
+    <a class="layui-btn layui-btn-xs layui-btn-normal" lay-event="schedule">进入</a>
   </script>
+  <script type="text/html" id="demand">
+    <a class="layui-btn layui-btn-xs layui-btn-normal" lay-event="demand">反馈</a>
   </script>
 </div>
 @endsection
@@ -172,34 +224,26 @@
   
     var tab = table.render({
       elem: '#test-table-toolbar'
-      ,url: '/customer/owner'
+      ,url: '/design/owner'
       ,where:{_token:token}
       ,method:'post'
       ,toolbar: '#test-table-toolbar-toolbarDemo'
       ,title: '业主'
       ,where:{name:$('#name').val(),_token:token}
       ,cols: [[
-         {field:'id', title:'客户编号',fixed: 'left',unresize:true}
+         {field:'user_id', title:'客户编号',fixed: 'left',unresize:true}
         ,{field:'username', title:'姓名',unresize:true}
-        ,{title:'性别',unresize:true,templet:function(d){
-          if(d.sex == 1)
-          {
-            return '男';
-          }else if(d.sex == 2)
-          {
-            return '女';
-          }else
-          {
-            return '';
-          }
-        }}
+        ,{field:'sex_name',title:'性别',unresize:true,unresize:true}
         ,{field:'phone', title:'手机',unresize:true}
         ,{field:'wechat_name', title:'微信号',unresize:true}
         ,{field:'remarks', title:'客户备注',unresize:true}
-        ,{title:'房屋信息',unresize:true,toolbar:'#house',width:100}
+        ,{field:'total', title:'合同金额',unresize:true}
+        ,{field:'money', title:'实付金额',unresize:true}
+        ,{title:'跟进进度',unresize:true,toolbar: '#schedule'}
+        ,{title:'装修需求',unresize:true,toolbar: '#demand'}
         ,{fixed: 'right', title:'操作',fixed: 'right', toolbar: '#test-table-toolbar-barDemo',unresize:true,width:120}
       ]]
-      ,page: {curr:$('#page').val(),limit:$('#limit').val()}
+      ,page: true
     ,parseData: function(res){ //res 即为原始返回的数据
 	    return {
 	      "code": res.code, //解析接口状态
@@ -227,32 +271,7 @@
           $.each(data,function(i,n){
           	id.push(n.id);
           });
-        layer.confirm('确定删除权限ID: '+id+' 吗', function(index){
-        	$.ajax({
-          	url:'{{ url("/power/rule-del") }}',
-          	type : 'post',
-          	data : {id,_token:token},
-          	success : function(res)
-          	{	
-          		res = $.parseJSON(res);
-          		if(res.code == 200)
-          		{
-
-      					layer.close(index);
-      					layMsgOk(res.msg);
-      					// location.reload(true);
-      					tab.reload();
-          		}else
-          		{
-          			layMsgError(res.msg);
-          		}
-          	},
-          	error : function(error)
-          	{
-          		layMsgError('操作失败');
-          	}
-          })
-        });
+       
           // layer.alert(JSON.stringify(data));
         break;
         case 'getCheckLength':
@@ -264,21 +283,16 @@
         break;
       };
     });
-    laydate.render({
-      elem: '#disc_time' //指定元素
-    });
-    laydate.render({
-      elem: '#disc_time_re' //指定元素
-    });
+
     //监听行工具事件
     table.on('tool(test-table-toolbar)', function(obj){
       var data = obj.data;
       if(obj.event === 'del'){
         layer.confirm('确定删除业主: '+data.username+' 吗', function(index){
         	$.ajax({
-          	url:'{{ url("/customer/owner-del") }}',
+          	url:'{{ url("/design/owner-del") }}',
           	type : 'post',
-          	data : {id:data.id,_token:token},
+          	data : {id:data.user_id,_token:token},
           	success : function(res)
           	{	
           		res = $.parseJSON(res);
@@ -305,17 +319,12 @@
             ,"phone": data.phone
             ,"email" : data.email
             ,"wechat_name" : data.wechat_name
-            ,"id" : data.id
+            ,"id" : data.user_id
             ,"remarks" : data.remarks
+            ,'sex':data.sex == 1?'1':'2'
+            ,'total':data.total
           });
-          if(data.sex == 1)
-          {
-            $('.edit').find("input[name=sex][value=1]").next('.layui-form-radio').click();
-          }else if(data.sex == 2)
-          {
-            $('.edit').find("input[name=sex][value=2]").next('.layui-form-radio').click();
-          }
-          var width = ($(window).width() * 0.7)+'px';
+          var width = ($(window).width() * 0.6)+'px';
           var height = ($(window).height() * 0.8)+'px';
           	edit = layer.open({
             type : 1,
@@ -327,19 +336,43 @@
             area : [width,height],
             content : $('.edit')
           })
-      }else if(obj.event === 'house')
-      {   
-        var name = $('#name').attr('val');
-        var page = tab.config.page.curr;
-        var limit = tab.config.page.limit;
-        window.location.href="/customer/owner/house?user_id="+data.id+"&name="+name+"&page="+page+"&limit="+limit;
+      }else if(obj.event === 'schedule')
+      {
+        openMax(data.username+' - 跟进进度','/design/owner/schedule?user_id='+data.user_id,function(){
+          tab.reload();
+        });
+      }else if(obj.event === 'demand')
+      {
+          var width = ($(window).width() * 0.6)+'px';
+          var height = ($(window).height() * 0.8)+'px';
+          if(!data.demand)
+          {
+            data.demand = new Array();
+          }
+          form.val("demand", {
+            "house_id" : data.id,
+            'arrangement' : data.demand.arrangement,
+            'style' : data.demand.style,
+            'like' : data.demand.like,
+            'demand' : data.demand.demand
+          }); 
+          demand = layer.open({
+            type : 1,
+            title : '编辑',
+            fix: false, //不固定
+            maxmin: true,
+            shadeClose: true,
+            shade: 0.4,
+            area : [width,height],
+            content : $('.demand')
+          })
       }
     });
     form.on('submit(add)',function(data){
       data = data.field;
       data._token = token;
       $.ajax({
-        url : '{{ url("/customer/owner-add") }}',
+        url : '{{ url("/design/owner-add") }}',
         type : 'post',
         data : data,
         success : function(res)
@@ -350,7 +383,6 @@
             layer.close(opens);
             layMsgOk(res.msg);
             $('#name').val('');
-            $('#page').val(1);
             tab.config.page.curr = 1;
             tab.reload({
               where : {_token:token},
@@ -372,7 +404,7 @@
       data = data.field;
       data._token = token;
       $.ajax({
-        url : '{{ url("/customer/owner-edit") }}',
+        url : '{{ url("/design/owner-edit") }}',
         type : 'post',
         data : data,
         success : function(res)
@@ -395,6 +427,38 @@
       })
       return false;
     })
+
+    form.on('submit(demand)',function(data){
+      data = data.field;
+      data._token = token;
+      $.ajax({
+        url : '{{ url("design/owner/demand-edit") }}',
+        type : 'post',
+        data : data,
+        success : function(res)
+        { 
+          res = $.parseJSON(res);
+          if(res.code == 200)
+          {
+            layer.close(demand);
+            layMsgOk(res.msg);
+            $('#name').val('');
+            tab.reload({
+              where : {_token:token,user_id:$('#user_id').val()},
+              page : {cuur:1}
+            })
+          }else
+          {
+            layMsgError(res.msg);
+          }
+        },
+        error : function(error)
+        {
+          layMsgError('新增失败');
+        }
+      })
+      return false;
+    })
     form.verify({
       username : function(value){
         if(value.length < 2 || value.length >16)
@@ -411,6 +475,18 @@
           if (!myreg.test(value))
           {               
             return '邮箱格式错误';
+          }
+        }
+      },
+      total : function(value)
+      {
+        if(value)
+        {
+          s = /^\d{5,8}\.\d{1,2}$/;
+          sS = /^\d{5,8}$/;
+          if(!s.test(value) && !sS.test(value))
+          {
+            return '请输入整数 (MIN:5 MAX:8 保留小数点2位)';
           }
         }
       }

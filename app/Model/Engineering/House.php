@@ -19,24 +19,23 @@ class House extends Model
     {
     	return $this->hasOne('App\Model\Design\Huxing','id','huxing_id');
     }
-    public function Schedules()
+    public function User()
     {
-        return $this->hasMany('App\Model\Engineering\Schedule','house_id','id');
+        return $this->hasOne('App\Model\Design\User','id','user_id');
     }
-
     public function Project()
     {
         return $this->hasOne('App\Model\Developer\Project','id','project_id');
     }
     public function OwnerSchedules()
     {
-        return $this->hasMany('App\Model\Customer\Schedule','house_id','id');
+        return $this->hasMany('App\Model\Design\Schedule','house_id','id');
     }
     public function Demand()
     {
-        return $this->hasOne('App\Model\Engineering\Demand','house_id','id');
+        return $this->hasOne('App\Model\Design\Demand','house_id','id');
     }
-    public function Material()
+    public function Materials()
     {
         return $this->hasMany('App\Model\Design\Material','house_id','id');
     }

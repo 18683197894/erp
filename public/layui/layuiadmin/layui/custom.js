@@ -40,7 +40,25 @@ function open_show(title,url,w,h,pid,ptitle)
     ,content: $(url)
   });
 }
-
+openMax = function(title,url,fun=null){
+  layer.open({
+    type : 2,
+    title : title,
+    fix: false, //不固定
+    maxmin: true,
+    shadeClose: true,
+    area : [$(window).width() * 0.95+'px',$(window).height() * 0.9+'px'],
+    shade: 0.4,
+    content : url,
+    end : fun
+  })
+}
+// 搜索重置刷新
+reset = function()
+{ 
+  document.getElementById("query").reset();
+  tab.reload({where:{_token:token}});
+}
 tableCheck = {
     init:function()
     {

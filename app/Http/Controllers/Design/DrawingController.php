@@ -6,41 +6,51 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Model\Engineering\House;
 use App\Model\Design\Drawing;
-
+use App\Model\Design\Huxing;
+use App\Model\Developer\Project;
 class DrawingController extends Controller
 {
     public function drawing(Request $request)
     {
     	if($request->isMethod('get'))
     	{	
-    		$urls = parse_url(\url()->previous());
-    		$house = House::find($request->house_id);
-    		if(!$house)
-    		{
-    			return back();
-    		}
-    		$title = $house->project->name.$house->unit.'单元'.$house->building.'栋'.$house->floor.'层'.$house->room_number.'号';
-    		return view('Design.Drawing.drawing',[
-    			'request'=>$request->all(),
-    			'url' => $urls['scheme'].'://'.$urls['host'].$urls['path'].$this->baseKey($request->all()),
-    			'house'=>$house,
-    			'title'=>$title
-    		]);
+            $house = House::where('status','>',0)->get();
+            $project = Project::where('status',2)->get();
+    		return view('Design.Drawing.drawing',['project'=>$project,'house'=>$house]);
        	}else
-    	{
-			$house_id = $request->house_id;
-            $data = Drawing::select('*')
-                    ->where('house_id',$house_id)
-                    ->where('status','>',0)
-                    ->orderBy('created_at','DESC')
-                    ->offset(($request->page -1) * $request->limit)
+    	{   
+            $formData = $request->post('data',null);
+            $data = Drawing::select('design_drawing.id','design_drawing.name','design_drawing.dwg_image','design_drawing.effect_image','design_drawing.house_id','engineering_house.room_number','engineering_house.floor','engineering_house.building','engineering_house.unit','engineering_house.acreage','developer_project.name as project_name','engineering_house.huxing_id','engineering_house.huxing_id')
+                    ->join('engineering_house',function($join){
+                        return $join->on('design_drawing.house_id','=','engineering_house.id');
+                    })
+                    ->join('developer_project',function($join){
+                        return $join->on('engineering_house.project_id','=','developer_project.id');
+                    })
+                    ->where('engineering_house.project_id','like','%'.$formData['project_id'].'%')
+                    ->where('engineering_house.unit','like','%'.$formData['unit'].'%')
+                    ->where('engineering_house.building','like','%'.$formData['building'].'%')
+                    ->where('engineering_house.floor','like','%'.$formData['floor'].'%')
+                    ->where('engineering_house.room_number','like','%'.$formData['room_number'].'%')
+                    ->offset(($request->page - 1) * $request->limit)
                     ->limit($request->limit)
-                    ->get()
-                    ->toArray();
-
-            $total = Drawing::where('status','>',0)
-                            ->where('house_id',$house_id)
-                            ->count();
+                    ->get();
+            foreach($data as $k => $v)
+            {
+                $huxing = Huxing::find($v->huxing_id);
+                if($huxing)
+                {
+                    $data[$k]->huxing_name = $huxing->name;
+                }
+            }
+            $total = Drawing::select('design_drawing.id','design_drawing.name','design_drawing.dwg_image','design_drawing.effect_image','design_drawing.house_id','engineering_house.room_number','engineering_house.floor','engineering_house.building','engineering_house.unit','engineering_house.acreage','developer_project.name as project_name','engineering_house.huxing_id')
+                    ->join('engineering_house',function($join){
+                        return $join->on('design_drawing.house_id','=','engineering_house.id');
+                    })
+                    ->join('developer_project',function($join){
+                        return $join->on('engineering_house.project_id','=','developer_project.id');
+                    })
+                    ->count();
             $this->tableData($total,$data,'获取成功',0);
     	}
     }
@@ -176,7 +186,7 @@ class DrawingController extends Controller
     }
 
     public function drawing_download(Request $request)
-    {
+    {   
     	$model = Drawing::find($request->a);
     	if(!$model)
     	{

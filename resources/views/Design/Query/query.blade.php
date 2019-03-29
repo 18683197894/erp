@@ -4,7 +4,50 @@
 
 @endsection
 @section('open')
+<div class="layui-card demand" style="display:none">
+  <form class="layui-form layui-form-pane" style="padding: 15px;" lay-filter="demand">
+    <input type="hidden" name="house_id" value="">
+    <div class="layui-form-item" >
+      <div class="layui-row layui-col-space10">
+        <div class="layui-col-lg6">
+          <label class="layui-form-label">装修层次</label>
+          <div class="layui-input-block">
+            <input name="arrangement" value="" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input" type="text">
+          </div>
+        </div>
 
+        <div class="layui-col-lg6">
+          <label class="layui-form-label">装修风格</label>
+          <div class="layui-input-block">
+            <select name="style" lay-search="" lay-verify="required">
+              <option value="">直接选择或搜索选择</option>
+              @foreach($style as $v)
+              <option value="{{ $v }}">{{ $v }}</option>
+              @endforeach
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="layui-form-item layui-form-text" >
+      <label class="layui-form-label">喜好</label>
+      <div class="layui-input-block">
+        <textarea cols="30" rows="2" name="like" lay-verify="required" placeholder="请输入" class="layui-textarea"></textarea>
+      </div>
+    </div>
+    <div class="layui-form-item layui-form-text" >
+      <label class="layui-form-label">房改需求</label>
+      <div class="layui-input-block">
+        <textarea cols="30" rows="2" name="demand" lay-verify="required" placeholder="请输入" class="layui-textarea"></textarea>
+      </div>
+    </div>
+    <div class="layui-form-item ">
+      <div class="layui-footer">
+          <button class="layui-btn" style="margin-top: 10px;" lay-submit="" lay-filter="demand">立即更新</button>
+      </div>
+    </div> 
+  </form>
+</div>
 @endsection
 
 @section('content')
@@ -98,8 +141,14 @@
     </form>
 	</div>
 	<table class="layui-hide" id="test-table-toolbar" lay-filter="test-table-toolbar"></table>
-  <script type="text/html" id="list">
-    <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="list">进入</a>
+  <script type="text/html" id="demand">
+    <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="demand">反馈</a>
+  </script>
+  <script type="text/html" id="drawing">
+    <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="drawing">管理图纸</a>
+  </script>
+  <script type="text/html" id="material">
+    <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="material">进入</a>
   </script>
 </div>
 
@@ -121,7 +170,7 @@
   
       tab = table.render({
       elem: '#test-table-toolbar'
-      ,url: '/design/material'
+      ,url: '/design/query'
       ,where:{_token:token}
       ,method:'post'
       ,toolbar: '#test-table-toolbar-toolbarDemo'
@@ -132,15 +181,14 @@
         ,{field:'unit', title:'单元',unresize:true,width:80}
         ,{field:'floor', title:'楼层',unresize:true,width:80}
         ,{field:'room_number', title:'房号',unresize:true,width:80}
-        ,{field:'zhucai_num', title:'主材数量',unresize:true}
-        ,{field:'zhucai_total', title:'小计金额',unresize:true}
-        ,{field:'fucai_num', title:'辅材数量',unresize:true}
-        ,{field:'fucai_total', title:'小计金额',unresize:true}
-        ,{field:'jiaju_num', title:'家具数量',unresize:true}
-        ,{field:'jiaju_total', title:'小计金额',unresize:true}
-        ,{field:'jiadian_num', title:'家电数量',unresize:true}
-        ,{field:'jiadian_total', title:'小计金额',unresize:true}
-        ,{fixed:'right', title:'材料清单',toolbar:'#list',unresize:true,width:120}
+        ,{field:'huxing_name', title:'户型',unresize:true,width:80}
+        ,{field:'acreage', title:'面积',unresize:true,width:80}
+        ,{title:'设计图纸',unresize:true, toolbar:'#drawing'}
+        ,{title:'材料清单',unresize:true, toolbar:'#material'}
+        ,{title:'装修需求',unresize:true, toolbar: '#demand'}
+        ,{field:'total', title:'合同金额',unresize:true,width:100}
+        ,{field:'money', title:'实付金额',unresize:true,width:100}
+        ,{field:'cost',fixed:'right', title:'成本合计',unresize:true,width:120}
       ]]
       ,page: true
     ,parseData: function(res){ //res 即为原始返回的数据
@@ -175,13 +223,67 @@
     //监听行工具事件
     table.on('tool(test-table-toolbar)', function(obj){
       var data = obj.data;
-      if(obj.event === 'list')
+      if(obj.event === 'drawing')
       {
-        openMax('材料清单','/design/material/list?house_id='+data.id,function(){
-          tab.reload();
-        });
+        openMax('管理图纸','/design/manage/drawing?house_id='+data.id);
+      }else if(obj.event === 'demand')
+      { 
+          var width = ($(window).width() * 0.6)+'px';
+          var height = ($(window).height() * 0.8)+'px';
+          if(!data.demand)
+          {
+            data.demand = new Array();
+          }
+          form.val("demand", {
+            "house_id" : data.id,
+            'arrangement' : data.demand.arrangement,
+            'style' : data.demand.style,
+            'like' : data.demand.like,
+            'demand' : data.demand.demand
+          }); 
+          demand = layer.open({
+            type : 1,
+            title : '编辑',
+            fix: false, //不固定
+            maxmin: true,
+            shadeClose: true,
+            shade: 0.4,
+            area : [width,height],
+            content : $('.demand')
+          })
       }
     });
+    form.on('submit(demand)',function(data){
+      data = data.field;
+      data._token = token;
+      $.ajax({
+        url : '{{ url("design/owner/demand-edit") }}',
+        type : 'post',
+        data : data,
+        success : function(res)
+        { 
+          res = $.parseJSON(res);
+          if(res.code == 200)
+          {
+            layer.close(demand);
+            layMsgOk(res.msg);
+            $('#name').val('');
+            tab.reload({
+              where : {_token:token,user_id:$('#user_id').val()},
+              page : {cuur:1}
+            })
+          }else
+          {
+            layMsgError(res.msg);
+          }
+        },
+        error : function(error)
+        {
+          layMsgError('新增失败');
+        }
+      })
+      return false;
+    })
   });
 
   </script>

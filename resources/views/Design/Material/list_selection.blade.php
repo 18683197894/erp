@@ -115,7 +115,7 @@
   
     var tab = table.render({
       elem: '#test-table-toolbar'
-      ,url: '/design/house/material-selection'
+      ,url: '/design/material/list-selection'
       ,where:{_token:token,house_id:$('#house_id').val()}
       ,method:'post'
       ,toolbar: '#test-table-toolbar-toolbarDemo'
@@ -195,7 +195,7 @@
       data._token = token;
       data.house_id = $("#house_id").val();
       $.ajax({
-        url : '{{ url("/design/house/material-selection-add") }}',
+        url : '{{ url("/design/material/list-selection-add") }}',
         type : 'post',
         data : data,
         success : function(res)

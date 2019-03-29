@@ -81,6 +81,16 @@ class ProjectController extends Controller
     		$this->error_message('项目已存在');
     	}
 
+        if($oldProject->status == 2)
+        {
+            unset($data['label']);
+        }else
+        {
+            if($data['label'] == '已完成')
+            {
+                $data['status'] = 2;
+            }
+        }
     	Project::where('id',$data['id'])->update($data);
     	$this->success_message('修改成功');
     }

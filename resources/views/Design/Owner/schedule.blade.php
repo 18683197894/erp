@@ -42,14 +42,9 @@
           </div>
           <div class="layui-form-item">
             <label class="layui-form-label">跟进人</label>
-              <div class="layui-input-block">
-                <select name="sys_user_id" lay-search="" lay-verify="required">
-                  <option value="">直接选择或搜索选择</option>
-                  @foreach($user as $p)
-                  <option value="{{ $p->id }}">{{ $p->username }}</option>
-                  @endforeach
-                </select>
-              </div>
+            <div class="layui-input-block">
+              <input name="username" lay-verify="required" placeholder="" class="layui-input"></input>
+            </div>
           </div>
           <div class="layui-form-item ">
             <div class="layui-input-block">
@@ -102,14 +97,9 @@
           </div>
           <div class="layui-form-item">
             <label class="layui-form-label">跟进人</label>
-              <div class="layui-input-block">
-                <select name="sys_user_id" lay-search="" lay-verify="required">
-                  <option value="">直接选择或搜索选择</option>
-                  @foreach($user as $p)
-                  <option value="{{ $p->id }}">{{ $p->username }}</option>
-                  @endforeach
-                </select>
-              </div>
+            <div class="layui-input-block">
+              <input name="username" lay-verify="required" placeholder="" class="layui-input"></input>
+            </div>
           </div>
 
           <div class="layui-form-item ">
@@ -128,7 +118,7 @@
 @section('content')
 <div class="layui-card-body">
 	<table class="layui-hide" id="test-table-toolbar" lay-filter="test-table-toolbar"></table>
-<input type="hidden" name="house_id" id="house_id" value="{{ $house->id }}">
+<input type="hidden" name="user_id" id="user_id" value="{{ $user->id }}">
 
 	<script type="text/html" id="test-table-toolbar-toolbarDemo">
 	  <div class="layui-btn-container">
@@ -162,20 +152,18 @@
   
     var tab = table.render({
        elem: '#test-table-toolbar'
-      ,url: '/customer/owner/house/schedule'
-      ,where:{_token:token,house_id:$('#house_id').val()}
+      ,url: '/design/owner/schedule'
+      ,where:{_token:token,user_id:$('#user_id').val()}
       ,method:'post'
       ,toolbar: '#test-table-toolbar-toolbarDemo'
       ,title: '房屋跟进'
       ,cols: [[
-        {field:'time',fixed:'left',title:'时间',unresize:true}
-        ,{field:'person', title:'洽谈性质',unresize:true}
-        ,{field:'money', title:'支付金额',unresize:true}
+        {field:'time',fixed:'left',title:'时间',unresize:true,width:140}
+        ,{field:'person', title:'洽谈性质',unresize:true,width:140}
+        ,{field:'money', title:'支付金额',unresize:true,width:140}
         ,{field:'money_remarks', title:'支付备注',unresize:true}
         ,{field:'result', title:'跟进结果',unresize:true,width:400}
-        ,{title:'跟进人',unresize:true,templet:function(d){
-          return d.sys_user.username;
-        }}
+        ,{field:'username',title:'跟进人',unresize:true,width:140}
         ,{fixed: 'right', title:'操作', toolbar: '#test-table-toolbar-barDemo',unresize:true,width:120}
       ]]
       ,page: true
@@ -199,7 +187,7 @@
 
     $('.demoTable .layui-btn').on('click',function(){
     	schedule_id = $('#schedule_id').val();
-    	tab.reload({where:{schedule_id:schedule_id,_token:token,house_id:$('#house_id').val()},page:{curr:1}});
+    	tab.reload({where:{schedule_id:schedule_id,_token:token,user_id:$('#user_id').val()},page:{curr:1}});
     });
 
     //选完文件后不自动上传
@@ -263,7 +251,7 @@
       if(obj.event === 'del'){
         layer.confirm('确定删除当前跟进信息吗', function(index){
         	$.ajax({
-          	url:'{{ url("/customer/owner/house/schedule-del") }}',
+          	url:'{{ url("/design/owner/schedule-del") }}',
           	type : 'post',
           	data : {id:data.id,_token:token},
           	success : function(res)
@@ -294,7 +282,7 @@
             'money' : data.money,
             'money_remarks' : data.money_remarks,
             'result' : data.result,
-            'sys_user_id' : data.sys_user_id
+            'username' : data.username
           }); 
     			var width = ($(window).width() * 0.5)+'px';
     			var height = ($(window).height() * 0.75)+'px';
@@ -312,10 +300,10 @@
     });
     form.on('submit(add)',function(data){
       	data = data.field;
-        data.house_id = $('#house_id').val();
+        data.user_id = $('#user_id').val();
         data._token=token;
         $.ajax({
-          url : '{{ url("/customer/owner/house/schedule-add") }}',
+          url : '{{ url("/design/owner/schedule-add") }}',
           type : 'post',
           data : data,
           success : function(res)
@@ -327,7 +315,7 @@
               layMsgOk(res.msg);
               $('#name').val('');
               tab.reload({
-                where : {_token:token,house_id:$('#house_id').val()},
+                where : {_token:token,user_id:$('#user_id').val()},
                 page : {cuur:1}
               })
             }else
@@ -346,7 +334,7 @@
       data = data.field;
       data._token = token;
       $.ajax({
-        url : '{{ url("/customer/owner/house/schedule-edit") }}',
+        url : '{{ url("/design/owner/schedule-edit") }}',
         type : 'post',
         data : data,
         success : function(res)

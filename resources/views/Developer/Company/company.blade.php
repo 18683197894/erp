@@ -246,18 +246,6 @@
         // window.location.href="/developer/information?company_id="+data.id+"&company_name="+name+"&page="+page+"&limit="+limit;
       }
     });
-    openMax = function(title,url){
-      layer.open({
-        type : 2,
-        title : title,
-        fix: false, //不固定
-        maxmin: true,
-        shadeClose: true,
-        area : [$(window).width() * 0.95+'px',$(window).height() * 0.9+'px'],
-        shade: 0.4,
-        content : url
-      })
-    }
     form.on('submit(add)',function(data){
       data = data.field;
       data._token = token;

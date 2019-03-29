@@ -122,6 +122,39 @@
           </div>
         </div>
       </div>
+      <br>
+      <div class="layui-form-item">
+        <div class="layui-row layui-col-space10">
+          <div class="layui-col-lg6">
+            <label class="layui-form-label">人工成本</label>
+            <div class="layui-input-block">
+              <input name="manual_cost" value="" lay-verify="manual_cost" placeholder="请输入人工成本" autocomplete="off" class="layui-input" type="text">
+            </div>
+          </div>
+          <div class="layui-col-lg6">
+            <label class="layui-form-label">人工销售成本</label>
+            <div class="layui-input-block">
+              <input name="manual_sale_cost" value="" lay-verify="manual_sale_cost" placeholder="请输入人工销售成本" autocomplete="off" class="layui-input" type="text">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="layui-form-item">
+        <div class="layui-row layui-col-space10">
+          <div class="layui-col-lg6">
+            <label class="layui-form-label">材料成本</label>
+            <div class="layui-input-block">
+              <input name="material_cost" value="" lay-verify="material_cost" placeholder="请输入材料成本" autocomplete="off" class="layui-input" type="text">
+            </div>
+          </div>
+          <div class="layui-col-lg6">
+            <label class="layui-form-label">施工成本</label>
+            <div class="layui-input-block">
+              <input name="construction_cost" value="" lay-verify="construction_cost" placeholder="请输入施工成本" autocomplete="off" class="layui-input" type="text">
+            </div>
+          </div>
+        </div>
+      </div>
 <!--       <div class="layui-form-item">
         <label class="layui-form-label">绑定业主</label>
           <div class="layui-input-inline">
@@ -133,9 +166,9 @@
           </div>
       </div> -->
 
-        <br>
       <div class="layui-form-item ">
         <div class="layui-input-block">
+        <br>
           <div class="layui-footer">
             <button class="layui-btn" lay-submit="" lay-filter="add">立即提交</button>
           </div>
@@ -143,6 +176,50 @@
       </div> 
     </form>
   </div>
+</div>
+<div class="layui-card demand" style="display:none">
+  <form class="layui-form layui-form-pane" style="padding: 15px;" lay-filter="demand">
+    <input type="hidden" name="house_id" value="">
+    <div class="layui-form-item" >
+      <div class="layui-row layui-col-space10">
+        <div class="layui-col-lg6">
+          <label class="layui-form-label">装修层次</label>
+          <div class="layui-input-block">
+            <input name="arrangement" value="" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input" type="text">
+          </div>
+        </div>
+
+        <div class="layui-col-lg6">
+          <label class="layui-form-label">装修风格</label>
+          <div class="layui-input-block">
+            <select name="style" lay-search="" lay-verify="required">
+              <option value="">直接选择或搜索选择</option>
+              @foreach($style as $v)
+              <option value="{{ $v }}">{{ $v }}</option>
+              @endforeach
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="layui-form-item layui-form-text" >
+      <label class="layui-form-label">喜好</label>
+      <div class="layui-input-block">
+        <textarea cols="30" rows="2" name="like" lay-verify="required" placeholder="请输入" class="layui-textarea"></textarea>
+      </div>
+    </div>
+    <div class="layui-form-item layui-form-text" >
+      <label class="layui-form-label">房改需求</label>
+      <div class="layui-input-block">
+        <textarea cols="30" rows="2" name="demand" lay-verify="required" placeholder="请输入" class="layui-textarea"></textarea>
+      </div>
+    </div>
+    <div class="layui-form-item ">
+      <div class="layui-footer">
+          <button class="layui-btn" style="margin-top: 10px;" lay-submit="" lay-filter="demand">立即更新</button>
+      </div>
+    </div> 
+  </form>
 </div>
 @endsection
 
@@ -172,8 +249,7 @@
 
 	<script type="text/html" id="test-table-toolbar-toolbarDemo">
 	  <div class="layui-btn-container">
-      <button class="layui-btn layui-btn-sm" onclick="open_show('新增房屋','.add',0.6,0.65)">新增房屋</button>
-	    <button class="layui-btn layui-btn-sm" onclick="openMax('户型管理','/desing/house/huxing')">户型管理</button>
+      <button class="layui-btn layui-btn-sm" onclick="open_show('新增房屋','.add',0.6,0.8)">新增房屋</button>
 	  </div>
 	</script>
 
@@ -181,6 +257,15 @@
 	  <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
 	  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 	</script>
+  <script type="text/html" id="demand">
+    <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="demand">反馈</a>
+  </script>
+  <script type="text/html" id="drawing">
+    <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="drawing">管理图纸</a>
+  </script>
+  <script type="text/html" id="material">
+    <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="material">进入</a>
+  </script>
 </div>
 @endsection
 
@@ -200,24 +285,26 @@
   
     var tab = table.render({
       elem: '#test-table-toolbar'
-      ,url: '/design/house'
+      ,url: '/design/manage'
       ,method:'post'
       ,toolbar: '#test-table-toolbar-toolbarDemo'
       ,title: '房屋信息'
       ,where:{_token:token}
       ,cols: [[
-        {field:'project_name',title:'项目名称',fixed: 'left',unresize:true}
-        ,{field:'building', title:'楼栋',unresize:true}
-        ,{field:'unit', title:'单元',unresize:true}
-        ,{field:'floor', title:'楼层',unresize:true}
-        ,{field:'room_number', title:'房号',unresize:true}
-        ,{field:'huxing_name', title:'户型',unresize:true}
-        ,{field:'acreage', title:'面积',unresize:true}
-        ,{field:'user_name', title:'业主',unresize:true}
-        ,{field:'user_phone', title:'联系方式',unresize:true}
-        // ,{title:'装修需求',unresize:true, toolbar: '#demand'}
-        // ,{title:'设计图纸',unresize:true, toolbar:'#drawing'}
-        // ,{title:'材料清单',unresize:true, toolbar:'#material'}
+        {field:'project_name',title:'楼盘',fixed: 'left',unresize:true,width:110}
+        ,{field:'building', title:'楼栋',unresize:true,width:60}
+        ,{field:'unit', title:'单元',unresize:true,width:60}
+        ,{field:'floor', title:'楼层',unresize:true,width:60}
+        ,{field:'room_number', title:'房号',unresize:true,width:60}
+        ,{field:'huxing_name', title:'户型',unresize:true,width:60}
+        ,{field:'acreage', title:'面积',unresize:true,width:60}
+        ,{title:'设计图纸',unresize:true, toolbar:'#drawing'}
+        ,{title:'材料清单',unresize:true, toolbar:'#material'}
+        ,{title:'装修需求',unresize:true, toolbar: '#demand'}
+        ,{field:'manual_cost', title:'人工成本',unresize:true}
+        ,{field:'manual_sale_cost', title:'人工销售成本',unresize:true}
+        ,{field:'material_cost', title:'材料成本',unresize:true}
+        ,{field:'construction_cost', title:'施工成本',unresize:true}
         ,{fixed: 'right', title:'操作',fixed: 'right', toolbar: '#test-table-toolbar-barDemo',unresize:true,width:120}
       ]]
       ,page: {curr:$('#page').val(),limit:$('#limit').val()}
@@ -315,7 +402,7 @@
         });
       } else if(obj.event === 'edit'){
           var width = ($(window).width() * 0.6)+'px';
-          var height = ($(window).height() * 0.6)+'px';
+          var height = ($(window).height() * 0.8)+'px';
           	edit = layer.open({
             type : 2,
             title : '编辑',
@@ -324,9 +411,44 @@
             shadeClose: true,
             shade: 0.4,
             area : [width,height],
-            content : '/design/house-edit?house_id='+data.id
+            content : '/design/manage-edit?house_id='+data.id
             
           })
+      }else if(obj.event === 'demand')
+      { 
+          var width = ($(window).width() * 0.6)+'px';
+          var height = ($(window).height() * 0.8)+'px';
+          if(!data.demand)
+          {
+            data.demand = new Array();
+          }
+          form.val("demand", {
+            "house_id" : data.id,
+            'arrangement' : data.demand.arrangement,
+            'style' : data.demand.style,
+            'like' : data.demand.like,
+            'demand' : data.demand.demand
+          }); 
+          demand = layer.open({
+            type : 1,
+            title : '编辑',
+            fix: false, //不固定
+            maxmin: true,
+            shadeClose: true,
+            shade: 0.4,
+            area : [width,height],
+            content : $('.demand')
+          })
+      }else if(obj.event === 'drawing')
+      {
+        openMax('管理图纸','/design/manage/drawing?house_id='+data.id);
+      }else if(obj.event === 'material')
+      {
+        var name = $('#name').attr('val');
+        var project_id = $('#project_id').attr('val');
+        var page = tab.config.page.curr;
+        var limit = tab.config.page.limit;
+        window.location.href="/design/house/material?project_id="+project_id+"&name="+name+"&page="+page+"&limit="+limit+'&house_id='+data.id;
       }
     });
     editClose = function(msg)
@@ -339,7 +461,7 @@
       data = data.field;
       data._token = token;
       $.ajax({
-        url : '{{ url("/design/house-add") }}',
+        url : '{{ url("/design/manage-add") }}',
         type : 'post',
         data : data,
         success : function(res)
@@ -368,7 +490,37 @@
       })
       return false;
     })
-
+    form.on('submit(demand)',function(data){
+      data = data.field;
+      data._token = token;
+      $.ajax({
+        url : '{{ url("design/owner/demand-edit") }}',
+        type : 'post',
+        data : data,
+        success : function(res)
+        { 
+          res = $.parseJSON(res);
+          if(res.code == 200)
+          {
+            layer.close(demand);
+            layMsgOk(res.msg);
+            $('#name').val('');
+            tab.reload({
+              where : {_token:token,user_id:$('#user_id').val()},
+              page : {cuur:1}
+            })
+          }else
+          {
+            layMsgError(res.msg);
+          }
+        },
+        error : function(error)
+        {
+          layMsgError('新增失败');
+        }
+      })
+      return false;
+    })
     form.verify({
       'room_number' : function(value)
       {
@@ -387,6 +539,54 @@
           if(!s.test(value) && !sS.test(value))
           {
             return '请输入整数 (MAX:3 保留小数点2位)';
+          }
+        }
+      },
+      manual_cost : function(value)
+      {
+        if(value)
+        {
+          s = /^\d{1,8}\.\d{1,2}$/;
+          sS = /^\d{1,8}$/;
+          if(!s.test(value) && !sS.test(value))
+          {
+            return '请输入整数 (MIN:1 MAX:8 保留小数点2位)';
+          }
+        }
+      },
+      manual_sale_cost : function(value)
+      {
+        if(value)
+        {
+          s = /^\d{1,8}\.\d{1,2}$/;
+          sS = /^\d{1,8}$/;
+          if(!s.test(value) && !sS.test(value))
+          {
+            return '请输入整数 (MIN:1 MAX:8 保留小数点2位)';
+          }
+        }
+      },
+      material_cost : function(value)
+      {
+        if(value)
+        {
+          s = /^\d{1,8}\.\d{1,2}$/;
+          sS = /^\d{1,8}$/;
+          if(!s.test(value) && !sS.test(value))
+          {
+            return '请输入整数 (MIN:1 MAX:8 保留小数点2位)';
+          }
+        }
+      },
+      construction_cost : function(value)
+      {
+        if(value)
+        {
+          s = /^\d{1,8}\.\d{1,2}$/;
+          sS = /^\d{1,8}$/;
+          if(!s.test(value) && !sS.test(value))
+          {
+            return '请输入整数 (MIN:1 MAX:8 保留小数点2位)';
           }
         }
       }

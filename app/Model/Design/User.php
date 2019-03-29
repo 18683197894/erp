@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Model\Customer;
+namespace App\Model\Design;
 
 use Illuminate\Database\Eloquent\Model;
 
-class CustomerUser extends Model
+class User extends Model
 {
-    //ja_customer_user
-    protected $table = 'customer_user';
+    //业主表
+    protected $table = 'design_user';
     protected $dateFormat = 'U';
     protected $primaryKey = 'id';
     protected $guarded = [];
@@ -15,4 +15,8 @@ class CustomerUser extends Model
         'created_at'   => 'date:Y-m-d H:i',
         'updated_at'   => 'datetime:Y-m-d H:i'
     ];
+    public function Schedules()
+    {
+        return $this->hasMany('App\Model\Design\Schedule','user_id','id');
+    }
 }

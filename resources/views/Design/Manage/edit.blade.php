@@ -119,6 +119,38 @@
           </div>
         </div>
       </div>
+      <div class="layui-form-item">
+        <div class="layui-row layui-col-space10">
+          <div class="layui-col-lg6 layui-col-xs6 layui-col-sm6 layui-col-md6">
+            <label class="layui-form-label">人工成本</label>
+            <div class="layui-input-block">
+              <input name="manual_cost" value="{{ $model->manual_cost }}" lay-verify="manual_cost" placeholder="请输入人工成本" autocomplete="off" class="layui-input" type="text">
+            </div>
+          </div>
+          <div class="layui-col-lg6 layui-col-xs6 layui-col-sm6 layui-col-md6">
+            <label class="layui-form-label">人工销售成本</label>
+            <div class="layui-input-block">
+              <input name="manual_sale_cost" value="{{ $model->manual_sale_cost }}" lay-verify="manual_sale_cost" placeholder="请输入人工销售成本" autocomplete="off" class="layui-input" type="text">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="layui-form-item">
+        <div class="layui-row layui-col-space10">
+          <div class="layui-col-lg6 layui-col-xs6 layui-col-sm6 layui-col-md6">
+            <label class="layui-form-label">材料成本</label>
+            <div class="layui-input-block">
+              <input name="material_cost" value="{{ $model->material_cost }}" lay-verify="material_cost" placeholder="请输入材料成本" autocomplete="off" class="layui-input" type="text">
+            </div>
+          </div>
+          <div class="layui-col-lg6 layui-col-xs6 layui-col-sm6 layui-col-md6">
+            <label class="layui-form-label">施工成本</label>
+            <div class="layui-input-block">
+              <input name="construction_cost" value="{{ $model->construction_cost }}" lay-verify="construction_cost" placeholder="请输入施工成本" autocomplete="off" class="layui-input" type="text">
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="layui-form-item ">
         <div class="layui-input-block">
         <br>
@@ -149,7 +181,7 @@
       data = data.field;
       data._token = token;
       $.ajax({
-        url : '{{ url("/design/house-edit") }}',
+        url : '{{ url("/design/manage-edit") }}',
         type : 'post',
         data : data,
         success : function(res)
@@ -188,6 +220,54 @@
           if(!s.test(value) && !sS.test(value))
           {
             return '请输入整数 (MAX:3 保留小数点2位)';
+          }
+        }
+      },
+      manual_cost : function(value)
+      {
+        if(value)
+        {
+          s = /^\d{1,8}\.\d{1,2}$/;
+          sS = /^\d{1,8}$/;
+          if(!s.test(value) && !sS.test(value))
+          {
+            return '请输入整数 (MIN:1 MAX:8 保留小数点2位)';
+          }
+        }
+      },
+      manual_sale_cost : function(value)
+      {
+        if(value)
+        {
+          s = /^\d{1,8}\.\d{1,2}$/;
+          sS = /^\d{1,8}$/;
+          if(!s.test(value) && !sS.test(value))
+          {
+            return '请输入整数 (MIN:1 MAX:8 保留小数点2位)';
+          }
+        }
+      },
+      material_cost : function(value)
+      {
+        if(value)
+        {
+          s = /^\d{1,8}\.\d{1,2}$/;
+          sS = /^\d{1,8}$/;
+          if(!s.test(value) && !sS.test(value))
+          {
+            return '请输入整数 (MIN:1 MAX:8 保留小数点2位)';
+          }
+        }
+      },
+      construction_cost : function(value)
+      {
+        if(value)
+        {
+          s = /^\d{1,8}\.\d{1,2}$/;
+          sS = /^\d{1,8}$/;
+          if(!s.test(value) && !sS.test(value))
+          {
+            return '请输入整数 (MIN:1 MAX:8 保留小数点2位)';
           }
         }
       }

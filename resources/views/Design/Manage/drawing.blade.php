@@ -23,21 +23,10 @@
 <div class="layui-card add" style="display:none">
       <div class="layui-card-body" style="padding: 15px;padding-left: 0px;">
         <form class="layui-form" id="myform"lay-filter="component-form-group">
-          <div class="layui-form-item">
-          <label class="layui-form-label">选择项目</label>
-          <div class="layui-input-block">
-            <select name="project_id" lay-filter="required" lay-search="" lay-verify="required">
-              <option value="">直接选择或搜索选择</option>
-              @foreach($project as $c)
-              <option value="{{ $c->id }}">{{ $c->name }}</option>
-              @endforeach
-            </select>
-          </div>
-          </div>
           <div class="layui-form-item" >
-            <label class="layui-form-label">户型名称</label>
+            <label class="layui-form-label">图纸名称</label>
             <div class="layui-input-block">
-              <input name="name" value="" lay-verify="name" placeholder="请输入" autocomplete="off" class="layui-input" type="text">
+              <input name="name" value="" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input" type="text">
             </div>
           </div>
           <div class="layui-form-item ">
@@ -55,21 +44,10 @@
       <div class="layui-card-body" style="padding: 15px;padding-left: 0px;">
         <form class="layui-form" id="edit"lay-filter="edit">
           <input type="hidden" name="id" value="">
-          <div class="layui-form-item">
-          <label class="layui-form-label">选择项目</label>
-          <div class="layui-input-block">
-            <select name="project_id" lay-filter="required" lay-search="" lay-verify="required">
-              <option value="">直接选择或搜索选择</option>
-              @foreach($project as $c)
-              <option value="{{ $c->id }}">{{ $c->name }}</option>
-              @endforeach
-            </select>
-          </div>
-          </div>
           <div class="layui-form-item" >
-            <label class="layui-form-label">户型名称</label>
+            <label class="layui-form-label">图纸名称</label>
             <div class="layui-input-block">
-              <input name="name" value="" lay-verify="name" placeholder="请输入" autocomplete="off" class="layui-input" type="text">
+              <input name="name" value="" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input" type="text">
             </div>
           </div>
           <div class="layui-form-item ">
@@ -90,15 +68,7 @@
 <div class="layui-card-body">
 	<div class="demoTable" style="padding-bottom: 10px">
     <form class="layui-form">
-      <div class="layui-input-inline">
-          <select name="project_id" id="project_id" lay-verify="">
-            <option value="">选择项目</option>
-            @foreach($project as $v)
-            <option value="{{ $v->id }}">{{ $v->name }}</option>
-            @endforeach
-          </select>
-      </div>
-    <a class="layui-btn">搜索</a>
+      <input type="hidden" name="house_id" id="house_id" value="{{ $house->id }}">
     </form>
 
 	</div>
@@ -107,7 +77,7 @@
 	<script type="text/html" id="test-table-toolbar-toolbarDemo">
 	  <div class="layui-btn-container">
 	    <button class="layui-btn layui-btn-sm  layui-btn-danger" lay-event="getCheckData">批量删除</button>
-	    <button class="layui-btn layui-btn-sm" onclick="open_show('新增户型','.add',0.4,0.5)">新增户型</button>
+	    <button class="layui-btn layui-btn-sm" onclick="open_show('新增图纸','.add',0.3,0.4)">新增图纸</button>
 	  </div>
 	</script>
 
@@ -135,28 +105,25 @@
   
     var tab = table.render({
       elem: '#test-table-toolbar'
-      ,url: '/design/huxing'
-      ,where:{_token:token,project_id:$('#project_id').val()}
+      ,url: '/design/manage/drawing'
+      ,where:{_token:token,house_id:$('#house_id').val()}
       ,method:'post'
       ,toolbar: '#test-table-toolbar-toolbarDemo'
-      ,title: '户型'
+      ,title: '设计图纸'
       ,cols: [[
-         {type: 'checkbox', fixed: 'left'}
-        ,{title:'项目',unresize:true,templet:function(d){
-          return d.project.name;
-        }}
-        ,{field:'name', title:'户型',unresize:true}
-        ,{field:'dwg_image', title:'DWG平面图',unresize:true,templet:function(d){
+         {type: 'checkbox', fixed: 'left',width:80}
+        ,{field:'name', title:'图纸名称',unresize:true}
+        ,{ title:'图纸CAD图',unresize:true,templet:function(d){
           if(d.dwg_image !== '')
           {       
-            return "<a class='layui-btn layui-btn-xs layui-btn-normal' lay-event='dwg_upload'><i class='layui-icon'></i>上传文件</a><a href='/huxing/download?a="+d.id+"&c=dwg_image' target='_blank' class='layui-btn layui-btn-xs layui-btn-normal'>下载</a>"      
+            return "<a class='layui-btn layui-btn-xs layui-btn-normal' lay-event='dwg_upload'><i class='layui-icon'></i>上传文件</a><a href='/design/manage/drawing-download?a="+d.id+"&c=dwg_image' target='_blank' class='layui-btn layui-btn-xs layui-btn-normal'>下载</a>"      
           }else
           {
             return "<a class='layui-btn layui-btn-xs layui-btn-normal' lay-event='dwg_upload'><i class='layui-icon'></i>上传文件</a>"      
 
           }
         }}
-        ,{field:'effect_image', title:'IMG效果图',unresize:true,templet:function(d){
+        ,{ title:'图纸IMG图',unresize:true,templet:function(d){
           if(d.effect_image !== '')
           {       
             return "<a class='layui-btn layui-btn-xs layui-btn-normal' lay-event='effect_image'><i class='layui-icon'></i>上传图片</a><a href='"+d.effect_image+"' target='_blank' class='layui-btn layui-btn-xs layui-btn-normal'>查看</a>"      
@@ -184,9 +151,10 @@
     });
     form.on('submit(add)',function(data){
       data = data.field;
+      data.house_id = $('#house_id').val();
       data._token = token;
       $.ajax({
-        url : '{{ url("/design/huxing-add") }}',
+        url : '{{ url("/design/manage/drawing-add") }}',
         type : 'post',
         data : data,
         success : function(res)
@@ -200,7 +168,7 @@
             $('#page').val(1);
             tab.config.page.curr = 1;
             tab.reload({
-              where : {_token:token},
+              where : {_token:token,house_id:$('#house_id').val()},
               page : {cuur:1}
             })
           }else
@@ -219,7 +187,7 @@
       data = data.field;
       data._token = token;
       $.ajax({
-        url : '{{ url("/design/huxing-edit") }}',
+        url : '{{ url("/design/manage/drawing-edit") }}',
         type : 'post',
         data : data,
         success : function(res)
@@ -255,9 +223,9 @@
           	name.push(n.name);
           	id.push(n.id);
           });
-        layer.confirm('确定删除户型: '+name+' 吗', function(index){
+        layer.confirm('确定删除图纸: '+name+' 吗', function(index){
         	$.ajax({
-          	url:'{{ url("/design/huxing-del") }}',
+          	url:'{{ url("/design/manage/drawing-del") }}',
           	type : 'post',
           	data : {id:id,_token:token},
           	success : function(res)
@@ -292,9 +260,9 @@
     table.on('tool(test-table-toolbar)', function(obj){
       var data = obj.data;
       if(obj.event === 'del'){
-        layer.confirm('确定删除户型: '+data.name+' 吗', function(index){
+        layer.confirm('确定删除图纸: '+data.name+' 吗', function(index){
         	$.ajax({
-          	url:'{{ url("/design/huxing-del") }}',
+          	url:'{{ url("/design/manage/drawing-del") }}',
           	type : 'post',
           	data : {id:data.id,_token:token},
           	success : function(res)
@@ -352,14 +320,13 @@
       {     
             form.val('edit',{
               'id':data.id,
-              'name':data.name,
-              'project_id':data.project_id
+              'name':data.name
             });
-            var width = ($(window).width() * 0.4)+'px';
-            var height = ($(window).height() * 0.5)+'px';
+            var width = ($(window).width() * 0.3)+'px';
+            var height = ($(window).height() * 0.4)+'px';
             edit = layer.open({
             type : 1,
-            title : '户型编辑',
+            title : '图纸编辑',
             fix: false, //不固定
             maxmin: true,
             shadeClose: true,
@@ -372,7 +339,7 @@
 
     upload.render({
       elem: '#dwg_upload'
-      ,url: '{{ url("/design/huxing-upload") }}'
+      ,url: '{{ url("/design/manage/drawing-upload") }}'
       ,method : 'post'
       ,field:'dwg_upload'
       ,accept: 'file' //普通文件
@@ -391,7 +358,7 @@
     });
     upload.render({
       elem: '#effect_image'
-      ,url: '{{ url("/design/huxing-upload") }}'
+      ,url: '{{ url("/design/manage/drawing-upload") }}'
       ,method : 'post'
       ,field:'effect_image'
       ,accept: 'image' //普通文件

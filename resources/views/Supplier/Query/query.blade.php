@@ -16,21 +16,6 @@
 			  @endforeach
       </select>
 		</div>
-    <div class="layui-input-inline">
-        <select name="unit" lay-verify="required">
-          <option value="">请选择单元</option>
-          <option value="1">1单元</option>
-          <option value="2">2单元</option>
-          <option value="3">3单元</option>
-          <option value="4">4单元</option>
-          <option value="5">5单元</option>
-          <option value="6">6单元</option>
-          <option value="7">7单元</option>
-          <option value="8">8单元</option>
-          <option value="9">9单元</option>
-          <option value="10">10单元</option>
-        </select>
-      </div>
       <div class="layui-input-inline">
         <select name="building" lay-verify="required">
           <option value="">请选择楼栋</option>
@@ -49,6 +34,21 @@
           <option value="13">13栋</option>
           <option value="14">14栋</option>
           <option value="15">15栋</option>
+        </select>
+      </div>
+    <div class="layui-input-inline">
+        <select name="unit" lay-verify="required">
+          <option value="">请选择单元</option>
+          <option value="1">1单元</option>
+          <option value="2">2单元</option>
+          <option value="3">3单元</option>
+          <option value="4">4单元</option>
+          <option value="5">5单元</option>
+          <option value="6">6单元</option>
+          <option value="7">7单元</option>
+          <option value="8">8单元</option>
+          <option value="9">9单元</option>
+          <option value="10">10单元</option>
         </select>
       </div>
       <div class="layui-input-inline">

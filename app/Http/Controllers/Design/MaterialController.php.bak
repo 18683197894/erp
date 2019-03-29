@@ -5,107 +5,29 @@ namespace App\Http\Controllers\Design;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Model\Engineering\House;
-use App\Model\Developer\Project;
 use App\Model\Design\Material;
 use App\Model\Supplier\Material as SupplierMaterial;
 use App\Model\Supplier\Category;
 class MaterialController extends Controller
 {
     public function material(Request $request)
-    {
-    	if($request->isMethod('get'))
-    	{	
-    		$project = Project::where('status',2)->get();
-    		return view('Design.Material.material',[
-    			'project'=>$project
-    		]);
-    	}else
-    	{	
-    		$formData['project_id'] = $request->post('project_id','');
-    		$formData['unit'] = $request->post('unit','');
-    		$formData['building'] = $request->post('building','');
-    		$formData['floor'] = $request->post('floor','');
-    		$formData['room_number'] = $request->post('room_number','');
-    		$data = House::select('id','building','unit','floor','room_number','acreage','project_id')
-    				->with(['Project'=>function($query){
-                    	return $query->select('name','id');
-                    }])
-                    ->with(['Materials'=>function($query){
-                    	return $query->select('id','settlement_price','num','other_price','house_id','class');
-                    }])
-                    ->where('project_id','like','%'.$formData['project_id'].'%')
-                    ->where('unit','like','%'.$formData['unit'].'%')
-                    ->where('building','like','%'.$formData['building'].'%')
-                    ->where('floor','like','%'.$formData['floor'].'%')
-                    ->where('room_number','like','%'.$formData['room_number'].'%')
-                    ->orderBy('created_at','Desc')
-    				->offset(($request->page - 1) * $request->limit)
-    				->limit($request->limit)
-    				->get();
-
-    		foreach($data as $k => $v)
-    		{	
-    			$data[$k]->project_name = $v->Project->name;
-    			$data[$k]->zhucai_num = 0;
-    			$data[$k]->zhucai_total = 0;
-    			$data[$k]->fucai_num = 0;
-    			$data[$k]->fucai_total = 0;
-    			$data[$k]->jiaju_num = 0;
-    			$data[$k]->jiaju_total = 0;
-    			$data[$k]->jiadian_num = 0;
-    			$data[$k]->jiadian_total = 0;
-    			foreach($v->Materials as $val)
-    			{
-    				if($val->class === '主材' )
-    				{
-    					$data[$k]->zhucai_num += $val->num; 
-    					$data[$k]->zhucai_total += ($val->settlement_price + $val->other_price); 
-    				}
-    				if($val->class === '辅材' )
-    				{
-    					$data[$k]->fucai_num += $val->num; 
-    					$data[$k]->fucai_total += ($val->settlement_price + $val->other_price); 
-    				}
-    				if($val->class === '家具' )
-    				{
-    					$data[$k]->jiaju_num += $val->num; 
-    					$data[$k]->jiaju_total += ($val->settlement_price + $val->other_price); 
-    				}
-    				if($val->class === '家电' )
-    				{
-    					$data[$k]->jiadian_num += $val->num; 
-    					$data[$k]->jiadian_total += ($val->settlement_price + $val->other_price); 
-    				}
-    			}
-    			$data[$k]->zhucai_total = number_format($data[$k]->zhucai_total,2,'.','');
-    			$data[$k]->fucai_total = number_format($data[$k]->fucai_total,2,'.','');
-    			$data[$k]->jiaju_total = number_format($data[$k]->jiaju_total,2,'.','');
-    			$data[$k]->jiadian_total = number_format($data[$k]->jiadian_total,2,'.','');
-    		}
-    		$total = House::select('building','unit','floor','room_number','acreage','user_id')
-    				->where('project_id','like','%'.$formData['project_id'].'%')
-                    ->where('unit','like','%'.$formData['unit'].'%')
-                    ->where('building','like','%'.$formData['building'].'%')
-                    ->where('floor','like','%'.$formData['floor'].'%')
-                    ->where('room_number','like','%'.$formData['room_number'].'%')
-    				->count();
-    		$this->tableData($total,$data,'获取成功',0);
-    	}
-    }
-
-    public function list(Request $request)
     {	
 
     	if($request->isMethod('get'))
     	{	
+    		$urls = parse_url(\url()->previous());
     		$house = House::find($request->house_id);
     		if(!$house)
     		{
-    			die('数据不存在');
+    			return back();
     		}
-    		return view('Design.Material.list',[
-    			'house'=>$house
-       		]);
+    		$title = $house->project->name.$house->unit.'单元'.$house->building.'栋'.$house->floor.'层'.$house->room_number.'号';
+    		return view('Design.Material.material',[
+    			'request'=>$request->all(),
+    			'url' => $urls['scheme'].'://'.$urls['host'].$urls['path'].$this->baseKey($request->all()),
+    			'house'=>$house,
+    			'title'=>$title
+    		]);
        	}else
     	{
 			$house_id = $request->house_id;
@@ -127,7 +49,7 @@ class MaterialController extends Controller
             $this->tableData($total,$data,'获取成功',0);
     	}
     }
-    public function list_edit(Request $request)
+    public function material_edit(Request $request)
     {
     	$model = Material::find($request->id);
     	if(!$model)
@@ -154,18 +76,18 @@ class MaterialController extends Controller
     	}
 
     }
-    public function list_del(Request $request)
+    public function material_del(Request $request)
     {
     	Material::where('id',$request->id)->delete();
     	$this->success_message('删除成功');
     }
-    public function list_selection(Request $request)
+    public function material_selection(Request $request)
     {
     	if($request->isMethod('get'))
     	{	
     		$categroy = Category::where('status','>',0)->get();
     		$house = House::find($request->house_id);
-    		return view('Design.Material.list_selection',[
+    		return view('Design.Material.selection',[
     			'house'=>$house,
     			'categroy'=>$categroy
     		]);
@@ -224,7 +146,7 @@ class MaterialController extends Controller
     	}
     }
 
-    public function list_selection_add(Request $request)
+    public function material_selection_add(Request $request)
     {
     	$data = $request->except('_token','code');
     	$material = SupplierMaterial::where('status','>','0')->where('id',$data['material_id'])->first();
