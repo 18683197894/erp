@@ -59,28 +59,25 @@ class MaterialController extends Controller
     				if($val->class === '主材' )
     				{
     					$data[$k]->zhucai_num += $val->num; 
-    					$data[$k]->zhucai_total += ($val->settlement_price + $val->other_price); 
+    					$data[$k]->zhucai_total = bcadd($data[$k]->zhucai_total,bcadd(bcmul($val->settlement_price , $val->num,2),$val->other_price,2),2) ; 
     				}
     				if($val->class === '辅材' )
-    				{
-    					$data[$k]->fucai_num += $val->num; 
-    					$data[$k]->fucai_total += ($val->settlement_price + $val->other_price); 
+    				{   
+                        $data[$k]->fucai_num += $val->num; 
+    					$data[$k]->fucai_total = bcadd($data[$k]->fucai_total,bcadd(bcmul($val->settlement_price , $val->num,2),$val->other_price,2),2) ;  
     				}
     				if($val->class === '家具' )
     				{
     					$data[$k]->jiaju_num += $val->num; 
-    					$data[$k]->jiaju_total += ($val->settlement_price + $val->other_price); 
+    					$data[$k]->jiaju_total = bcadd($data[$k]->jiaju_total,bcadd(bcmul($val->settlement_price , $val->num,2),$val->other_price,2),2) ; 
     				}
     				if($val->class === '家电' )
     				{
     					$data[$k]->jiadian_num += $val->num; 
-    					$data[$k]->jiadian_total += ($val->settlement_price + $val->other_price); 
+    					$data[$k]->jiadian_total = bcadd($data[$k]->jiadian_total,bcadd(bcmul($val->settlement_price , $val->num,2),$val->other_price,2),2) ;  
     				}
     			}
-    			$data[$k]->zhucai_total = number_format($data[$k]->zhucai_total,2,'.','');
-    			$data[$k]->fucai_total = number_format($data[$k]->fucai_total,2,'.','');
-    			$data[$k]->jiaju_total = number_format($data[$k]->jiaju_total,2,'.','');
-    			$data[$k]->jiadian_total = number_format($data[$k]->jiadian_total,2,'.','');
+    			
     		}
     		$total = House::select('building','unit','floor','room_number','acreage','user_id')
     				->where('project_id','like','%'.$formData['project_id'].'%')

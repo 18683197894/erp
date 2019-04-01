@@ -80,6 +80,24 @@
       <div class="layui-form-item" >
         <div class="layui-row layui-col-space10">
           <div class="layui-col-lg6">
+            <label class="layui-form-label">单元</label>
+            <div class="layui-input-block">
+              <select name="unit" lay-verify="required">
+                <option value="">请选择</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+              </select>
+            </div>
+          </div>
+          <div class="layui-col-lg6">
             <label class="layui-form-label">楼栋</label>
             <div class="layui-input-block">
               <select name="building" lay-verify="required">
@@ -102,24 +120,6 @@
               </select>
             </div>
             </div>
-            <div class="layui-col-lg6">
-              <label class="layui-form-label">单元</label>
-              <div class="layui-input-block">
-                <select name="unit" lay-verify="required">
-                  <option value="">请选择</option>
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                  <option value="5">5</option>
-                  <option value="6">6</option>
-                  <option value="7">7</option>
-                  <option value="8">8</option>
-                  <option value="9">9</option>
-                  <option value="10">10</option>
-                </select>
-              </div>
-          </div>
         </div>
       </div>
       <br>
@@ -165,7 +165,17 @@
             </select>
           </div>
       </div> -->
-
+      <div class="layui-form-item">
+          <label class="layui-form-label">套装选用</label>
+          <div class="layui-input-block">
+            <select name="template_id" lay-search="">
+              <option value="">直接选择或搜索选择</option>
+              @foreach($houses as $p)
+              <option value="{{ $p->id }}">{{ $p->project->name.$p->building.'栋'.$p->unit.'单元'.$p->floor.'层'.$p->room_number.'号' }}</option>
+              @endforeach
+            </select>
+          </div>
+      </div>
       <div class="layui-form-item ">
         <div class="layui-input-block">
         <br>
@@ -301,11 +311,13 @@
         ,{title:'设计图纸',unresize:true, toolbar:'#drawing'}
         ,{title:'材料清单',unresize:true, toolbar:'#material'}
         ,{title:'装修需求',unresize:true, toolbar: '#demand'}
+        ,{field:'template_name',title:'样板套装',unresize:true,width:120}
         ,{field:'manual_cost', title:'人工成本',unresize:true}
         ,{field:'manual_sale_cost', title:'人工销售成本',unresize:true}
         ,{field:'material_cost', title:'材料成本',unresize:true}
         ,{field:'construction_cost', title:'施工成本',unresize:true}
-        ,{fixed: 'right', title:'操作',fixed: 'right', toolbar: '#test-table-toolbar-barDemo',unresize:true,width:120}
+        ,{field:'count', title:'合计',unresize:true}
+        ,{fixed: 'right', title:'操作',fixed: 'right', toolbar: '#test-table-toolbar-barDemo',unresize:true,width:110}
       ]]
       ,page: {curr:$('#page').val(),limit:$('#limit').val()}
     ,parseData: function(res){ //res 即为原始返回的数据
@@ -444,11 +456,7 @@
         openMax('管理图纸','/design/manage/drawing?house_id='+data.id);
       }else if(obj.event === 'material')
       {
-        var name = $('#name').attr('val');
-        var project_id = $('#project_id').attr('val');
-        var page = tab.config.page.curr;
-        var limit = tab.config.page.limit;
-        window.location.href="/design/house/material?project_id="+project_id+"&name="+name+"&page="+page+"&limit="+limit+'&house_id='+data.id;
+       openMax('材料清单','/design/material/list?house_id='+data.id);
       }
     });
     editClose = function(msg)

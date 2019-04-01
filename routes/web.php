@@ -205,6 +205,10 @@ Route::group(['middleware'=>['rule']],function(){
 	Route::any('/design/material/list-selection','Design\MaterialController@list_selection');
 	Route::post('/design/material/list-selection-add','Design\MaterialController@list_selection_add');
 	
+	//样板设计
+	Route::any('/Design/template','Design\TemplateController@template');
+	Route::post('/design/Template/template-band','Design\TemplateController@template_band');
+
 	//综合查询
 	Route::any('/design/query','Design\QueryController@query');
 

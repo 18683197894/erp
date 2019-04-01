@@ -145,10 +145,7 @@
     <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="demand">反馈</a>
   </script>
   <script type="text/html" id="drawing">
-    <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="drawing">管理图纸</a>
-  </script>
-  <script type="text/html" id="material">
-    <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="material">进入</a>
+    <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="drawing">进入</a>
   </script>
 </div>
 
@@ -170,7 +167,7 @@
   
       tab = table.render({
       elem: '#test-table-toolbar'
-      ,url: '/design/query'
+      ,url: '/Design/template'
       ,where:{_token:token}
       ,method:'post'
       ,toolbar: '#test-table-toolbar-toolbarDemo'
@@ -183,12 +180,17 @@
         ,{field:'room_number', title:'房号',unresize:true,width:80}
         ,{field:'huxing_name', title:'户型',unresize:true,width:80}
         ,{field:'acreage', title:'面积',unresize:true,width:80}
-        ,{title:'设计图纸',unresize:true, toolbar:'#drawing'}
-        ,{title:'材料清单',unresize:true, toolbar:'#material'}
-        ,{title:'装修需求',unresize:true, toolbar: '#demand'}
-        ,{field:'total', title:'合同金额',unresize:true,width:100}
-        ,{field:'money', title:'实付金额',unresize:true,width:100}
-        ,{field:'cost',fixed:'right', title:'成本合计',unresize:true,width:120}
+        ,{title:'装修需求',unresize:true, toolbar: '#demand',width:140}
+        ,{title:'设计图纸',unresize:true, toolbar:'#drawing',width:140}
+        ,{fixed:'right', title:'是否套装',unresize:true, templet:function(d){
+          if(d.is_template == 1)
+          {
+            return '<input type="checkbox" name="switch" id="'+d.id+'" checked="checked" lay-text="是|否" lay-filter="template" lay-skin="switch" >';
+          }else
+          {
+            return '<input type="checkbox" name="switch"  id="'+d.id+'" lay-text="是|否" lay-filter="template" lay-skin="switch">'
+          }
+        }}
       ]]
       ,page: true
     ,parseData: function(res){ //res 即为原始返回的数据
@@ -251,11 +253,32 @@
             area : [width,height],
             content : $('.demand')
           })
-      }else if(obj.event === 'material')
-      {
-        openMax('材料清单','/design/material/list?house_id='+data.id);
       }
     });
+    form.on('switch(template)',function(data){
+      $.ajax({
+        url : '{{ url("/design/Template/template-band") }}',
+        type : 'post',
+        data : {id:data.elem.id,is_template:data.elem.checked,_token:token},
+        success : function(res)
+        {
+          res = $.parseJSON(res);
+          if(res.code == 200)
+          {
+            // layMsgOk(res.msg);
+          }else
+          {
+            layMsgError(res.msg);
+            tab.reload();
+          }
+        },
+        error : function(error)
+        {
+          layMsgError('操作失败');
+          tab.reload();
+        }
+      });
+    })
     form.on('submit(demand)',function(data){
       data = data.field;
       data._token = token;

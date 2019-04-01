@@ -151,6 +151,17 @@
           </div>
         </div>
       </div>
+      <div class="layui-form-item">
+          <label class="layui-form-label">套装选用</label>
+          <div class="layui-input-block">
+            <select name="template_id" lay-search="" lay-verify="">
+              <option value="">直接选择或搜索选择</option>
+              @foreach($houses as $p)
+              <option value="{{ $p->id }}" @if($model->template_id == $p->id)  selected="selected" @endif>{{ $p->project->name.$p->building.'栋'.$p->unit.'单元'.$p->floor.'层'.$p->room_number.'号' }}</option>
+              @endforeach
+            </select>
+          </div>
+      </div>
       <div class="layui-form-item ">
         <div class="layui-input-block">
         <br>

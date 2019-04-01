@@ -39,4 +39,8 @@ class House extends Model
     {
         return $this->hasMany('App\Model\Design\Material','house_id','id');
     }
+    public function Template()
+    {
+        return $this->hasOne('App\Model\Engineering\House','id','template_id');
+    }
 }

@@ -14,8 +14,10 @@ class ManageController extends Controller
     	if($request->isMethod('get'))
     	{	
     		$project = Project::where('status',2)->get();
+             $houses = House::where('is_template',1)->with('Project')->get();
     		return view('Design.Manage.manage',[
                 'project'=>$project,
+                'houses' => $houses,
                 'style' => array('简欧','简美','港式','美式','欧式','混搭','田园','现代','新古典','东南亚','日式','宜家','北欧','简约','韩式','地中海','中式','法式','工业风','新中式','清水房','其他')
             ]);
     	}else
@@ -28,11 +30,17 @@ class ManageController extends Controller
                     ->where('status','>',0)
                     ->with(['Huxing'=>function($query){
                         return $query->select('*')->get();
-                    }])
-                    ->with(['Project'=>function($query){
+                    },'Project'=>function($query){
                         return $query->select('id','name')->get();
+                    },'Demand'=>function($query){
+                        return $query->select('id','arrangement','style','like','demand','house_id')->get();
+                    },'Template'=>function($query){
+                        return $query->select('id','project_id','room_number','floor','building','unit')
+                            ->with(['Project'=>function($query){
+                        return $query->select('id','name')->get();
+                            }])
+                            ->get();
                     }])
-                    ->with('Demand')
                     ->orderBy('created_at','DESC')
                     ->offset(($request->page -1) * $request->limit)
                     ->limit($request->limit)
@@ -48,6 +56,19 @@ class ManageController extends Controller
                 {
                     $data[$k]['project_name'] = $v['project']['name'];
                 }
+                if($v['template'])
+                {
+                    $data[$k]['template_name'] = $v['template']['project']['name'].$v['building'].'栋'.$v['unit'].'单元'.$v['floor'].'层'.$v['room_number'].'号';
+                }
+                if($v['is_template'] == 1)
+                {
+                    $data[$k]['template_name'] = '样板房';
+                }
+                $data[$k]['count'] = bcadd(bcadd($v['manual_cost'],$v['manual_sale_cost'],2),bcadd($v['material_cost'],$v['construction_cost'],2),2);
+                if($data[$k]['count'] <= 0)
+                {   
+                    $data[$k]['count'] = '';
+                }
                 
             }
             $total = House::where('room_number','like','%'.$room_number.'%')
@@ -62,9 +83,11 @@ class ManageController extends Controller
         if($request->isMethod('get'))
         {
             $model = House::find($request->house_id);
-            if(!$model) dd('数据不存在');
+            if(!$model) die('数据不存在');
+            $houses = House::where('is_template',1)->where('id','!=',$model->id)->with('Project')->get();
             return view('Design.Manage.edit',[
-                'model'=>$model
+                'model'=>$model,
+                'houses' => $houses
             ]);
         }else
         {
@@ -78,6 +101,10 @@ class ManageController extends Controller
             if($oldHouse && $oldHouse->id != $model->id)
             {
                 $this->error_message('当前房号已存在');
+            }
+            if($model->is_template == 1 && $request->post('template_id',null))
+            {
+                $this->error_message('样板房无法绑定样板套装');
             }
             House::where('id',$data['id'])->update($data);
             $this->success_message('修改成功');

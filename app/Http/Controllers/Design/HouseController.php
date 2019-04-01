@@ -12,6 +12,7 @@ use App\Model\Design\Demand;
 use App\Model\Design\Schedule;
 use App\Model\Design\Drawing;
 use App\Model\Engineering\House;
+use App\Model\Design\Material;
 class HouseController extends Controller
 {
 	public function huxing(Request $request)
@@ -303,6 +304,7 @@ class HouseController extends Controller
 	    	}
 	    	Demand::where('house_id',$model->id)->delete();
 	    	Drawing::where('house_id',$model->id)->delete();
+	    	Material::where('house_id',$model->id)->delete();
 	        House::where('id',$id)->delete();
 
 	    }

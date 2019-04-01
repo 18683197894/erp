@@ -6,25 +6,25 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Model\Developer\Project;
 use App\Model\Engineering\House;
-class QueryController extends Controller
+class TemplateController extends Controller
 {
-    public function query(Request $request)
+    public function template(Request $request)
     {
     	if($request->isMethod('get'))
     	{	
     		$project = Project::where('status',2)->get();
-    		return view('Design.Query.query',[
+    		return view('Design.Template.template',[
     			'project' => $project,
                 'style' => array('简欧','简美','港式','美式','欧式','混搭','田园','现代','新古典','东南亚','日式','宜家','北欧','简约','韩式','地中海','中式','法式','工业风','新中式','清水房','其他')
     		]);
     	}else
-    	{	
-    		$formData['project_id'] = $request->post('project_id','');
+    	{
+			$formData['project_id'] = $request->post('project_id','');
     		$formData['unit'] = $request->post('unit','');
     		$formData['building'] = $request->post('building','');
     		$formData['floor'] = $request->post('floor','');
     		$formData['room_number'] = $request->post('room_number','');
-    		$data = House::select('building','unit','floor','room_number','acreage','user_id','project_id','huxing_id','id','manual_cost','manual_sale_cost','material_cost','construction_cost')
+    		$data = House::select('building','unit','floor','room_number','acreage','user_id','project_id','huxing_id','id','is_template')
                     ->with(['Project'=>function($query){
                     	return $query->select('name','id');
                     }])
@@ -57,5 +57,23 @@ class QueryController extends Controller
     				->count();
     		$this->tableData($total,$data,'获取成功',0);
     	}
+    }
+
+    public function template_band(Request $request)
+    {
+    	$id = $request->post('id');
+    	$is_template = $request->post('is_template') === 'true' ?1 :0;
+    	$house = House::find($id);
+    	if(!$house)
+    	{
+    		$this->error_message('数据不存在');
+    	}
+    	if($house->template_id)
+    	{
+    		$this->error_message('操作失败 : 房屋已绑定样板套装');
+    	}
+    	$house->is_template = $is_template;
+    	$house->save();
+    	$this->success_message('操作成功');
     }
 }
