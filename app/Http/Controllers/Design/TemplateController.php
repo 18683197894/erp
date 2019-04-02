@@ -72,6 +72,10 @@ class TemplateController extends Controller
     	{
     		$this->error_message('操作失败 : 房屋已绑定样板套装');
     	}
+        if($is_template !== 1)
+        {
+            House::where('template_id',$house->id)->update(['template_id'=>null]);
+        }
     	$house->is_template = $is_template;
     	$house->save();
     	$this->success_message('操作成功');
