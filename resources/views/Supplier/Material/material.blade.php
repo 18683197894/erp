@@ -14,13 +14,13 @@
     <div class="layui-card-body" style="margin: 15px 15px 15px 0px">
       <form class="layui-form layui-form-pane"  id="myform"lay-filter="component-form-group">
         <div class="layui-form-item" >
-            <div class="layui-col-lg4">
+            <div class="layui-col-lg3">
               <label class="layui-form-label">材料编码</label>
               <div class="layui-input-inline">
                 <input name="code" value="" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input" type="text">
               </div>
             </div>
-            <div class="layui-col-lg4">
+            <div class="layui-col-lg3">
               <label class="layui-form-label">供应商</label>
               <div class="layui-input-inline">
                  <select name="supply_id" lay-verify="required" lay-search>
@@ -31,50 +31,72 @@
                  </select>
               </div>
             </div>
-            <div class="layui-col-lg4">
+            <div class="layui-col-lg3">
+              <label class="layui-form-label">一级分类</label>
+              <div class="layui-input-inline">
+                 <select name="class_a" lay-verify="required">
+                    <option value="主材">主材</option>
+                    <option value="辅材">辅材</option>
+                    <option value="家具">家具</option>
+                    <option value="家电">家电</option>
+                 </select>
+              </div>
+            </div>
+            <div class="layui-col-lg3">
+              <label class="layui-form-label">二级分类</label>
+              <div class="layui-input-inline">
+                <input name="class_b" value="" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input" type="text">
+              </div>
+            </div>
+          </div>
+
+          <div class="layui-form-item" >
+            <div class="layui-col-lg3">
+              <label class="layui-form-label">名称</label>
+              <div class="layui-input-inline">
+                <input name="name" value="" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input" type="text">
+              </div>
+            </div>
+            <div class="layui-col-lg3">
               <label class="layui-form-label">品牌</label>
               <div class="layui-input-inline">
                 <input name="brand" value="" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input" type="text">
               </div>
             </div>
-          </div>
-
-          <div class="layui-form-item" >
-            <div class="layui-col-lg4">
+            <div class="layui-col-lg3">
               <label class="layui-form-label">型号</label>
               <div class="layui-input-inline">
                 <input name="spec" value="" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input" type="text">
               </div>
             </div>
-            <div class="layui-col-lg4">
+            <div class="layui-col-lg3">
               <label class="layui-form-label">规格</label>
               <div class="layui-input-inline">
                 <input name="model" value="" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input" type="text">
               </div>
             </div>
+          </div>
 
-            <div class="layui-col-lg4">
+          <div class="layui-form-item" >
+            <div class="layui-col-lg3">
               <label class="layui-form-label">颜色</label>
               <div class="layui-input-inline">
                 <input name="color" value="" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input" type="text">
               </div>
             </div>
-          </div>
-
-          <div class="layui-form-item" >
-            <div class="layui-col-lg4">
+            <div class="layui-col-lg3">
               <label class="layui-form-label">计量单位</label>
               <div class="layui-input-inline">
                 <input name="metering" value="" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input" type="text">
               </div>
             </div>
-            <div class="layui-col-lg4">
+            <div class="layui-col-lg3">
               <label class="layui-form-label">成本价</label>
               <div class="layui-input-inline">
                 <input type="cost_price" name="cost_price" lay-verify="required|cost_price" placeholder="请输入" autocomplete="off" class="layui-input">
               </div>
             </div>
-            <div class="layui-col-lg4">
+            <div class="layui-col-lg3">
               <label class="layui-form-label">市场标价</label>
               <div class="layui-input-inline">
                 <input type="text" name="market_price" lay-verify="required|market_price" placeholder="请输入" autocomplete="off" class="layui-input">
@@ -83,85 +105,82 @@
           </div>
 
           <div class="layui-form-item" >
-            <div class="layui-col-lg4">
+            <div class="layui-col-lg3">
               <label class="layui-form-label">销售价</label>
               <div class="layui-input-inline">
                 <input name="sale_price" value="" lay-verify="required|sale_price" placeholder="请输入" autocomplete="off" class="layui-input" type="text">
               </div>
             </div>
-            <div class="layui-col-lg4">
+            <div class="layui-col-lg3">
               <label class="layui-form-label">结算价</label>
               <div class="layui-input-inline">
                 <input type="text" name="settlement_price" lay-verify="required|settlement_price" placeholder="请输入" autocomplete="off" class="layui-input">
               </div>
             </div>
-            <div class="layui-col-lg4">
+            <div class="layui-col-lg3">
               <label class="layui-form-label">采购价</label>
               <div class="layui-input-inline">
                 <input type="text" name="purchase_price" lay-verify="required|purchase_price" placeholder="请输入" autocomplete="off" class="layui-input">
               </div>
             </div>
-          </div>
-
-          <div class="layui-form-item" >
-            <div class="layui-col-lg4">
+            <div class="layui-col-lg3">
               <label class="layui-form-label">毛利率</label>
               <div class="layui-input-inline">
                 <input name="gross_profit" value="" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input" type="text">
               </div>
             </div>
-            <div class="layui-col-lg4">
-              <label class="layui-form-label">结算周期</label>
-              <div class="layui-input-inline">
-                <input type="text" name="settlement_cycle" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
-              </div>
-            </div>
-            <div class="layui-col-lg4">
-              <label class="layui-form-label">账单时间</label>
-              <div class="layui-input-inline">
-                <input type="text" name="billing_time" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
-              </div>
-            </div>
           </div>
 
           <div class="layui-form-item" >
-            <div class="layui-col-lg4">
-              <label class="layui-form-label">结算比例</label>
+            <div class="layui-col-lg3">
+              <label class="layui-form-label">结算周期</label>
               <div class="layui-input-inline">
-                <input name="settlement_ratio" value="" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input" type="text">
+                <input type="text" name="settlement_cycle" lay-verify="" placeholder="请输入" autocomplete="off" class="layui-input">
               </div>
             </div>
-            <div class="layui-col-lg4">
+            <div class="layui-col-lg3">
+              <label class="layui-form-label">账单时间</label>
+              <div class="layui-input-inline">
+                <input type="text" name="billing_time" lay-verify="" placeholder="请输入" autocomplete="off" class="layui-input">
+              </div>
+            </div>
+            <div class="layui-col-lg3">
+              <label class="layui-form-label">结算比例</label>
+              <div class="layui-input-inline">
+                <input name="settlement_ratio" value="" lay-verify="" placeholder="请输入" autocomplete="off" class="layui-input" type="text">
+              </div>
+            </div>
+            <div class="layui-col-lg3">
               <label class="layui-form-label">配件套数</label>
               <div class="layui-input-inline">
                 <input type="parts_num" name="parts_num" lay-verify="" placeholder="请输入" autocomplete="off" class="layui-input">
               </div>
             </div>
-            <div class="layui-col-lg4">
-              <label class="layui-form-label">产品级别</label>
-              <div class="layui-input-inline">
-                <input type="text" name="level" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
-              </div>
-            </div>
           </div>
 
           <div class="layui-form-item" >
-            <div class="layui-col-lg4">
+            <div class="layui-col-lg3">
+              <label class="layui-form-label">产品级别</label>
+              <div class="layui-input-inline">
+                <input type="text" name="level" lay-verify="" placeholder="请输入" autocomplete="off" class="layui-input">
+              </div>
+            </div>
+            <div class="layui-col-lg3">
               <label class="layui-form-label">风格属性</label>
               <div class="layui-input-inline">
-                <input name="style" value="" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input" type="text">
+                <input name="style" value="" lay-verify="" placeholder="请输入" autocomplete="off" class="layui-input" type="text">
               </div>
             </div>
-            <div class="layui-col-lg4">
+            <div class="layui-col-lg3">
               <label class="layui-form-label">产品说明</label>
               <div class="layui-input-inline">
-                <input type="text" name="explain" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+                <input type="text" name="explain" lay-verify="" placeholder="请输入" autocomplete="off" class="layui-input">
               </div>
             </div>
-            <div class="layui-col-lg4">
+            <div class="layui-col-lg3">
               <label class="layui-form-label">产地</label>
               <div class="layui-input-inline">
-                <input type="text" name="place" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+                <input type="text" name="place" lay-verify="" placeholder="请输入" autocomplete="off" class="layui-input">
               </div>
             </div>
           </div>
@@ -196,51 +215,49 @@
          <div class="layui-form-item">
             <label class="layui-form-label">促销</label>
             <div class="layui-input-inline">
-            <input type="checkbox" name="promotion" checked lay-skin="switch" lay-text="有|无">
+            <input type="checkbox" name="promotion" lay-skin="switch" lay-text="有|无">
             </div>
           </div>
-          <div class="layui-form-item" >
-            <div class="layui-col-lg4">
+        <div class="layui-form-item" >
+            <div class="layui-col-lg3">
               <label class="layui-form-label">促销开始时间</label>
               <div class="layui-input-inline">
                 <input name="start" value="" lay-verify="start" id="start" class="layui-input" type="text">
               </div>
             </div>
-            <div class="layui-col-lg4">
+            <div class="layui-col-lg3">
               <label class="layui-form-label">促销结束时间</label>
               <div class="layui-input-inline">
                 <input type="text" name="end" lay-verify="end" id="end" class="layui-input">
               </div>
             </div>
-            <div class="layui-col-lg4">
+            <div class="layui-col-lg3">
               <label class="layui-form-label">促销价</label>
               <div class="layui-input-inline">
                 <input type="text" name="promotion_price" lay-verify="promotion_price" placeholder="请输入" autocomplete="off" class="layui-input">
               </div>
             </div>
-          </div>
-          <div class="layui-form-item" >
-            <div class="layui-col-lg4">
+            <div class="layui-col-lg3">
               <label class="layui-form-label">促销结算价</label>
               <div class="layui-input-inline">
                 <input name="promotion_settlement_price" value="" lay-verify="promotion_settlement_price" placeholder="请输入" autocomplete="off" class="layui-input" type="text">
               </div>
             </div>
-            <div class="layui-col-lg4">
+          </div>
+          <div class="layui-form-item" >
+            <div class="layui-col-lg3">
               <label class="layui-form-label">促销结算比例</label>
               <div class="layui-input-inline">
                 <input type="text" name="promotion_settlement_proportion" lay-verify="promotion_settlement_proportion" placeholder="请输入促销结算比例" autocomplete="off" class="layui-input">
               </div>
             </div>
-            <div class="layui-col-lg4">
+            <div class="layui-col-lg3">
               <label class="layui-form-label">计入活动比例</label>
               <div class="layui-input-inline">
                 <input type="text" name="activity_proportion" lay-verify="activity_proportion" placeholder="请输入计入活动比例" autocomplete="off" class="layui-input">
               </div>
             </div>
-          </div>
-          <div class="layui-form-item" >
-            <div class="layui-col-lg4">
+            <div class="layui-col-lg3">
               <label class="layui-form-label">促销期计入活动比例</label>
               <div class="layui-input-inline">
                 <input name="promotion_activity_proportion" value="" lay-verify="promotion_activity_proportion" placeholder="请输入促销期计入活动比例" autocomplete="off" class="layui-input" type="text">
@@ -263,13 +280,13 @@
       <form class="layui-form layui-form-pane" id="edit"lay-filter="edit">
         <input type="hidden" name="id" value="">
         <div class="layui-form-item" >
-            <div class="layui-col-lg4">
+            <div class="layui-col-lg3">
               <label class="layui-form-label">材料编码</label>
               <div class="layui-input-inline">
                 <input name="code" value="" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input" type="text">
               </div>
             </div>
-            <div class="layui-col-lg4">
+            <div class="layui-col-lg3">
               <label class="layui-form-label">供应商名称</label>
               <div class="layui-input-inline">
                  <select name="supply_id" lay-verify="required" lay-search>
@@ -280,50 +297,72 @@
                  </select>
               </div>
             </div>
-            <div class="layui-col-lg4">
+            <div class="layui-col-lg3">
+              <label class="layui-form-label">一级分类</label>
+              <div class="layui-input-inline">
+                 <select name="class_a" lay-verify="required">
+                    <option value="主材">主材</option>
+                    <option value="辅材">辅材</option>
+                    <option value="家具">家具</option>
+                    <option value="家电">家电</option>
+                 </select>
+              </div>
+            </div>
+            <div class="layui-col-lg3">
+              <label class="layui-form-label">二级分类</label>
+              <div class="layui-input-inline">
+                <input name="class_b" value="" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input" type="text">
+              </div>
+            </div>
+          </div>
+
+          <div class="layui-form-item" >
+            <div class="layui-col-lg3">
+              <label class="layui-form-label">名称</label>
+              <div class="layui-input-inline">
+                <input name="name" value="" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input" type="text">
+              </div>
+            </div>
+            <div class="layui-col-lg3">
               <label class="layui-form-label">品牌</label>
               <div class="layui-input-inline">
                 <input name="brand" value="" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input" type="text">
               </div>
             </div>
-          </div>
-
-          <div class="layui-form-item" >
-            <div class="layui-col-lg4">
+            <div class="layui-col-lg3">
               <label class="layui-form-label">型号</label>
               <div class="layui-input-inline">
                 <input name="spec" value="" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input" type="text">
               </div>
             </div>
-            <div class="layui-col-lg4">
+            <div class="layui-col-lg3">
               <label class="layui-form-label">规格</label>
               <div class="layui-input-inline">
                 <input name="model" value="" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input" type="text">
               </div>
             </div>
+          </div>
 
-            <div class="layui-col-lg4">
+          <div class="layui-form-item" >
+            <div class="layui-col-lg3">
               <label class="layui-form-label">颜色</label>
               <div class="layui-input-inline">
                 <input name="color" value="" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input" type="text">
               </div>
             </div>
-          </div>
-
-          <div class="layui-form-item" >
-            <div class="layui-col-lg4">
+            <div class="layui-col-lg3">
               <label class="layui-form-label">计量单位</label>
               <div class="layui-input-inline">
                 <input name="metering" value="" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input" type="text">
               </div>
             </div>
-            <div class="layui-col-lg4">
+            <div class="layui-col-lg3">
               <label class="layui-form-label">成本价</label>
               <div class="layui-input-inline">
                 <input type="cost_price" name="cost_price" lay-verify="required|cost_price" placeholder="请输入" autocomplete="off" class="layui-input">
               </div>
             </div>
-            <div class="layui-col-lg4">
+            <div class="layui-col-lg3">
               <label class="layui-form-label">市场标价</label>
               <div class="layui-input-inline">
                 <input type="text" name="market_price" lay-verify="required|market_price" placeholder="请输入" autocomplete="off" class="layui-input">
@@ -332,85 +371,82 @@
           </div>
 
           <div class="layui-form-item" >
-            <div class="layui-col-lg4">
+            <div class="layui-col-lg3">
               <label class="layui-form-label">销售价</label>
               <div class="layui-input-inline">
                 <input name="sale_price" value="" lay-verify="required|sale_price" placeholder="请输入" autocomplete="off" class="layui-input" type="text">
               </div>
             </div>
-            <div class="layui-col-lg4">
+            <div class="layui-col-lg3">
               <label class="layui-form-label">结算价</label>
               <div class="layui-input-inline">
                 <input type="text" name="settlement_price" lay-verify="required|settlement_price" placeholder="请输入" autocomplete="off" class="layui-input">
               </div>
             </div>
-            <div class="layui-col-lg4">
+            <div class="layui-col-lg3">
               <label class="layui-form-label">采购价</label>
               <div class="layui-input-inline">
                 <input type="text" name="purchase_price" lay-verify="required|purchase_price" placeholder="请输入" autocomplete="off" class="layui-input">
               </div>
             </div>
-          </div>
-
-          <div class="layui-form-item" >
-            <div class="layui-col-lg4">
+            <div class="layui-col-lg3">
               <label class="layui-form-label">毛利率</label>
               <div class="layui-input-inline">
                 <input name="gross_profit" value="" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input" type="text">
               </div>
             </div>
-            <div class="layui-col-lg4">
-              <label class="layui-form-label">结算周期</label>
-              <div class="layui-input-inline">
-                <input type="text" name="settlement_cycle" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
-              </div>
-            </div>
-            <div class="layui-col-lg4">
-              <label class="layui-form-label">账单时间</label>
-              <div class="layui-input-inline">
-                <input type="text" name="billing_time" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
-              </div>
-            </div>
           </div>
 
           <div class="layui-form-item" >
-            <div class="layui-col-lg4">
-              <label class="layui-form-label">结算比例</label>
+            <div class="layui-col-lg3">
+              <label class="layui-form-label">结算周期</label>
               <div class="layui-input-inline">
-                <input name="settlement_ratio" value="" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input" type="text">
+                <input type="text" name="settlement_cycle" lay-verify="" placeholder="请输入" autocomplete="off" class="layui-input">
               </div>
             </div>
-            <div class="layui-col-lg4">
+            <div class="layui-col-lg3">
+              <label class="layui-form-label">账单时间</label>
+              <div class="layui-input-inline">
+                <input type="text" name="billing_time" lay-verify="" placeholder="请输入" autocomplete="off" class="layui-input">
+              </div>
+            </div>
+            <div class="layui-col-lg3">
+              <label class="layui-form-label">结算比例</label>
+              <div class="layui-input-inline">
+                <input name="settlement_ratio" value="" lay-verify="" placeholder="请输入" autocomplete="off" class="layui-input" type="text">
+              </div>
+            </div>
+            <div class="layui-col-lg3">
               <label class="layui-form-label">配件套数</label>
               <div class="layui-input-inline">
                 <input type="parts_num" name="parts_num" lay-verify="" placeholder="请输入" autocomplete="off" class="layui-input">
               </div>
             </div>
-            <div class="layui-col-lg4">
-              <label class="layui-form-label">产品级别</label>
-              <div class="layui-input-inline">
-                <input type="text" name="level" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
-              </div>
-            </div>
           </div>
 
           <div class="layui-form-item" >
-            <div class="layui-col-lg4">
+            <div class="layui-col-lg3">
+              <label class="layui-form-label">产品级别</label>
+              <div class="layui-input-inline">
+                <input type="text" name="level" lay-verify="" placeholder="请输入" autocomplete="off" class="layui-input">
+              </div>
+            </div>
+            <div class="layui-col-lg3">
               <label class="layui-form-label">风格属性</label>
               <div class="layui-input-inline">
-                <input name="style" value="" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input" type="text">
+                <input name="style" value="" lay-verify="" placeholder="请输入" autocomplete="off" class="layui-input" type="text">
               </div>
             </div>
-            <div class="layui-col-lg4">
+            <div class="layui-col-lg3">
               <label class="layui-form-label">产品说明</label>
               <div class="layui-input-inline">
-                <input type="text" name="explain" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+                <input type="text" name="explain" lay-verify="" placeholder="请输入" autocomplete="off" class="layui-input">
               </div>
             </div>
-            <div class="layui-col-lg4">
+            <div class="layui-col-lg3">
               <label class="layui-form-label">产地</label>
               <div class="layui-input-inline">
-                <input type="text" name="place" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+                <input type="text" name="place" lay-verify="" placeholder="请输入" autocomplete="off" class="layui-input">
               </div>
             </div>
           </div>
@@ -449,47 +485,45 @@
             </div>
           </div>
           <div class="layui-form-item" >
-            <div class="layui-col-lg4">
+            <div class="layui-col-lg3">
               <label class="layui-form-label">促销开始时间</label>
               <div class="layui-input-inline">
                 <input name="start" value="" lay-verify="start" id="start2" class="layui-input" type="text">
               </div>
             </div>
-            <div class="layui-col-lg4">
+            <div class="layui-col-lg3">
               <label class="layui-form-label">促销结束时间</label>
               <div class="layui-input-inline">
                 <input type="text" name="end" lay-verify="end" id="end2" class="layui-input">
               </div>
             </div>
-            <div class="layui-col-lg4">
+            <div class="layui-col-lg3">
               <label class="layui-form-label">促销价</label>
               <div class="layui-input-inline">
                 <input type="text" name="promotion_price" lay-verify="promotion_price" placeholder="请输入" autocomplete="off" class="layui-input">
               </div>
             </div>
-          </div>
-          <div class="layui-form-item" >
-            <div class="layui-col-lg4">
+            <div class="layui-col-lg3">
               <label class="layui-form-label">促销结算价</label>
               <div class="layui-input-inline">
                 <input name="promotion_settlement_price" value="" lay-verify="promotion_settlement_price" placeholder="请输入" autocomplete="off" class="layui-input" type="text">
               </div>
             </div>
-            <div class="layui-col-lg4">
+          </div>
+          <div class="layui-form-item" >
+            <div class="layui-col-lg3">
               <label class="layui-form-label">促销结算比例</label>
               <div class="layui-input-inline">
                 <input type="text" name="promotion_settlement_proportion" lay-verify="promotion_settlement_proportion" placeholder="请输入促销结算比例" autocomplete="off" class="layui-input">
               </div>
             </div>
-            <div class="layui-col-lg4">
+            <div class="layui-col-lg3">
               <label class="layui-form-label">计入活动比例</label>
               <div class="layui-input-inline">
                 <input type="text" name="activity_proportion" lay-verify="activity_proportion" placeholder="请输入计入活动比例" autocomplete="off" class="layui-input">
               </div>
             </div>
-          </div>
-          <div class="layui-form-item" >
-            <div class="layui-col-lg4">
+            <div class="layui-col-lg3">
               <label class="layui-form-label">促销期计入活动比例</label>
               <div class="layui-input-inline">
                 <input name="promotion_activity_proportion" value="" lay-verify="promotion_activity_proportion" placeholder="请输入促销期计入活动比例" autocomplete="off" class="layui-input" type="text">
@@ -578,10 +612,9 @@
 	<div class="demoTable" style="padding-bottom: 10px">
 		<form class="layui-form">
 		<div class="layui-input-inline">
-		    <input class="layui-input" name="code" value="{{ isset($request['code'])?$request['code']:'' }}" val="{{ isset($request['code'])?$request['code']:'' }}" id="code" placeholder="编码搜索" autocomplete="off">
-        <input type="hidden" name="category_id" id="category_id" value="{{ $category->id }}">
-        <input type="hidden" id="page" name="page" value="{{ isset($request['page'])?$request['page']:1 }}">
-        <input type="hidden" id="limit" name="limit" value="{{ isset($request['limit'])?$request['limit']:10 }}">
+		    <input class="layui-input" name="code" value="" id="code" placeholder="编码搜索" autocomplete="off">
+        <input type="hidden" id="page" name="page" value="">
+        <input type="hidden" id="limit" name="limit" value="">
 		</div>
 		<a class="layui-btn">搜索</a>
 	</form>
@@ -631,55 +664,14 @@
       ,where:{name:$('#name').val(),_token:token,category_id:$('#category_id').val()}
       ,cols: [[
          {field:'code', title:'材料编码',fixed: 'left',unresize:true,width:120}
-        ,{title:'供应商',unresize:true,width:120,templet:function(d){
-          return d.supply.name;
-        }}
-        ,{field:'brand', title:'品牌',unresize:true,width:120}
-        ,{field:'model', title:'型号',unresize:true,width:120}
-        ,{field:'spec', title:'规格',unresize:true,width:120}
+        ,{field:'supply_name',title:'供应商',unresize:true,width:130}
+        ,{field:'class_a', title:'一级分类',unresize:true,width:120}
+        ,{field:'class_b', title:'二级分类',unresize:true,width:120}
+        ,{field:'name', title:'名称',unresize:true}
+        ,{field:'model', title:'型号',unresize:true}
         ,{field:'color', title:'颜色',unresize:true,width:120}
-        ,{field:'metering', title:'计量单位',unresize:true,width:120}
-        ,{field:'cost_price', title:'成本价',unresize:true,width:120}
         ,{field:'market_price', title:'市场标价',unresize:true,width:120}
-        ,{field:'sale_price', title:'销售价',unresize:true,width:120}
-        ,{field:'settlement_price', title:'结算价',unresize:true,width:120}
-        ,{field:'purchase_price', title:'采购价',unresize:true,width:120}
-        ,{field:'gross_profit', title:'毛利率',unresize:true,width:120}
-        ,{field:'settlement_cycle', title:'结算周期',unresize:true,width:120}
-        ,{field:'billing_time', title:'账单时间',unresize:true,width:120}
-        ,{field:'settlement_ratio', title:'结算比例',unresize:true,width:120}
-        ,{field:'parts_num', title:'配件套数',unresize:true,width:120}
-        ,{field:'level', title:'产品级别',unresize:true,width:120}
-        ,{field:'style', title:'风格属性',unresize:true,width:120}
-        ,{field:'explain', title:'产品说明',unresize:true,width:120}
-        ,{field:'place', title:'产地',unresize:true,width:120}
-        ,{title:'是否推荐',unresize:true,width:120,templet:function(d){
-            if(d.recommend == 1)
-            {
-              return '推荐';
-            }else
-            {
-              return '不推荐';
-            }
-        }}
-        ,{title:'是否有货',unresize:true,width:120,templet:function(d){
-            if(d.available == 1)
-            {
-              return '有货';
-            }else
-            {
-              return '无货';
-            }
-        }},
-        {title:'促销信息',unresize:true,width:120,templet:function(d){
-            if(d.promotion == 1)
-            {
-              return "<button class='layui-btn layui-btn-xs layui-btn-normal' lay-event='promotion'>查看促销</button>";
-            }else
-            {
-              return '无促销';
-            }
-        }}
+        ,{field:'is_recommend', title:'是否推荐',unresize:true,width:120}
         ,{title:'图片',unresize:true,width:120,templet:function(d){
           if(d.image)
           {       
@@ -689,8 +681,7 @@
             return "无"      
           }
         }}
-        ,{field:'remarks', title:'备注',unresize:true,width:120}
-        ,{fixed: 'right', title:'操作', toolbar: '#test-table-toolbar-barDemo',unresize:true,width:120}
+        ,{fixed: 'right', title:'操作', toolbar: '#test-table-toolbar-barDemo',width:120}
       ]]
       ,page: {curr:$('#page').val(),limit:$('#limit').val()}
     ,parseData: function(res){ //res 即为原始返回的数据
@@ -729,7 +720,6 @@
       var code = $('#code').val();
       var category_id = $('#category_id').val();
       $('#code').attr('val',code);
-      $('#category_id').attr('val',category_id);
     	tab.reload({where:{code:code,_token:token,category_id:category_id},page:{curr:1}});
     });
     //头工具栏事件
@@ -816,6 +806,9 @@
             "id" : data.id,
             'supply_id' : data.supply_id,
             'code' : data.code,
+            'class_a' : data.class_a,
+            'class_b' : data.class_b,
+            'name' : data.name,
             'brand' : data.brand,
             'model' : data.model,
             'spec' : data.spec,

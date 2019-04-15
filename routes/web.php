@@ -85,14 +85,14 @@ Route::group(['middleware'=>['rule']],function(){
 	Route::post('/user/user-add','Sys\UserController@user_add');
 	Route::post('/user/user-edit','Sys\UserController@user_edit');
 	Route::post('/user/user-del','Sys\UserController@user_del');
-
+// **********市场部**********************************************************************************
 	/**
 	*	developer 市场部模块
 	*	project 项目
 	* 	company 开发商管理
 	* 	contacts 联系人
 	* 	information 信息
-	* 	appointment 项目洽谈
+	* 	appointment 项目进度
 	* 	feedback 项目洽谈反馈
 	* 	screening 信息筛选
 	*/
@@ -135,14 +135,10 @@ Route::group(['middleware'=>['rule']],function(){
 
 	Route::any('/developer/project/screening','Developer\ProjectController@screening');
 	Route::post('/developer/project/screening-edit','Developer\ProjectController@screening_edit');
-
+// ***********商务部*************************************************************************
 	/**
-	 * commerce 商务板块
-	 * project 项目
-	 * summary 项目进度汇总
+	 * summary 商务板块 项目进度汇总
 	 */
-	Route::any('/commerce/company','Developer\CompanyController@company');
-	Route::any('/commerce/project','Developer\ProjectController@project');
 	Route::any('/commerce/summary','Developer\ProjectController@summary');
 
 
@@ -213,7 +209,39 @@ Route::group(['middleware'=>['rule']],function(){
 	Route::any('/design/query','Design\QueryController@query');
 
 
-// ***************************************************************************************************************
+// **********材料部************************************************************************************************
+	/**
+	*	supplier 材料模块
+	*	supply 供应商
+	* 	material 材料
+	* 	plan 	采购计划
+	*/
+	Route::any('/supplier/supply','Supplier\SupplierController@supply');
+	Route::post('/supplier/supply-add','Supplier\SupplierController@supply_add');
+	Route::post('/supplier/supply-edit','Supplier\SupplierController@supply_edit');
+	Route::post('/supplier/supply-del','Supplier\SupplierController@supply_del');
+
+	// Route::any('/supplier/category','Supplier\SupplierController@category');
+	// Route::post('/supplier/category-add','Supplier\SupplierController@category_add');
+	// Route::post('/supplier/category-edit','Supplier\SupplierController@category_edit');
+	// Route::post('/supplier/category-del','Supplier\SupplierController@category_del');
+
+	Route::any('/supplier/material','Supplier\SupplierController@material');
+	Route::post('/supplier/material-add','Supplier\SupplierController@material_add');
+	Route::post('/supplier/material-edit','Supplier\SupplierController@material_edit');
+	Route::post('/supplier/material-del','Supplier\SupplierController@material_del');
+
+	Route::any('/supplier/plan','Supplier\PlanController@plan');
+	Route::post('/supplier/plan-add','Supplier\PlanController@plan_add');
+	Route::post('/supplier/plan-edit','Supplier\PlanController@plan_edit');
+	Route::post('/supplier/plan-del','Supplier\PlanController@plan_del');
+	Route::post('/supplier/plan-order','Supplier\PlanController@plan_order');
+
+	Route::any('/supplier/order','Supplier\PlanController@order');
+
+	Route::any('/supplier/query','Supplier\QueryController@query');
+	Route::any('/supplier/query-project','Supplier\QueryController@query_project');
+
 	/**
 	*	engineering 工程模块
 	*	project 项目
@@ -236,31 +264,6 @@ Route::group(['middleware'=>['rule']],function(){
 	Route::post('/engineering/project/house/album-edit','Engineering\ProjectController@album_edit');
 	Route::post('/engineering/project/house/album-del','Engineering\ProjectController@album_del');
 	Route::get('/engineering/project/house/album-check','Engineering\ProjectController@album_check');
-
-	/**
-	*	supplier 材料模块
-	*	category 开发商
-	* 	house 房间
-	* 	material 材料
-	*/
-	Route::any('/supplier/supply','Supplier\SupplierController@supply');
-	Route::post('/supplier/supply-add','Supplier\SupplierController@supply_add');
-	Route::post('/supplier/supply-edit','Supplier\SupplierController@supply_edit');
-	Route::post('/supplier/supply-del','Supplier\SupplierController@supply_del');
-
-	Route::any('/supplier/category','Supplier\SupplierController@category');
-	Route::post('/supplier/category-add','Supplier\SupplierController@category_add');
-	Route::post('/supplier/category-edit','Supplier\SupplierController@category_edit');
-	Route::post('/supplier/category-del','Supplier\SupplierController@category_del');
-
-	Route::any('/supplier/material','Supplier\SupplierController@material');
-	Route::post('/supplier/material-add','Supplier\SupplierController@material_add');
-	Route::post('/supplier/material-edit','Supplier\SupplierController@material_edit');
-	Route::post('/supplier/material-del','Supplier\SupplierController@material_del');
-
-
-	Route::any('/supplier/query','Supplier\QueryController@query');
-	Route::any('/supplier/query-project','Supplier\QueryController@query_project');
 });
 });
 Route::get('/login',function() {	

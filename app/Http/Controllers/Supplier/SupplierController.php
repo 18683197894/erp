@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Supplier;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Model\Supplier\Supply;
-use App\Model\Supplier\Category;
 use App\Model\Supplier\Material;
 class SupplierController extends Controller
 {
@@ -93,98 +92,88 @@ class SupplierController extends Controller
 		Supply::where('id',$id)->delete();
 		$this->success_message('删除成功');
 	}
-	public function category(Request $request)
-	{
-    	if($request->isMethod('get'))
-    	{  
-    		return view('Supplier.Material.category',[
-                'request' => $request->all()
-            ]);
-    	}else if($request->isMethod('post'))
-    	{	
-			$name = $request->post('name',false)?$request->name:'';
-			$class = $request->post('class',false)?$request->class:'';
-    		$data = Category::where('name','like','%'.$name.'%')
-    				->where('class','like','%'.$class.'%')
-                    ->where('status','>',0)
-    				->orderBy('created_at','DESC')
-		    		->offset(($request->page -1) * $request->limit)
-		    		->limit($request->limit)
-		    		->get()
-		    		->toArray();
-    		$total = Category::where('name','like','%'.$name.'%')
-    				->where('class','like','%'.$class.'%')
-                    ->where('status','>',0)
-                    ->count();
-    		$this->tableData($total,$data,'获取成功',0);
-    	}
-	}
+	// public function category(Request $request)
+	// {
+ //    	if($request->isMethod('get'))
+ //    	{  
+ //    		return view('Supplier.Material.category',[
+ //                'request' => $request->all()
+ //            ]);
+ //    	}else if($request->isMethod('post'))
+ //    	{	
+	// 		$name = $request->post('name',false)?$request->name:'';
+	// 		$class = $request->post('class',false)?$request->class:'';
+ //    		$data = Category::where('name','like','%'.$name.'%')
+ //    				->where('class','like','%'.$class.'%')
+ //                    ->where('status','>',0)
+ //    				->orderBy('created_at','DESC')
+	// 	    		->offset(($request->page -1) * $request->limit)
+	// 	    		->limit($request->limit)
+	// 	    		->get()
+	// 	    		->toArray();
+ //    		$total = Category::where('name','like','%'.$name.'%')
+ //    				->where('class','like','%'.$class.'%')
+ //                    ->where('status','>',0)
+ //                    ->count();
+ //    		$this->tableData($total,$data,'获取成功',0);
+ //    	}
+	// }
 
-	public function category_add(Request $request)
-	{
-		$data = $request->except('_token');
+	// public function category_add(Request $request)
+	// {
+	// 	$data = $request->except('_token');
 
-		if(Category::where('name',$data['name'])->first())
-		{
-			$this->error_message('品类已存在');
-		}
+	// 	if(Category::where('name',$data['name'])->first())
+	// 	{
+	// 		$this->error_message('品类已存在');
+	// 	}
 
-		if(Category::create($data))
-		{
-			$this->success_message('新增成功');
-		}else
-		{
-			$this->error_message('新增失败');
-		}
-	}
+	// 	if(Category::create($data))
+	// 	{
+	// 		$this->success_message('新增成功');
+	// 	}else
+	// 	{
+	// 		$this->error_message('新增失败');
+	// 	}
+	// }
 
-	public function category_edit(Request $request)
-	{
-		$data = $request->except('_token');
-		$category = Category::find($data['id']);
+	// public function category_edit(Request $request)
+	// {
+	// 	$data = $request->except('_token');
+	// 	$category = Category::find($data['id']);
 
-		$re_category = Category::where('name',$data['name'])->first();
+	// 	$re_category = Category::where('name',$data['name'])->first();
 
-		if(!$category) $this->error_message('数据不存在');
-		if($re_category && $category->id != $re_category->id) $this->error_message('品类已存在');
+	// 	if(!$category) $this->error_message('数据不存在');
+	// 	if($re_category && $category->id != $re_category->id) $this->error_message('品类已存在');
 
-		$category->name = $data['name'];
-		$category->class = $data['class'];
-		$category->save();
-		$this->success_message('修改成功');
-	}
-	public function category_del(Request $request)
-	{
-		if(Material::where('category_id',$request->id)->where('status','>',0)->first())
-		{
-			$this->error_message('已禁止删除');
-		}
+	// 	$category->name = $data['name'];
+	// 	$category->class = $data['class'];
+	// 	$category->save();
+	// 	$this->success_message('修改成功');
+	// }
+	// public function category_del(Request $request)
+	// {
+	// 	if(Material::where('category_id',$request->id)->where('status','>',0)->first())
+	// 	{
+	// 		$this->error_message('已禁止删除');
+	// 	}
 
-		Category::where('id',$request->id)->delete();
-		$this->success_message('删除成功');
-	}
+	// 	Category::where('id',$request->id)->delete();
+	// 	$this->success_message('删除成功');
+	// }
 	public function material(Request $request)
 	{
 		if($request->isMethod('get'))
     	{  
-    		$urls = parse_url(\url()->previous());
-            $category = Category::find($request->category_id);
-            if(!$category)
-            {
-                return back();
-            }
             return view('Supplier.Material.material',[
-                'category' => $category,
-                'supply' => Supply::where('status','>',0)->get(),
-                'title' => $category->name,
-                'url' => $urls['scheme'].'://'.$urls['host'].$urls['path'].$this->baseKey($request->all())
+                'supply' => Supply::where('status','>',0)->get()
             ]);
     	}else if($request->isMethod('post'))
     	{	
 
 			$code = $request->post('code',false)?$request->code:'';
     		$data = Material::where('code','like','%'.$code.'%')
-    				->where('category_id',$request->category_id)
                     ->where('status','>',0)
                     ->with('Supply')
     				->orderBy('created_at','DESC')
@@ -192,8 +181,12 @@ class SupplierController extends Controller
 		    		->limit($request->limit)
 		    		->get()
 		    		->toArray();
+		   	foreach($data as $k => $v)
+		   	{
+		   		$data[$k]['supply_name'] = $v['supply']['name'];
+		   		$data[$k]['is_recommend'] = $v['recommend'] == 1?'是':'否';
+		   	}
     		$total = Material::where('code','like','%'.$code.'%')
-    				->where('category_id',$request->category_id)
                     ->where('status','>',0)
                     ->count();
     		$this->tableData($total,$data,'获取成功',0);
@@ -204,6 +197,9 @@ class SupplierController extends Controller
 	{
 		$datas = json_decode($request->data);
 		$data['code'] = $datas->code;
+		$data['class_a'] = $datas->class_a;
+		$data['class_b'] = $datas->class_b;
+		$data['name'] = $datas->name;
 		$data['brand'] = $datas->brand;
 		$data['spec'] = $datas->spec;
 		$data['model'] = $datas->model;
@@ -228,7 +224,6 @@ class SupplierController extends Controller
 		$data['settlement_price'] = $datas->settlement_price;
 		$data['remarks'] = $datas->remarks;
 		$data['supply_id'] = $datas->supply_id;
-		$data['category_id'] = $datas->category_id;
 		$data['start'] = $datas->start;
 		$data['end'] = $datas->end;
 		$data['promotion_price'] = $datas->promotion_price?$datas->promotion_price:null;
@@ -289,6 +284,9 @@ class SupplierController extends Controller
 		$datas = json_decode($request->data);
 
 		$data['code'] = $datas->code;
+		$data['class_a'] = $datas->class_a;
+		$data['class_b'] = $datas->class_b;
+		$data['name'] = $datas->name;
 		$data['brand'] = $datas->brand;
 		$data['spec'] = $datas->spec;
 		$data['model'] = $datas->model;

@@ -39,6 +39,7 @@ class PowerController extends Controller
     		$data = PowerRule::where('rule_name','like','%'.$rule_name.'%')
     				->with('Cate')
                     ->orderBy('cate_id','DESC')
+                    ->orderBy('created_at','DESC')
 		    		->offset(($request->page -1) * $request->limit)
 		    		->limit($request->limit)
 		    		->get()

@@ -198,7 +198,7 @@
 
 	<script type="text/html" id="test-table-toolbar-toolbarDemo">
 	  <div class="layui-btn-container">
-	    <button class="layui-btn layui-btn-sm" onclick="open_show('新增品类','.add',0.8,0.9)">新增品类</button>
+	    <button class="layui-btn layui-btn-sm" onclick="open_show('新增品类','.add',0.8,0.9)">新增供应商</button>
 	  </div>
 	</script>
 
