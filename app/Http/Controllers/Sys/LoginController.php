@@ -20,7 +20,7 @@ class LoginController extends Controller
 	 	$username = $request->post('username');
     	$password = $request->post('password');
     	$models = User::where('username',$username)->first();
-
+        
     	if($models)
     	{	
     		if($models->status == 0)

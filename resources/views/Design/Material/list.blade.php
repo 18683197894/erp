@@ -105,8 +105,8 @@
       ,toolbar: '#test-table-toolbar-toolbarDemo'
       ,title: '材料清单'
       ,cols: [[
-         {field:'category',fixed: 'left',  title:'品类',unresize:true,width:120}
-        ,{field:'class',title:'类别',unresize:true,width:120}
+         {field:'class_a',fixed: 'left',  title:'一级分类',unresize:true,width:120}
+        ,{field:'class_b',title:'二级分类',unresize:true,width:120}
         ,{field:'position', title:'位置',unresize:true,width:120}
         ,{field:'code', title:'编码',unresize:true,width:120}
         ,{field:'brand', title:'品牌',unresize:true,width:120}

@@ -67,7 +67,7 @@
 	<div class="demoTable" style="padding-bottom: 10px">
     <form class="layui-form">
       <div class="layui-input-inline">
-          <select name="class_id" id="class_id" lay-filter="required" lay-verify="required">
+          <select name="class_a" id="class_a" lay-filter="required" lay-verify="required">
             <option value="">选择类别</option>
             <option value="主材">主材</option>
             <option value="辅材">辅材</option>
@@ -75,14 +75,7 @@
             <option value="家居">家居</option>
           </select>
       </div>
-      <div class="layui-input-inline">
-          <select name="category_id" id="category_id" lay-filter="required" lay-verify="required">
-            <option value="">选择品类</option>
-            @foreach($categroy as $c)
-            <option value="{{ $c->id }}">{{ $c->name }}</option>
-            @endforeach
-          </select>
-      </div>
+      
       <div class="layui-input-inline">
         <input class="layui-input" name="code" value=""  id="code" placeholder="编号搜索" autocomplete="off">
       </div>
@@ -121,8 +114,8 @@
       ,toolbar: '#test-table-toolbar-toolbarDemo'
       ,title: '材料'
       ,cols: [[
-         {field:'category_name',fixed: 'left',  title:'品类',unresize:true,width:120}
-        ,{field:'class_name',title:'类别',unresize:true,width:120}
+         {field:'class_a',fixed: 'left',  title:'一级分类',unresize:true,width:120}
+        ,{field:'class_b',title:'二级分类',unresize:true,width:120}
         ,{field:'code', title:'编码',unresize:true,width:120}
         ,{field:'brand', title:'品牌',unresize:true,width:120}
         ,{field:'model', title:'型号',unresize:true,width:120}
@@ -159,9 +152,8 @@
     });
     $('.demoTable .layui-btn').on('click',function(){
       var code = $('#code').val();      
-      var category_id = $('#category_id').val();
-      var class_id = $('#class_id').val();
-      tab.reload({where:{code:code,class_id:class_id,category_id:category_id,_token:token},page:{curr:1}});
+      var class_a = $('#class_a').val();
+      tab.reload({where:{code:code,class_a:class_a,_token:token},page:{curr:1}});
     });
     //监听行工具事件
     table.on('tool(test-table-toolbar)', function(obj){

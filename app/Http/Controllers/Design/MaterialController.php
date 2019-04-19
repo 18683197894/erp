@@ -8,7 +8,6 @@ use App\Model\Engineering\House;
 use App\Model\Developer\Project;
 use App\Model\Design\Material;
 use App\Model\Supplier\Material as SupplierMaterial;
-use App\Model\Supplier\Category;
 class MaterialController extends Controller
 {
     public function material(Request $request)
@@ -160,31 +159,24 @@ class MaterialController extends Controller
     {
     	if($request->isMethod('get'))
     	{	
-    		$categroy = Category::where('status','>',0)->get();
     		$house = House::find($request->house_id);
     		return view('Design.Material.list_selection',[
-    			'house'=>$house,
-    			'categroy'=>$categroy
+    			'house'=>$house
     		]);
     	}else
     	{	
-            $category_id = $request->get('category_id','');
-    		$class_id = $request->get('class_id','');
+    		$class_a = $request->get('class_a','');
     		$code = $request->get('code','');
-			$data = \DB::table('supplier_material')
-                    ->select('supplier_material.*','supplier_category.id as cate_id','supplier_category.class as class_name','supplier_category.name as category_name')
-                    ->join('supplier_category','supplier_material.category_id','=','supplier_category.id')
+			$data = SupplierMaterial::select('*')
                     ->where([
-                        ['supplier_material.status','>',0],
-                        ['supplier_material.category_id','like','%'.$category_id.'%'],
-                        ['supplier_category.class','like','%'.$class_id.'%'],
-                        ['supplier_material.code','like','%'.$code.'%']
+                        ['status','>',0],
+                        ['code','like','%'.$code.'%'],
+                        ['class_a','like','%'.$class_a.'%']
                     ])
-                    ->orderBy('supplier_material.created_at','DESC')
+                    ->orderBy('created_at','DESC')
                     ->offset(($request->page -1) * $request->limit)
                     ->limit($request->limit)
-                    ->get()
-                    ->toArray();
+                    ->get();
             foreach($data as $k => $v)
             {
             	if($v->promotion == 1)
@@ -208,15 +200,13 @@ class MaterialController extends Controller
             		$data[$k]->promotion_price = '无促销';
             	}
             }
-            $total = \DB::table('supplier_material')
-                    ->select('supplier_material.*','supplier_category.id as cate_id','supplier_category.class as class_name','supplier_category.name as category_name')
-                    ->join('supplier_category','supplier_material.category_id','=','supplier_category.id')
+            $total = SupplierMaterial::select('*')
                     ->where([
-                        ['supplier_material.status','>',0],
-                        ['supplier_material.category_id','like','%'.$category_id.'%'],
-                        ['supplier_category.class','like','%'.$class_id.'%'],
-                        ['supplier_material.code','like','%'.$code.'%']
-                    ])->count();
+                        ['status','>',0],
+                        ['code','like','%'.$code.'%'],
+                        ['class_a','like','%'.$class_a.'%']
+                    ])
+                    ->count();
             $this->tableData($total,$data,'获取成功',0);
     	}
     }
@@ -233,8 +223,8 @@ class MaterialController extends Controller
     	{
     		$data['other_explain'] = null;
     	}
-    	$data['category'] = $material->Category->name;
-    	$data['class'] = $material->Category->class;
+    	$data['class_a'] = $material->class_a;
+    	$data['class_b'] = $material->class_b;
     	$data['code'] = $material->code;
     	$data['brand'] = $material->brand;
     	$data['model'] = $material->model;

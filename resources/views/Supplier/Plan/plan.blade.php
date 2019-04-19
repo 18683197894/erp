@@ -224,7 +224,7 @@
 	  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 	</script>
 	<script type="text/html" id="order">
-	  <a class="layui-btn layui-btn-xs layui-btn-normal" lay-event="order">进入</a>
+	  <a class="layui-btn layui-btn-xs layui-btn-normal" lay-event="order" >进入</a>
 	</script>
 </div>
 @endsection
