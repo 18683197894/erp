@@ -176,7 +176,7 @@
   
     var tab = table.render({
       elem: '#test-table-toolbar'
-      ,url: '/engineering/project/house/album'
+      ,url: '/engineering/house/album'
       ,where:{_token:token,house_id:$('#house_id').val()}
       ,method:'post'
       ,toolbar: '#test-table-toolbar-toolbarDemo'
@@ -234,7 +234,7 @@
           });
         layer.confirm('确定删除: '+data.length+' 张图片吗', function(index){
         	$.ajax({
-          	url:'{{ url("/engineering/project/house/album-del") }}',
+          	url:'{{ url("/engineering/house/album-del") }}',
           	type : 'post',
           	data : {id:id,_token:token},
           	success : function(res)
@@ -276,7 +276,7 @@
       if(obj.event === 'del'){
         layer.confirm('确定删除当前图片吗', function(index){
         	$.ajax({
-          	url:'{{ url("/engineering/project/house/album-del") }}',
+          	url:'{{ url("/engineering/house/album-del") }}',
           	type : 'post',
           	data : {id:data.id,_token:token},
           	success : function(res)
@@ -325,7 +325,7 @@
       		var house_id = $('#house_id').val();
         	var page = tab.config.page.curr;
         	var limit = tab.config.page.limit;	
-      	  $.getJSON('/engineering/project/house/album-check?limit='+limit+'&page='+page+'&schedule_id='+schedule_id+'&house_id='+house_id+'&album_id='+data.id, function(json){
+      	  $.getJSON('/engineering/house/album-check?limit='+limit+'&page='+page+'&schedule_id='+schedule_id+'&house_id='+house_id+'&album_id='+data.id, function(json){
           layer.photos({
             photos: json //格式见API文档手册页
           });
@@ -348,7 +348,7 @@
         datas.append('schedule_id',data.schedule_id);
         datas.append('_token',token);
       $.ajax({
-        url : '{{ url("/engineering/project/house/album-add") }}',
+        url : '{{ url("/engineering/house/album-add") }}',
         type : 'post',
         contentType : false,
         processData : false,
@@ -381,7 +381,7 @@
       data = data.field;
       data._token = token;
       $.ajax({
-        url : '{{ url("/engineering/project/house/album-edit") }}',
+        url : '{{ url("/engineering/house/album-edit") }}',
         type : 'post',
         data : data,
         success : function(res)

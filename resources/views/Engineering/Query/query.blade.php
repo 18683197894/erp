@@ -96,16 +96,6 @@
     </form>
 	</div>
 	<table class="layui-hide" id="test-table-toolbar" lay-filter="test-table-toolbar"></table>
-
-
-
-
-  <script type="text/html" id="schedule">
-    <a class="layui-btn layui-btn-xs layui-btn-normal" lay-event="schedule">进度更新</a>
-  </script>
-  <script type="text/html" id="album">
-    <a class="layui-btn layui-btn-xs layui-btn-normal" lay-event="album">查看相册</a>
-  </script>
 </div>
 @endsection
 
@@ -125,11 +115,11 @@
   
     tab = table.render({
       elem: '#test-table-toolbar'
-      ,url: '/engineering/house'
+      ,url: '/engineering/query'
       ,where:{_token:token}
       ,method:'post'
       ,toolbar: '#test-table-toolbar-toolbarDemo'
-      ,title: '工程项目'
+      ,title: '综合查询'
       ,where:{name:$('#name').val(),_token:token}
       ,cols: [[
          {field:'id', title:'序号',fixed: 'left',unresize:true,width:60}
@@ -140,9 +130,8 @@
         ,{field:'floor', title:'楼层',unresize:true}
         ,{field:'huxing_name', title:'户型',unresize:true}
         ,{field:'acreage', title:'面积',unresize:true}
-        ,{title:'施工相册',unresize:true,width:120,toolbar:'#album'}
         ,{field:'schedule_name',title:'工程完成度',unresize:true,width:140}
-        ,{fixed: 'right',title:'施工进度',width:300,align:'center',toolbar:'#schedule'}
+        ,{field:'e_total',fixed: 'right',title:'费用合计',width:300,align:'center'}
       ]]
       ,page: {curr:$('#page').val(),limit:$('#limit').val()}
     ,parseData: function(res){ //res 即为原始返回的数据
@@ -162,51 +151,11 @@
       return false;
     });
 
-    laydate.render({
-      elem: '#time1' //指定元素
-    });
-    laydate.render({
-      elem: '#time2' //指定元素
-    });
-    laydate.render({
-      elem: '#time3' //指定元素
-    });
-    laydate.render({
-      elem: '#time4' //指定元素
-    });
     //监听行工具事件
     table.on('tool(test-table-toolbar)', function(obj){
       var data = obj.data;
       if(obj.event === 'del'){
 
-      } else if(obj.event === 'edit'){
-          $('.edit').find("input[name='room_number']").val(data.room_number);
-          $('.edit').find("input[name='acreage']").val(data.acreage);
-          $('.edit').find("input[name='id']").val(data.id);
-          $('.edit').find('.floor').find("dd[lay-value='"+data.floor+"']").click();
-          $('.edit').find('.building').find("dd[lay-value='"+data.building+"']").click();
-          $('.edit').find('.unit').find("dd[lay-value='"+data.unit+"']").click();
-          $('.edit').find('.huxing_id').find("dd[lay-value='"+data.huxing_id+"']").click();
-          var width = ($(window).width() * 0.6)+'px';
-          var height = ($(window).height() * 0.8)+'px';
-          	edit = layer.open({
-            type : 1,
-            title : '编辑',
-            fix: false, //不固定
-            maxmin: true,
-            shadeClose: true,
-            shade: 0.4,
-            area : [width,height],
-            content : $('.edit')
-          })
-      }else if(obj.event === 'schedule')
-      {   
-        openMax('施工进度','/engineering/house/schedule?house_id='+data.id,function(){
-          tab.reload();
-        });
-      }else if(obj.event === 'album')
-      { 
-        openMax('施工相册','/engineering/house/album?house_id='+data.id);
       }
     });
 

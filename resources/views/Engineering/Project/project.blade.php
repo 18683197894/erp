@@ -5,97 +5,127 @@
 @endsection
 
 @section('open')
-<div class="layui-card add" style="display:none">
-      <div class="layui-card-body" style="padding: 15px;">
-        <form class="layui-form" id="myform"lay-filter="component-form-group">
-          <div class="layui-form-item">
-          <label class="layui-form-label">选择项目</label>
-          <div class="layui-input-block">
-            <select name="project_id" lay-filter="required" lay-search="" lay-verify="required">
-              <option value="">直接选择或搜索选择</option>
-              @foreach($project as $c)
-              <option value="{{ $c->id }}">{{ $c->name }}</option>
-              @endforeach
-            </select>
-          </div>
-          </div>
-          <div class="layui-form-item">
-            <label class="layui-form-label">入场时间</label>
-            <div class="layui-input-block">
-              <input type="text" name="admission_time" lay-verify="required" class="layui-input" id="time1">
-            </div>
-          </div>
-          <div class="layui-form-item">
-            <label class="layui-form-label">完成时间</label>
-            <div class="layui-input-block">
-              <input type="text" name="estimate_time" lay-verify="required" class="layui-input" id="time2">
-            </div>
-          </div>
-          <div class="layui-form-item ">
-            <div class="layui-input-block">
-            <br>
-              <div class="layui-footer">
-                <button class="layui-btn" lay-submit="" lay-filter="add">立即提交</button>
-              </div>
-            </div>
-          </div> 
-        </form>
-      </div>
-</div>
 <div class="layui-card edit" style="display:none">
-      <div class="layui-card-body" style="padding: 15px;">
-        <form class="layui-form" id="edit"lay-filter="component-form-group">
-          <input type="hidden" name="project_id" value="">
-          <div class="layui-form-item">
-            <label class="layui-form-label">入场时间</label>
-            <div class="layui-input-block">
-              <input type="text" name="admission_time" lay-verify="required" class="layui-input" id="time3">
+    <div class="layui-card-body" style="padding: 15px;">
+      <form class="layui-form" lay-filter="edit">
+        <input type="hidden" name="id" value="">
+        <div class="layui-form-item">
+          <label class="layui-form-label">入场时间</label>
+          <div class="layui-input-block">
+            <input type="text" name="admission_time" lay-verify="required" class="layui-input" id="time3">
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <label class="layui-form-label">完成时间</label>
+          <div class="layui-input-block">
+            <input type="text" name="estimate_time" lay-verify="required" class="layui-input" id="time4">
+          </div>
+        </div>
+        <div class="layui-form-item ">
+          <div class="layui-input-block">
+          <br>
+            <div class="layui-footer">
+              <button class="layui-btn" lay-submit="" lay-filter="edit">立即提交</button>
             </div>
           </div>
-          <div class="layui-form-item">
-            <label class="layui-form-label">完成时间</label>
-            <div class="layui-input-block">
-              <input type="text" name="estimate_time" lay-verify="required" class="layui-input" id="time4">
-            </div>
-          </div>
-          <div class="layui-form-item ">
-            <div class="layui-input-block">
-            <br>
-              <div class="layui-footer">
-                <button class="layui-btn" lay-submit="" lay-filter="edit">立即提交</button>
-              </div>
-            </div>
-          </div> 
-        </form>
-      </div>
+        </div> 
+      </form>
+    </div>
 </div>
 @endsection
 
 @section('content')
 <div class="layui-card-body">
 	<div class="demoTable" style="padding-bottom: 10px">
-		<div class="layui-input-inline">
-		  <input class="layui-input" name="name" value="{{ isset($request['name'])?$request['name']:'' }}" val="{{ isset($request['name'])?$request['name']:'' }}" id="name" placeholder="项目名搜索" autocomplete="off">
-      <input type="hidden" id="page" name="page" value="{{ isset($request['page'])?$request['page']:1 }}">
-      <input type="hidden" id="limit" name="limit" value="{{ isset($request['limit'])?$request['limit']:10 }}">
-		</div>
-		<button class="layui-btn">搜索</button>
+    <form class="layui-form" id="query" lay-filter='query' >
+      <div class="layui-input-inline">
+        <select name="project_id" lay-verify="">
+          <option value="">请选择项目</option>
+          @foreach($project as $v)
+          <option  value="{{ $v->id }}">{{ $v->name }}</option>
+          @endforeach
+        </select>
+      </div>
+      <div class="layui-input-inline">
+          <select name="building" lay-verify="">
+            <option value="">请选择楼栋</option>
+            <option value="1">1栋</option>
+            <option value="2">2栋</option>
+            <option value="3">3栋</option>
+            <option value="4">4栋</option>
+            <option value="5">5栋</option>
+            <option value="6">6栋</option>
+            <option value="7">7栋</option>
+            <option value="8">8栋</option>
+            <option value="9">9栋</option>
+            <option value="10">10栋</option>
+            <option value="11">11栋</option>
+            <option value="12">12栋</option>
+            <option value="13">13栋</option>
+            <option value="14">14栋</option>
+            <option value="15">15栋</option>
+          </select>
+      </div>
+      <div class="layui-input-inline">
+          <select name="unit" lay-verify="">
+            <option value="">请选择单元</option>
+            <option value="1">1单元</option>
+            <option value="2">2单元</option>
+            <option value="3">3单元</option>
+            <option value="4">4单元</option>
+            <option value="5">5单元</option>
+            <option value="6">6单元</option>
+            <option value="7">7单元</option>
+            <option value="8">8单元</option>
+            <option value="9">9单元</option>
+            <option value="10">10单元</option>
+          </select>
+      </div>
+      <div class="layui-input-inline">
+          <select name="floor" lay-verify="">
+            <option value="">请选择楼层</option>
+            <option value="1">1层</option>
+            <option value="2">2层</option>
+            <option value="3">3层</option>
+            <option value="4">4层</option>
+            <option value="5">5层</option>
+            <option value="6">6层</option>
+            <option value="7">7层</option>
+            <option value="8">8层</option>
+            <option value="9">9层</option>
+            <option value="10">10层</option>
+            <option value="11">11层</option>
+            <option value="12">12层</option>
+            <option value="13">13层</option>
+            <option value="14">14层</option>
+            <option value="15">15层</option>
+            <option value="16">16层</option>
+            <option value="17">17层</option>
+            <option value="18">18层</option>
+            <option value="19">19层</option>
+            <option value="20">20层</option>
+            <option value="21">21层</option>
+            <option value="22">22层</option>
+            <option value="23">23层</option>
+            <option value="24">24层</option>
+            <option value="25">25层</option>
+            <option value="26">26层</option>
+            <option value="27">27层</option>
+            <option value="28">28层</option>
+            <option value="29">29层</option>
+            <option value="30">30层</option>
+          </select>
+      </div>
+  		<button class="layui-btn" lay-submit="query" lay-filter="query">查询</button>
+      <a class="layui-btn layui-btn-primary" onclick="reset()">重置</a>
+    </form>
 	</div>
 	<table class="layui-hide" id="test-table-toolbar" lay-filter="test-table-toolbar"></table>
 
-	<script type="text/html" id="test-table-toolbar-toolbarDemo">
-	  <div class="layui-btn-container">
-	    <button class="layui-btn layui-btn-sm" onclick="open_show('新增项目','.add',0.4,0.6)">新增项目</button>
-	  </div>
-	</script>
 
 	<script type="text/html" id="test-table-toolbar-barDemo">
 	  <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-	  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 	</script>
-  <script type="text/html" id="house">
-    <a class="layui-btn layui-btn-xs layui-btn-normal" lay-event="house">进入</a>
-  </script>
 </div>
 @endsection
 
@@ -115,7 +145,7 @@
     ,table = layui.table;
     token = $("meta[name='csrf-token']").attr('content');
   
-    var tab = table.render({
+    tab = table.render({
       elem: '#test-table-toolbar'
       ,url: '/engineering/project'
       ,where:{_token:token}
@@ -124,14 +154,17 @@
       ,title: '工程项目'
       ,where:{name:$('#name').val(),_token:token}
       ,cols: [[
-         {field:'name', title:'项目名称',fixed: 'left',unresize:true}
-        ,{field:'re_address', title:'项目地址',unresize:true,width:300}
-        ,{field:'fangshu', title:'房数',unresize:true}
-        ,{field:'acreage', title:'总面积',unresize:true}
-        ,{field:'admission_time', title:'入场时间',unresize:true}
-        ,{field:'estimate_time', title:'预计完成时间',unresize:true}
-        ,{title:'进度',unresize:true,toolbar:'#house'}
-        ,{fixed: 'right', title:'操作',fixed: 'right', toolbar: '#test-table-toolbar-barDemo',unresize:true,width:120}
+         {field:'id', title:'序号',fixed: 'left',unresize:true,width:80}
+        ,{field:'project_name', title:'项目名称',unresize:true,width:120}
+        ,{field:'room_number', title:'房号',unresize:true}
+        ,{field:'building', title:'楼栋',unresize:true}
+        ,{field:'unit', title:'单元',unresize:true}
+        ,{field:'floor', title:'楼层',unresize:true}
+        ,{field:'huxing_name', title:'户型',unresize:true}
+        ,{field:'acreage', title:'装修总面积',unresize:true,width:110}
+        ,{field:'admission_time', title:'入场时间',unresize:true,width:200}
+        ,{field:'estimate_time', title:'预计完成时间',unresize:true,width:200}
+        ,{fixed: 'right', title:'操作',fixed: 'right', toolbar: '#test-table-toolbar-barDemo',unresize:true,width:100}
       ]]
       ,page: {curr:$('#page').val(),limit:$('#limit').val()}
     ,parseData: function(res){ //res 即为原始返回的数据
@@ -144,14 +177,12 @@
 	  }
     });
 
-    layui.code();
-    var area1 = $("#area-select-box-1").JAreaSelect();
-    var area2 = $("#area-select-box-2").JAreaSelect({prov: 0, city: 0, dist: 0});
 
-    $('.demoTable .layui-btn').on('click',function(){
-    	name = $('#name').val();
-      $('#name').attr('val',name);
-    	tab.reload({where:{name:name,_token:token},page:{curr:1}});
+    form.on('submit(query)',function(data){
+      data = data.field;
+      data._token = token;
+      tab.reload({where:data});
+      return false;
     });
     //头工具栏事件
     table.on('toolbar(test-table-toolbar)', function(obj){
@@ -202,12 +233,6 @@
       };
     });
     laydate.render({
-      elem: '#time1' //指定元素
-    });
-    laydate.render({
-      elem: '#time2' //指定元素
-    });
-    laydate.render({
       elem: '#time3' //指定元素
     });
     laydate.render({
@@ -241,22 +266,24 @@
           	}
           })
         });
-      } else if(obj.event === 'edit'){
-		      $('.edit').find("input[name='admission_time']").val(data.admission_time);
-		      $('.edit').find("input[name='estimate_time']").val(data.estimate_time);
-          $('.edit').find("input[name='project_id']").val(data.id);
-            var width = ($(window).width() * 0.4)+'px';
-            var height = ($(window).height() * 0.6)+'px';
-          	edit = layer.open({
-            type : 1,
-            title : '编辑',
-            fix: false, //不固定
-            maxmin: true,
-            shadeClose: true,
-            shade: 0.4,
-            area : [width,height],
-            content : $('.edit')
-          })
+      }else if(obj.event === 'edit'){
+        form.val('edit',{
+          'id':data.id,
+          'admission_time':data.admission_time,
+          'estimate_time':data.estimate_time
+        })
+        var width = ($(window).width() * 0.35)+'px';
+        var height = ($(window).height() * 0.45)+'px';
+      	edit = layer.open({
+        type : 1,
+        title : '编辑',
+        fix: false, //不固定
+        maxmin: true,
+        shadeClose: true,
+        shade: 0.4,
+        area : [width,height],
+        content : $('.edit')
+      })
       }else if(obj.event === 'house')
       {   
         var name = $('#name').attr('val');
@@ -271,39 +298,6 @@
         window.location.href="/engineering/project/huxing?project_id="+data.id+"&name="+name+"&page="+page+"&limit="+limit;
       }
     });
-    form.on('submit(add)',function(data){
-      data = data.field;
-      data._token = token;
-      $.ajax({
-        url : '{{ url("/engineering/project-add") }}',
-        type : 'post',
-        data : data,
-        success : function(res)
-        { 
-          res = $.parseJSON(res);
-          if(res.code == 200)
-          {
-            layer.close(opens);
-            layMsgOk(res.msg);
-            $('#name').val('');
-            $('#page').val(1);
-            tab.config.page.curr = 1;
-            tab.reload({
-              where : {_token:token},
-              page : {cuur:1}
-            })
-          }else
-          {
-            layMsgError(res.msg);
-          }
-        },
-        error : function(error)
-        {
-          layMsgError('新增失败');
-        }
-      })
-      return false;
-    })
     form.on('submit(edit)',function(data){
       data = data.field;
       data._token = token;

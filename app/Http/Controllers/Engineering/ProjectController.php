@@ -18,124 +18,88 @@ class ProjectController extends Controller
 	{
 		if($request->isMethod('get'))
 		{	
-            $project = Project::where('status','1')->where('label','已完成')->get();
+            $project = Project::where('status','2')->get();
 			return view('Engineering.Project.project',[
-				'request' => $request->all(),
                 'project' => $project
 			]);
 		}else
-		{
-			$name = $request->post('name',false)?$request->name:'';
-			$data = Project::where('name','like','%'.$name.'%')
-	                ->where('status',2)
-                    ->with('Houses')
-					->orderBy('created_at','DESC')
-		    		->offset(($request->page -1) * $request->limit)
-		    		->limit($request->limit)
-		    		->get()
-		    		->toArray();
+		{   
+			$data = House::select('*')
+                    ->with(['Project'=>function($query){
+                        return $query->select('id','name')->get();
+                    },'Huxing'=>function($query){
+                        return $query->select('id','name')->get();
+                    }])
+                    ->where([
+                        ['status','>',0],
+                        ['project_id','like','%'.$request->get('project_id','').'%'],
+                        ['building','like','%'.$request->get('building','').'%'],
+                        ['unit','like','%'.$request->get('unit','').'%'],
+                        ['floor','like','%'.$request->get('floor','').'%']
+                    ])
+                    ->offset(($request->page - 1) * $request->limit)
+                    ->limit($request->limit)
+                    ->get();
+            $total = House::select('*')
+                    ->where([
+                        ['status','>',0],
+                        ['project_id','like','%'.$request->get('project_id','').'%'],
+                        ['building','like','%'.$request->get('building','').'%'],
+                        ['unit','like','%'.$request->get('unit','').'%'],
+                        ['floor','like','%'.$request->get('floor','').'%']
+                    ])
+                    ->count();
             foreach($data as $k => $v)
             {
-                $data[$k]['fangshu'] = count($v['houses']);
-                $data[$k]['acreage'] = 0;
-                foreach($v['houses'] as $key => $val)
+                $data[$k]->project_name = $v->Project->name;
+                if($v->Huxing)
                 {
-                    $data[$k]['acreage'] += !empty($val['acreage'])?$val['acreage']:0;
+                    $data[$k]->huxing_name = $v->Huxing->name;
                 }
             }
-			$total = Project::where('name','like','%'.$name.'%')
-	                ->where('status',2)
-	                ->count();
-			$this->tableData($total,$data,'获取成功',0);
+            $this->tableData($total,$data,'获取成功',0);
 		}
 	}
-    public function project_add(Request $request)
-    {
-    	$data = $request->except('_token','province');
-        $model = Project::find($request->project_id);
-    	if($model)
-    	{   
-            $model->status = 2;
-            $model->admission_time = $request->admission_time;
-            $model->estimate_time = $request->estimate_time;
-            $model->save();
-    		$this->success_message('新增成功');
-    	}else
-    	{
-    		$this->error_message('新增失败');
-    	}
-    }
-
     public function project_edit(Request $request)
     {
-    	$data = $request->except('_token','province');
-    	$data['prov'] = $request->province;
-    	$oldProject = Project::where('re_address',$data['re_address'])->where('name',$data['name'])->first();
-    	$newProject = Project::find($data['id']);
-    	if($oldProject && $oldProject->id != $newProject->id)
-    	{
-    		$this->error_message('项目已存在');
-    	}
-
-    	Project::where('id',$data['id'])->update($data);
+    	$data = $request->except('_token');
+    	House::where('id',$data['id'])->update($data);
     	$this->success_message('修改成功');
-    }
-
-    public function project_del(Request $request)
-    {
-        $id = $request->id;
-        $model = Project::find($id);
-        if($model)
-        {   
-            if(House::where('project_id',$id)->where('status','!=',-1)->get()->count() > 0)
-            {
-                $this->error_message('已禁止删除');
-            }
-            $huxing = Huxing::where('project_id',$id)->get();
-            foreach($huxing as $v)
-            {
-                @unlink('.'.$v->dwg_image);
-                @unlink('.'.$v->effect_image);
-            }
-            Huxing::where('project_id',$id)->delete();
-            $model->status = 1;
-            $model->admission_time = null;
-            $model->estimate_time = null;
-            $model->save();
-            $this->success_message('删除成功');
-        }
-        $this->success_message('删除成功');
     }
 	public function house(Request $request)
 	{
 		if($request->isMethod('get'))
 		{	
-			$huxing = Huxing::where('status','>',0)->get();
-            $urls = parse_url(\url()->previous());
-            $project = Project::find($request->project_id);
+            $project = Project::where('status','=',2)->get();
 			return view('Engineering.Project.house',[
-				'request' => $request->all(),
-				'huxing' => $huxing,
-                'title' => $project->name,
-                'project' => $project,
-				'url' => $urls['scheme'].'://'.$urls['host'].$urls['path'].$this->baseKey($request->all())
+                'project' => $project
 			]);
 		}else
 		{
-			$room_number = $request->post('name',false)?$request->name:'';
-			$data = House::where('room_number','like','%'.$room_number.'%')
-	                ->where('status','>',0)
-	                ->with('Huxing')
+			$data = House::select('*')
                     ->with(['Schedules'=>function($query){
-                        return $query->orderBy('serial_number','DESC')->get();
+                        return $query->select('id','house_id','details','serial_number')->orderBy('serial_number','DESC')->get();
+                    },'Huxing'=>function($query){
+                        return $query->select('id','name')->get();
+                    },'Project'=>function($query){
+                        return $query->select('id','name')->get();
                     }])
+                    ->where([
+                        ['status','>',0],
+                        ['project_id','like','%'.$request->get('project_id','').'%'],
+                        ['building','like','%'.$request->get('building','').'%'],
+                        ['unit','like','%'.$request->get('unit','').'%'],
+                        ['floor','like','%'.$request->get('floor','').'%']
+                    ])
 					->orderBy('created_at','DESC')
 		    		->offset(($request->page -1) * $request->limit)
 		    		->limit($request->limit)
 		    		->get()
 		    		->toArray();
+
 		    foreach ($data as $key => $value) 
-		    {     
+		    {   
+                $data[$key]['project_name'] = $value['project']['name'];
                 if(isset($value['schedules'][0]))
                 {   
                     
@@ -147,13 +111,16 @@ class ProjectController extends Controller
 		    	if($value['huxing'])
 		    	{
 		    		$data[$key]['huxing_name'] = $value['huxing']['name'];
-		    	}else
-		    	{
-		    		$data[$key]['huxing_name'] = '无';
 		    	}
 		    }
-			$total = House::where('room_number','like','%'.$room_number.'%')
-	                ->where('status','>',0)
+			$total = House::select('*')
+                    ->where([
+                        ['status','>',0],
+                        ['project_id','like','%'.$request->get('project_id','').'%'],
+                        ['building','like','%'.$request->get('building','').'%'],
+                        ['unit','like','%'.$request->get('unit','').'%'],
+                        ['floor','like','%'.$request->get('floor','').'%']
+                    ])
 	                ->count();
 			$this->tableData($total,$data,'获取成功',0);
 		}

@@ -244,26 +244,33 @@ Route::group(['middleware'=>['rule']],function(){
 
 	/**
 	*	engineering 工程模块
-	*	project 项目
-	* 	house 房间
-	* 	schedule 进度
-	* 	album 相册
 	*/
+	//项目管理
 	Route:: any('/engineering/project','Engineering\ProjectController@project');
-	Route:: post('/engineering/project-add','Engineering\ProjectController@project_add');
-	Route:: post('/engineering/project-edit','Engineering\ProjectController@project_add');
-	Route:: post('/engineering/project-del','Engineering\ProjectController@project_del');
+	Route:: post('/engineering/project-edit','Engineering\ProjectController@project_edit');
 
-	Route::any('/engineering/project/house','Engineering\ProjectController@house');
+	//工程管理
+	Route::any('/engineering/house','Engineering\ProjectController@house');
+	//进度管理
+	Route::get('/engineering/house/schedule','Engineering\ProjectController@schedule');
+	Route::post('/engineering/house/schedule-add','Engineering\ProjectController@schedule_add');
+	//相册管理
+	Route::any('/engineering/house/album','Engineering\ProjectController@album');
+	Route::post('/engineering/house/album-add','Engineering\ProjectController@album_add');
+	Route::post('/engineering/house/album-edit','Engineering\ProjectController@album_edit');
+	Route::post('/engineering/house/album-del','Engineering\ProjectController@album_del');
+	Route::get('/engineering/house/album-check','Engineering\ProjectController@album_check');
 
-	Route::get('/engineering/project/house/schedule','Engineering\ProjectController@schedule');
-	Route::post('/engineering/project/house/schedule-add','Engineering\ProjectController@schedule_add');
+	//施工管理
+	Route::any('/engineering/construction','Engineering\ConstructionController@construction');
+	//施工计划
+	Route::any('/engineering/construction/plan','Engineering\ConstructionController@plan');
+	Route::post('/engineering/construction/plan-add','Engineering\ConstructionController@plan_add');
+	Route::post('/engineering/construction/plan-edit','Engineering\ConstructionController@plan_edit');
+	Route::post('/engineering/construction/plan-del','Engineering\ConstructionController@plan_del');
 
-	Route::any('/engineering/project/house/album','Engineering\ProjectController@album');
-	Route::post('/engineering/project/house/album-add','Engineering\ProjectController@album_add');
-	Route::post('/engineering/project/house/album-edit','Engineering\ProjectController@album_edit');
-	Route::post('/engineering/project/house/album-del','Engineering\ProjectController@album_del');
-	Route::get('/engineering/project/house/album-check','Engineering\ProjectController@album_check');
+	//综合查询
+	Route::any('/engineering/query','Engineering\QueryController@query');
 });
 });
 Route::get('/login',function() {	

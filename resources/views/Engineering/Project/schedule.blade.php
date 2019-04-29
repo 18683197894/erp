@@ -942,7 +942,7 @@ a{
             shade: [0.1,'#fff'] //0.1透明度的白色背景
           });
           $.ajax({
-            url : "{{url('/engineering/project/house/schedule-add')}}",
+            url : "{{url('/engineering/house/schedule-add')}}",
             type : 'post',
             data : {serial_number:serial_number,details:details,start:start,end:end,liable:liable,check:check,house_id:'{{$house->id}}',_token:$("meta[name='csrf-token']").attr('content')},
             success : function(res)

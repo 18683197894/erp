@@ -125,7 +125,7 @@
       ,where:{_token:token}
       ,method:'post'
       ,toolbar: '#test-table-toolbar-toolbarDemo'
-      ,title: '设计图纸'
+      ,title: '材料管理'
       ,cols: [[
          {field:'project_name',fixed: 'left',title:'项目名称',unresize:true,width:120}
         ,{field:'building', title:'楼栋',unresize:true,width:80}
@@ -140,7 +140,7 @@
         ,{field:'jiaju_total', title:'小计金额',unresize:true}
         ,{field:'jiadian_num', title:'家电数量',unresize:true}
         ,{field:'jiadian_total', title:'小计金额',unresize:true}
-        ,{fixed:'right', title:'材料清单',toolbar:'#list',unresize:true,width:120}
+        ,{fixed:'right', title:'材料清单',toolbar:'#list',width:120}
       ]]
       ,page: true
     ,parseData: function(res){ //res 即为原始返回的数据

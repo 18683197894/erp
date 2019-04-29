@@ -43,4 +43,13 @@ class House extends Model
     {
         return $this->hasOne('App\Model\Engineering\House','id','template_id');
     }
+
+    public function Schedules()
+    {
+        return $this->hasMany('App\Model\Engineering\Schedule','house_id','id');
+    }
+    public function EngineeringMaterials()
+    {
+        return $this->hasMany('App\Model\Engineering\Material','house_id','id');
+    }
 }

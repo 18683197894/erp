@@ -224,10 +224,10 @@
       },
       'num':function(value)
       {
-        s = /^[1-9][0-9]*[0-9]*$/;
+        s = /^[1-9]\d{0,4}$/;
         if(!s.test(value))
         {
-          return '请输入整数 (MIN:1 MAX:3)';
+          return '请输入整数 (MIN:1 MAX:5)';
         }
       }
     })

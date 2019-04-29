@@ -30,7 +30,7 @@ class MaterialController extends Controller
                     	return $query->select('name','id');
                     }])
                     ->with(['Materials'=>function($query){
-                    	return $query->select('id','settlement_price','num','other_price','house_id','class');
+                    	return $query->select('id','settlement_price','num','other_price','house_id','class_a');
                     }])
                     ->where('project_id','like','%'.$formData['project_id'].'%')
                     ->where('unit','like','%'.$formData['unit'].'%')
@@ -41,7 +41,6 @@ class MaterialController extends Controller
     				->offset(($request->page - 1) * $request->limit)
     				->limit($request->limit)
     				->get();
-
     		foreach($data as $k => $v)
     		{	
     			$data[$k]->project_name = $v->Project->name;
@@ -55,28 +54,27 @@ class MaterialController extends Controller
     			$data[$k]->jiadian_total = 0;
     			foreach($v->Materials as $val)
     			{
-    				if($val->class === '主材' )
+    				if($val->class_a === '主材' )
     				{
     					$data[$k]->zhucai_num += $val->num; 
     					$data[$k]->zhucai_total = bcadd($data[$k]->zhucai_total,bcadd(bcmul($val->settlement_price , $val->num,2),$val->other_price,2),2) ; 
     				}
-    				if($val->class === '辅材' )
+    				if($val->class_a === '辅材' )
     				{   
                         $data[$k]->fucai_num += $val->num; 
     					$data[$k]->fucai_total = bcadd($data[$k]->fucai_total,bcadd(bcmul($val->settlement_price , $val->num,2),$val->other_price,2),2) ;  
     				}
-    				if($val->class === '家具' )
+    				if($val->class_a === '家具' )
     				{
     					$data[$k]->jiaju_num += $val->num; 
     					$data[$k]->jiaju_total = bcadd($data[$k]->jiaju_total,bcadd(bcmul($val->settlement_price , $val->num,2),$val->other_price,2),2) ; 
     				}
-    				if($val->class === '家电' )
+    				if($val->class_a === '家电' )
     				{
     					$data[$k]->jiadian_num += $val->num; 
     					$data[$k]->jiadian_total = bcadd($data[$k]->jiadian_total,bcadd(bcmul($val->settlement_price , $val->num,2),$val->other_price,2),2) ;  
     				}
     			}
-    			
     		}
     		$total = House::select('building','unit','floor','room_number','acreage','user_id')
     				->where('project_id','like','%'.$formData['project_id'].'%')
