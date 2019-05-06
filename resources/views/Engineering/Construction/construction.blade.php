@@ -133,7 +133,7 @@
         ,{field:'building', title:'楼栋',unresize:true,width:70,rowspan: 2}
         ,{field:'unit', title:'单元',unresize:true,width:70,rowspan: 2}
         ,{field:'floor', title:'楼层',unresize:true,width:70,rowspan: 2}
-        ,{field:'acreage', title:'所需材料统计',align:'center', colspan: 7}
+        ,{title:'所需材料统计',align:'center', colspan: 7}
         ,{fixed: 'right',title:'施工计划',width:100,toolbar:'#plan',rowspan: 2}
       ],[
          {field:'a_num',title:'主材数量',unresize:true}

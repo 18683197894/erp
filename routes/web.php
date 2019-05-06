@@ -194,12 +194,14 @@ Route::group(['middleware'=>['rule']],function(){
 
 	//材料管理
 	Route::any('/design/material','Design\MaterialController@material');
+	//清单列表
 	Route::any('/design/material/list','Design\MaterialController@list');
+	Route::post('/design/material/list-add','Design\MaterialController@list_add');
 	Route::post('/design/material/list-edit','Design\MaterialController@list_edit');
 	Route::post('/design/material/list-del','Design\MaterialController@list_del');
 
-	Route::any('/design/material/list-selection','Design\MaterialController@list_selection');
-	Route::post('/design/material/list-selection-add','Design\MaterialController@list_selection_add');
+	// Route::any('/design/material/list-selection','Design\MaterialController@list_selection');
+	// Route::post('/design/material/list-selection-add','Design\MaterialController@list_selection_add');
 	
 	//样板设计
 	Route::any('/Design/template','Design\TemplateController@template');

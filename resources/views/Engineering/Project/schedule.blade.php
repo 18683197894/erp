@@ -209,10 +209,10 @@ a{
             <td name="serial_number">4</td>
             <td name="details">中央空调</td>
             <td>
-              <input class="layui-input" value="{{ isset($schedule[3]->start)?$schedule[3]->start:'' }}" placeholder="开始日" name="start" id="start4">
+              <input class="layui-input" value="{{ isset($schedule[3]->start)?$schedule[3]->start:'' }}" placeholder="开始日" name="start" id="start1">
             </td>
             <td>
-              <input class="layui-input" value="{{ isset($schedule[3]->end)? $schedule[3]->end :'' }}" placeholder="截止日" name="end" id="end4">
+              <input class="layui-input" value="{{ isset($schedule[3]->end)? $schedule[3]->end :'' }}" placeholder="截止日" name="end" id="end1">
             </td>
             <td>
               @if(isset($schedule[3]) && $schedule[3]['status'] == 2)
@@ -796,7 +796,7 @@ a{
 
           <tr index="26" fid="23">
             <td name="serial_number">26</td>
-            <td name="details">竣工联合验收单</td>
+            <td name="details">工程内部验收</td>
             <td>
               <input class="layui-input" value="{{ isset($schedule[25]->start)?$schedule[25]->start:'' }}" placeholder="开始日" name="start" id="start26">
             </td>
@@ -850,7 +850,7 @@ a{
 
           <tr index="28" fid="23">
             <td name="serial_number">28</td>
-            <td name="details">竣工仪式</td>
+            <td name="details">移交</td>
             <td>
               <input class="layui-input" value="{{ isset($schedule[27]->start)?$schedule[27]->start:'' }}" placeholder="开始日" name="start" id="start28">
             </td>

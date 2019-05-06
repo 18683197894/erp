@@ -5,29 +5,101 @@ namespace App\Http\Controllers\Design;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Model\Engineering\House;
+use App\Model\Developer\Project;
 use App\Model\Design\Material;
 use App\Model\Supplier\Material as SupplierMaterial;
-use App\Model\Supplier\Category;
 class MaterialController extends Controller
 {
     public function material(Request $request)
+    {
+    	if($request->isMethod('get'))
+    	{	
+    		$project = Project::where('status',2)->get();
+    		return view('Design.Material.material',[
+    			'project'=>$project
+    		]);
+    	}else
+    	{	
+    		$formData['project_id'] = $request->post('project_id','');
+    		$formData['unit'] = $request->post('unit','');
+    		$formData['building'] = $request->post('building','');
+    		$formData['floor'] = $request->post('floor','');
+    		$formData['room_number'] = $request->post('room_number','');
+    		$data = House::select('id','building','unit','floor','room_number','acreage','project_id')
+    				->with(['Project'=>function($query){
+                    	return $query->select('name','id');
+                    }])
+                    ->with(['Materials'=>function($query){
+                    	return $query->select('id','settlement_price','num','other_price','house_id','class_a');
+                    }])
+                    ->where('project_id','like','%'.$formData['project_id'].'%')
+                    ->where('unit','like','%'.$formData['unit'].'%')
+                    ->where('building','like','%'.$formData['building'].'%')
+                    ->where('floor','like','%'.$formData['floor'].'%')
+                    ->where('room_number','like','%'.$formData['room_number'].'%')
+                    ->orderBy('created_at','Desc')
+    				->offset(($request->page - 1) * $request->limit)
+    				->limit($request->limit)
+    				->get();
+    		foreach($data as $k => $v)
+    		{	
+    			$data[$k]->project_name = $v->Project->name;
+    			$data[$k]->zhucai_num = 0;
+    			$data[$k]->zhucai_total = 0;
+    			$data[$k]->fucai_num = 0;
+    			$data[$k]->fucai_total = 0;
+    			$data[$k]->jiaju_num = 0;
+    			$data[$k]->jiaju_total = 0;
+    			$data[$k]->jiadian_num = 0;
+    			$data[$k]->jiadian_total = 0;
+    			foreach($v->Materials as $val)
+    			{
+    				if($val->class_a === '主材' )
+    				{
+    					$data[$k]->zhucai_num += $val->num; 
+    					$data[$k]->zhucai_total = bcadd($data[$k]->zhucai_total,bcadd(bcmul($val->settlement_price , $val->num,2),$val->other_price,2),2) ; 
+    				}
+    				if($val->class_a === '辅材' )
+    				{   
+                        $data[$k]->fucai_num += $val->num; 
+    					$data[$k]->fucai_total = bcadd($data[$k]->fucai_total,bcadd(bcmul($val->settlement_price , $val->num,2),$val->other_price,2),2) ;  
+    				}
+    				if($val->class_a === '家具' )
+    				{
+    					$data[$k]->jiaju_num += $val->num; 
+    					$data[$k]->jiaju_total = bcadd($data[$k]->jiaju_total,bcadd(bcmul($val->settlement_price , $val->num,2),$val->other_price,2),2) ; 
+    				}
+    				if($val->class_a === '家电' )
+    				{
+    					$data[$k]->jiadian_num += $val->num; 
+    					$data[$k]->jiadian_total = bcadd($data[$k]->jiadian_total,bcadd(bcmul($val->settlement_price , $val->num,2),$val->other_price,2),2) ;  
+    				}
+    			}
+    		}
+    		$total = House::select('building','unit','floor','room_number','acreage','user_id')
+    				->where('project_id','like','%'.$formData['project_id'].'%')
+                    ->where('unit','like','%'.$formData['unit'].'%')
+                    ->where('building','like','%'.$formData['building'].'%')
+                    ->where('floor','like','%'.$formData['floor'].'%')
+                    ->where('room_number','like','%'.$formData['room_number'].'%')
+    				->count();
+    		$this->tableData($total,$data,'获取成功',0);
+    	}
+    }
+
+    public function list(Request $request)
     {	
 
     	if($request->isMethod('get'))
     	{	
-    		$urls = parse_url(\url()->previous());
     		$house = House::find($request->house_id);
     		if(!$house)
     		{
-    			return back();
+    			die('数据不存在');
     		}
-    		$title = $house->project->name.$house->unit.'单元'.$house->building.'栋'.$house->floor.'层'.$house->room_number.'号';
-    		return view('Design.Material.material',[
-    			'request'=>$request->all(),
-    			'url' => $urls['scheme'].'://'.$urls['host'].$urls['path'].$this->baseKey($request->all()),
-    			'house'=>$house,
-    			'title'=>$title
-    		]);
+    		return view('Design.Material.list',[
+    			'house'=>$house
+       		]);
        	}else
     	{
 			$house_id = $request->house_id;
@@ -49,7 +121,7 @@ class MaterialController extends Controller
             $this->tableData($total,$data,'获取成功',0);
     	}
     }
-    public function material_edit(Request $request)
+    public function list_edit(Request $request)
     {
     	$model = Material::find($request->id);
     	if(!$model)
@@ -76,40 +148,33 @@ class MaterialController extends Controller
     	}
 
     }
-    public function material_del(Request $request)
+    public function list_del(Request $request)
     {
     	Material::where('id',$request->id)->delete();
     	$this->success_message('删除成功');
     }
-    public function material_selection(Request $request)
+    public function list_selection(Request $request)
     {
     	if($request->isMethod('get'))
     	{	
-    		$categroy = Category::where('status','>',0)->get();
     		$house = House::find($request->house_id);
-    		return view('Design.Material.selection',[
-    			'house'=>$house,
-    			'categroy'=>$categroy
+    		return view('Design.Material.list_selection',[
+    			'house'=>$house
     		]);
     	}else
     	{	
-            $category_id = $request->get('category_id','');
-    		$class_id = $request->get('class_id','');
+    		$class_a = $request->get('class_a','');
     		$code = $request->get('code','');
-			$data = \DB::table('supplier_material')
-                    ->select('supplier_material.*','supplier_category.id as cate_id','supplier_category.class as class_name','supplier_category.name as category_name')
-                    ->join('supplier_category','supplier_material.category_id','=','supplier_category.id')
+			$data = SupplierMaterial::select('*')
                     ->where([
-                        ['supplier_material.status','>',0],
-                        ['supplier_material.category_id','like','%'.$category_id.'%'],
-                        ['supplier_category.class','like','%'.$class_id.'%'],
-                        ['supplier_material.code','like','%'.$code.'%']
+                        ['status','>',0],
+                        ['code','like','%'.$code.'%'],
+                        ['class_a','like','%'.$class_a.'%']
                     ])
-                    ->orderBy('supplier_material.created_at','DESC')
+                    ->orderBy('created_at','DESC')
                     ->offset(($request->page -1) * $request->limit)
                     ->limit($request->limit)
-                    ->get()
-                    ->toArray();
+                    ->get();
             foreach($data as $k => $v)
             {
             	if($v->promotion == 1)
@@ -133,20 +198,18 @@ class MaterialController extends Controller
             		$data[$k]->promotion_price = '无促销';
             	}
             }
-            $total = \DB::table('supplier_material')
-                    ->select('supplier_material.*','supplier_category.id as cate_id','supplier_category.class as class_name','supplier_category.name as category_name')
-                    ->join('supplier_category','supplier_material.category_id','=','supplier_category.id')
+            $total = SupplierMaterial::select('*')
                     ->where([
-                        ['supplier_material.status','>',0],
-                        ['supplier_material.category_id','like','%'.$category_id.'%'],
-                        ['supplier_category.class','like','%'.$class_id.'%'],
-                        ['supplier_material.code','like','%'.$code.'%']
-                    ])->count();
+                        ['status','>',0],
+                        ['code','like','%'.$code.'%'],
+                        ['class_a','like','%'.$class_a.'%']
+                    ])
+                    ->count();
             $this->tableData($total,$data,'获取成功',0);
     	}
     }
 
-    public function material_selection_add(Request $request)
+    public function list_selection_add(Request $request)
     {
     	$data = $request->except('_token','code');
     	$material = SupplierMaterial::where('status','>','0')->where('id',$data['material_id'])->first();
@@ -158,8 +221,8 @@ class MaterialController extends Controller
     	{
     		$data['other_explain'] = null;
     	}
-    	$data['category'] = $material->Category->name;
-    	$data['class'] = $material->Category->class;
+    	$data['class_a'] = $material->class_a;
+    	$data['class_b'] = $material->class_b;
     	$data['code'] = $material->code;
     	$data['brand'] = $material->brand;
     	$data['model'] = $material->model;

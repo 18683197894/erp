@@ -199,8 +199,10 @@
     });
 
     laydate.render({
-      elem: '#time_1', //指定元素
-      elem: '#time_2' //指定元素
+      elem: '#time_1'//指定元素
+    });
+    laydate.render({
+      elem: '#time_2'//指定元素
     });
     //监听行工具事件
     table.on('tool(test-table-toolbar)', function(obj){

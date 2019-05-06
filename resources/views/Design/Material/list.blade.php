@@ -4,75 +4,164 @@
 
 @endsection
 @section('open')
-<div class="layui-card edit" style="display:none">
-    <form class="layui-form layui-form-pane" id="myform"  style="margin: 15px;" lay-filter="edit">
-      <input type="hidden" name="id" value="">
-      <div class="layui-form-item" >
-        <label class="layui-form-label">材料编码</label>
-        <div class="layui-input-block">
-          <input name="code" value="" lay-verify="code" readonly="readonly" placeholder="" autocomplete="off" class="layui-input" type="text">
-        </div>
-      </div>
-      <div class="layui-form-item" >
-        <div class="layui-col-lg6">
-          <label class="layui-form-label">位置</label>
-          <div class="layui-input-block">
-            <input name="position" value="" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input" type="text">
+<div class="layui-card add" style="display:none">
+  <div class="layui-card-body" style="padding: 15px">
+    <form class="layui-form layui-form-pane" id="myform"lay-filter="component-form-group">
+      <div class="layui-form-item">
+        <div class="layui-row layui-col-space10">
+          <div class="layui-col-lg6">
+            <label class="layui-form-label">区域</label>
+            <div class="layui-input-block">
+              <select name="region" lay-verify="required">
+                <option value="">请选择</option>
+                <option value="1">土建部分</option>
+                <option value="2">客餐厅厨房区域</option>
+                <option value="3">卫生间区域</option>
+                <option value="4">卧室区域</option>
+                <option value="5">强弱电工程部分</option>
+                <option value="6">其他项目</option>
+                <option value="7">卫浴洁具类</option>
+              </select>
+            </div>
           </div>
-        </div>
-        <div class="layui-col-lg6">
-          <label class="layui-form-label">数量</label>
-          <div class="layui-input-block">
-            <input name="num" value="" lay-verify="required|num" placeholder="请输入" autocomplete="off" class="layui-input" type="text">
-          </div>
-        </div>
-      </div>
-      <div class="layui-form-item" >
-        <div class="layui-col-lg6">
-          <label class="layui-form-label">其他费用</label>
-          <div class="layui-input-block">
-            <input name="other_price" value="" lay-verify="other_price" placeholder="请输入" autocomplete="off" class="layui-input" type="text">
-          </div>
-        </div>
-        <div class="layui-col-lg6">
-          <label class="layui-form-label">费用说明</label>
-          <div class="layui-input-block">
-            <input name="other_explain" value="" lay-verify="other_explain" placeholder="请输入" autocomplete="off" class="layui-input" type="text">
+          <div class="layui-col-lg6">
+            <label class="layui-form-label">位置</label>
+            <div class="layui-input-block">
+              <input name="position" value="" lay-verify="required" placeholder="请输入位置" autocomplete="off" class="layui-input" type="text">
+            </div>
           </div>
         </div>
       </div>
-      <div class="layui-form-item layui-form-text" >
-        <label class="layui-form-label">备注</label>
-        <div class="layui-input-block">
-          <textarea name="remarks" lay-verify="" placeholder="请输入" class="layui-textarea"></textarea>
+      <div class="layui-form-item">
+        <div class="layui-row layui-col-space10">
+          <div class="layui-col-lg6">
+            <label class="layui-form-label">材料编号</label>
+            <div class="layui-input-block">
+              <select name="material_id" lay-search="" lay-verify="required">
+                <option value="">直接选择或搜索选择</option>
+                @foreach($material as $v)
+                <option value="{{ $v->id }}">{{ $v->code }}</option>
+                @endforeach
+              </select>
+            </div>
+          </div>
+          <div class="layui-col-lg6">
+            <label class="layui-form-label">数量</label>
+            <div class="layui-input-block">
+              <input name="num" value="" lay-verify="required|num" placeholder="请输入数量" autocomplete="off" class="layui-input" type="text">
+            </div>
+          </div>
         </div>
       </div>
+      <div class="layui-form-item">
+        <div class="layui-row layui-col-space10">
+          <div class="layui-col-lg6">
+            <label class="layui-form-label">人工费用</label>
+            <div class="layui-input-block">
+              <input name="artificial_price" value="" lay-verify="price" placeholder="请输入人工费用" autocomplete="off" class="layui-input" type="text">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">施工说明/备注</label>
+            <div class="layui-input-block">
+              <textarea name="remarks" lay-verify="" placeholder="请输入" class="layui-textarea"></textarea>
+            </div>
+          </div>
+        <br>
       <div class="layui-form-item ">
         <div class="layui-input-block">
           <div class="layui-footer">
-            <button class="layui-btn" style="margin-top: 10px;" lay-submit="" lay-filter="edit">立即提交</button>
+            <button class="layui-btn" lay-submit="add" lay-filter="add">立即提交</button>
           </div>
         </div>
       </div> 
-    
-  </form>
+    </form>
+  </div>
+</div>
+<div class="layui-card edit" style="display:none">
+  <div class="layui-card-body" style="padding: 15px">
+    <form class="layui-form layui-form-pane" lay-filter="edit">
+      <input type="hidden" name="id" value="">
+      <div class="layui-form-item">
+        <div class="layui-row layui-col-space10">
+          <div class="layui-col-lg6">
+            <label class="layui-form-label">区域</label>
+            <div class="layui-input-block">
+              <select name="region" lay-verify="required">
+                <option value="">请选择</option>
+                <option value="1">土建部分</option>
+                <option value="2">客餐厅厨房区域</option>
+                <option value="3">卫生间区域</option>
+                <option value="4">卧室区域</option>
+                <option value="5">强弱电工程部分</option>
+                <option value="6">其他项目</option>
+                <option value="7">卫浴洁具类</option>
+              </select>
+            </div>
+          </div>
+          <div class="layui-col-lg6">
+            <label class="layui-form-label">位置</label>
+            <div class="layui-input-block">
+              <input name="position" value="" lay-verify="required" placeholder="请输入位置" autocomplete="off" class="layui-input" type="text">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="layui-form-item">
+        <div class="layui-row layui-col-space10">
+          <div class="layui-col-lg6">
+            <label class="layui-form-label">材料编号</label>
+            <div class="layui-input-block">
+              <input name="code" value="" lay-verify="required" placeholder="请输入材料编号" autocomplete="off" class="layui-input" type="text" disabled>
+            </div>
+          </div>
+          <div class="layui-col-lg6">
+            <label class="layui-form-label">数量</label>
+            <div class="layui-input-block">
+              <input name="num" value="" lay-verify="required|num" placeholder="请输入数量" autocomplete="off" class="layui-input" type="text">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="layui-form-item">
+        <div class="layui-row layui-col-space10">
+          <div class="layui-col-lg6">
+            <label class="layui-form-label">人工费用</label>
+            <div class="layui-input-block">
+              <input name="artificial_price" value="" lay-verify="price" placeholder="请输入人工费用" autocomplete="off" class="layui-input" type="text">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">施工说明/备注</label>
+            <div class="layui-input-block">
+              <textarea name="remarks" lay-verify="" placeholder="请输入" class="layui-textarea"></textarea>
+            </div>
+          </div>
+        <br>
+      <div class="layui-form-item ">
+        <div class="layui-input-block">
+          <div class="layui-footer">
+            <button class="layui-btn" lay-submit="edit" lay-filter="edit">立即提交</button>
+          </div>
+        </div>
+      </div> 
+    </form>
+  </div>
 </div>
 @endsection
 
 @section('content')
 
 <div class="layui-card-body">
-	<div class="demoTable" style="padding-bottom: 10px">
-    <form class="layui-form">
-      <input type="hidden" name="house_id" id="house_id" value="{{ $house->id }}">
-    </form>
-
-	</div>
 	<table class="layui-hide" id="test-table-toolbar" lay-filter="test-table-toolbar"></table>
 
 	<script type="text/html" id="test-table-toolbar-toolbarDemo">
 	  <div class="layui-btn-container">
-	    <button class="layui-btn layui-btn-sm" lay-event="add">材料选取</button>
+	    <button class="layui-btn layui-btn-sm" onclick="open_show('新增材料','.add',0.6,0.8)">新增材料</button>
 	  </div>
 	</script>
 
@@ -96,36 +185,37 @@
     ,form = layui.form
     ,table = layui.table
     token = $("meta[name='csrf-token']").attr('content');
-  
+    house_id = {{ $house->id }};
     var tab = table.render({
       elem: '#test-table-toolbar'
       ,url: '/design/material/list'
-      ,where:{_token:token,house_id:$('#house_id').val()}
+      ,where:{_token:token,house_id:house_id}
       ,method:'post'
       ,toolbar: '#test-table-toolbar-toolbarDemo'
       ,title: '材料清单'
       ,cols: [[
-         {field:'class_a',fixed: 'left',  title:'一级分类',unresize:true,width:120}
-        ,{field:'class_b',title:'二级分类',unresize:true,width:120}
-        ,{field:'position', title:'位置',unresize:true,width:120}
-        ,{field:'code', title:'编码',unresize:true,width:120}
-        ,{field:'brand', title:'品牌',unresize:true,width:120}
-        ,{field:'model', title:'型号',unresize:true,width:120}
-        ,{field:'spec', title:'规格',unresize:true,width:120}
-        ,{field:'color', title:'颜色',unresize:true,width:120}
-        ,{field:'metering', title:'计量单位',unresize:true,width:120}
-        ,{field:'parts_num', title:'配件套数',unresize:true,width:120}
-        ,{field:'place', title:'产地',unresize:true,width:120}
-        ,{field:'standard_price', title:'标准价',unresize:true,width:120}
-        ,{field:'promotion_price', title:'促销价',unresize:true,width:120}
-        ,{field:'settlement_price', title:'结算价',unresize:true,width:120}
-        ,{field:'other_price', title:'其他费用',unresize:true,width:120}
-        ,{field:'other_explain', title:'费用说明',unresize:true,width:120}
-        ,{field:'num', title:'数量',unresize:true,width:120}
-        ,{field:'total', title:'总价',unresize:true,width:120}
-        ,{field:'remarks', title:'备注',unresize:true,width:120}
-        ,{field:'created_at', title:'时间',unresize:true,width:120}
-        ,{fixed: 'right', title:'操作', toolbar: '#test-table-toolbar-barDemo',unresize:true,width:120}
+         {field:'id',fixed: 'left',title:'序号',unresize:true,width:80}
+        ,{field:'region_name',title:'区域',unresize:true,width:120}
+        ,{field:'position', title:'位置',unresize:true,width:100}
+        ,{field:'code', title:'材料编码',unresize:true,width:100}
+        ,{field:'class_a',title:'一级分类',unresize:true,width:100}
+        ,{field:'class_b',title:'二级分类',unresize:true,width:100}
+        ,{field:'brand', title:'品牌',unresize:true,width:100}
+        ,{field:'name', title:'材料名称',unresize:true,width:100}
+        ,{field:'spec', title:'规格',unresize:true,width:100}
+        ,{field:'model', title:'型号',unresize:true,width:100}
+        ,{field:'color', title:'颜色',unresize:true,width:100}
+        ,{field:'metering', title:'计量单位',unresize:true,width:100}
+        // ,{field:'parts_num', title:'配件套数',unresize:true,width:100}
+        // ,{field:'place', title:'产地',unresize:true,width:100}
+        ,{field:'num', title:'数量',unresize:true,width:100}
+        ,{field:'standard_price', title:'销售价',unresize:true,width:100}
+        ,{field:'promotion_price', title:'促销价',unresize:true,width:100}
+        ,{field:'settlement_price', title:'结算价',unresize:true,width:100}
+        ,{field:'artificial_price', title:'人工费',unresize:true,width:100}
+        ,{field:'total', title:'总价',unresize:true,width:100}
+        ,{field:'remarks', title:'施工说明/备注',unresize:true,width:120}
+        ,{fixed: 'right', title:'操作', toolbar: '#test-table-toolbar-barDemo',unresize:true,width:115}
       ]]
       ,page: true
     ,parseData: function(res){ //res 即为原始返回的数据
@@ -142,21 +232,7 @@
       var checkStatus = table.checkStatus(obj.config.id);
       switch(obj.event){
         case 'add':
-          var width = ($(window).width() *  0.95)+'px';
-          var height = ($(window).height() * 0.9)+'px';
-          var add = layer.open({
-            type: 2,
-            title: '材料选取',
-            fix: false, //不固定
-            maxmin: true,
-            shadeClose: true,
-            shade: 0.4, //开启最大化最小化按钮
-            area: [width, height],
-            content: '{{ url("/design/material/list-selection") }}?house_id='+$('#house_id').val(),
-            end:function(){
-              tab.reload();
-            }
-        });     
+          
         break;
         case 'isAll':
           // layer.msg(checkStatus.isAll ? '全选': '未全选');
@@ -170,7 +246,7 @@
       if(obj.event === 'del'){
         layer.confirm('确定删除材料: '+data.code+' 吗', function(index){
         	$.ajax({
-          	url:'{{ url("/design/house/material-del") }}',
+          	url:'{{ url("/design/material/list-del") }}',
           	type : 'post',
           	data : {id:data.id,_token:token},
           	success : function(res)
@@ -198,10 +274,10 @@
           'id':data.id,
           'code':data.code,
           'num':data.num,
-          'other_price':data.other_price,
-          'other_explain':data.other_explain,
+          'artificial_price':data.artificial_price,
           'remarks':data.remarks,
-          'position':data.position
+          'position':data.position,
+          'region':data.region
         });
         var width = ($(window).width() *  0.6)+'px';
         var height = ($(window).height() * 0.8)+'px';
@@ -216,6 +292,37 @@
           content: $('.edit')
           });  
       }
+    });
+    form.on('submit(add)',function(data)
+    {
+      data = data.field;
+      data._token = token;
+      data.house_id = house_id;
+      $.ajax('/design/material/list-add',{
+        data : data,
+        type : 'post',
+        success : function(res)
+        {
+          layer.close(opens);
+          res = $.parseJSON(res);
+          if(res.code == 200)
+          {
+            layMsgOk(res.msg);
+            tab.reload({
+              where : {_token:token,house_id:house_id},
+              page : {cuur:1}
+            })
+          }else
+          {
+            layMsgError(res.msg);
+          }
+        },
+        error : function(data)
+        {
+          layMsgError('新增失败');
+        }
+      });
+      return false;
     });
     form.on('submit(edit)',function(data){
       data = data.field;
@@ -245,7 +352,7 @@
       return false;
     });
     form.verify({
-      'other_price' : function(value)
+      'price' : function(value)
       {
         if(value)
         {
@@ -259,10 +366,13 @@
       },
       'num':function(value)
       {
-        s = /^[1-9][0-9]*[0-9]*$/;
-        if(!s.test(value))
+        if(value)
         {
-          return '请输入整数 (MIN:1 MAX:3)';
+          s = /^[1-9]\d{0,4}$/;
+          if(!s.test(value))
+          {
+            return '请输入整数 (MIN:1 MAX:5)';
+          }
         }
       }
     });

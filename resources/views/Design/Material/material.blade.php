@@ -127,12 +127,15 @@
       ,toolbar: '#test-table-toolbar-toolbarDemo'
       ,title: '材料管理'
       ,cols: [[
-         {field:'project_name',fixed: 'left',title:'项目名称',unresize:true,width:120}
-        ,{field:'building', title:'楼栋',unresize:true,width:80}
-        ,{field:'unit', title:'单元',unresize:true,width:80}
-        ,{field:'floor', title:'楼层',unresize:true,width:80}
-        ,{field:'room_number', title:'房号',unresize:true,width:80}
-        ,{field:'zhucai_num', title:'主材数量',unresize:true}
+         {field:'project_name',fixed: 'left',title:'项目名称',unresize:true,width:120,rowspan: 2}
+        ,{field:'building', title:'楼栋',unresize:true,width:80,rowspan: 2}
+        ,{field:'unit', title:'单元',unresize:true,width:80,rowspan: 2}
+        ,{field:'floor', title:'楼层',unresize:true,width:80,rowspan: 2}
+        ,{field:'room_number', title:'房号',unresize:true,width:80,rowspan: 2}
+        ,{title:'材料统计',align:'center', colspan: 10}
+        ,{fixed:'right', title:'材料清单',toolbar:'#list',width:80,rowspan: 2}
+      ],[
+         {field:'zhucai_num', title:'主材数量',unresize:true}
         ,{field:'zhucai_total', title:'小计金额',unresize:true}
         ,{field:'fucai_num', title:'辅材数量',unresize:true}
         ,{field:'fucai_total', title:'小计金额',unresize:true}
@@ -140,7 +143,8 @@
         ,{field:'jiaju_total', title:'小计金额',unresize:true}
         ,{field:'jiadian_num', title:'家电数量',unresize:true}
         ,{field:'jiadian_total', title:'小计金额',unresize:true}
-        ,{fixed:'right', title:'材料清单',toolbar:'#list',width:120}
+        ,{field:'rg_total', title:'人工费用小计',unresize:true}
+        ,{field:'total', title:'合计',unresize:true}
       ]]
       ,page: true
     ,parseData: function(res){ //res 即为原始返回的数据
