@@ -52,4 +52,8 @@ class House extends Model
     {
         return $this->hasMany('App\Model\Engineering\Material','house_id','id');
     }
+    public function CostEstimateDetaileds()
+    {
+        return $this->hasMany('App\Model\Cost\CostEstimateDetailed','house_id','id');
+    }
 }

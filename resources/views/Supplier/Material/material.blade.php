@@ -616,14 +616,15 @@
         <input type="hidden" id="page" name="page" value="">
         <input type="hidden" id="limit" name="limit" value="">
 		</div>
-		<a class="layui-btn">搜索</a>
+		<a class="layui-btn" style="margin-left: 5px;">搜索</a>
 	</form>
 	</div>
 	<table class="layui-hide" id="test-table-toolbar" lay-filter="test-table-toolbar"></table>
 
 	<script type="text/html" id="test-table-toolbar-toolbarDemo">
 	  <div class="layui-btn-container">
-	    <button class="layui-btn layui-btn-sm" onclick="open_show('新增材料','.add',0.9,0.9)">新增材料</button>
+      <button class="layui-btn layui-btn-sm" onclick="open_show('新增材料','.add',0.9,0.9)">新增材料</button>
+	    <button class="layui-btn layui-btn-sm" id='import' >导入</button>
 	  </div>
 	</script>
 
@@ -692,6 +693,20 @@
 	      "data": res.data //解析数据列表
 	    };
 	  }
+    });
+    upload.render({
+      elem: '#import' //绑定元素
+      ,url: '/supplier/material-import' //上传接口
+      ,acceptMime: '.xls,.xlsm,.xlsx,.csv'
+      ,exts:'.xls|xlsm|xlsx|csv'
+      ,field:'import'
+      ,data:{_token:token}
+      ,done: function(res){
+        //上传完毕回调
+      }
+      ,error: function(){
+        //请求异常回调
+      }
     });
     //选完文件后不自动上传
     upload.render({

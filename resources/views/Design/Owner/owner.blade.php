@@ -185,7 +185,7 @@
 		<div class="layui-input-inline">
 		  <input class="layui-input" name="name" value="{{ isset($request['name'])?$request['name']:'' }}" val="{{ isset($request['name'])?$request['name']:'' }}" id="name" placeholder="姓名搜索" autocomplete="off">
 		</div>
-		<button class="layui-btn">搜索</button>
+		<button class="layui-btn" style="margin-left: 5px;">搜索</button>
 	</div>
 	<table class="layui-hide" id="test-table-toolbar" lay-filter="test-table-toolbar"></table>
 

@@ -487,17 +487,22 @@ class ProjectController extends Controller
                     ->limit($request->limit)
                     ->orderBy('created_at','DESC')
                     ->get();
+
             foreach($data as $k => $v)
             {
                 $data[$k]->company_name = $v->company->company_name;
-                $data[$k]->appointments_name = $v->appointments[0]->schedule;
-                $data[$k]->remarks = $v->appointments[0]->remarks;
-                $data[$k]->user_name = User::find($v->appointments[0]->user_id)->username;
-                if($v->appointments[0]->feedback)
+                if($v->appointments->count() > 0)
                 {
-                    $data[$k]->now_result = $v->appointments[0]->feedback->now_result;
-                    $data[$k]->next_stage = $v->appointments[0]->feedback->next_stage;
+                    $data[$k]->appointments_name = $v->appointments[0]->schedule;
+                    $data[$k]->remarks = $v->appointments[0]->remarks;
+                    $data[$k]->user_name = User::find($v->appointments[0]->user_id)->username;
+                    if($v->appointments[0]->feedback)
+                    {   
+                        $data[$k]->now_result = $v->appointments[0]->feedback->now_result;
+                        $data[$k]->next_stage = $v->appointments[0]->feedback->next_stage;
+                    }
                 }
+                
             }
             $total = Project::select('*')
                     ->where('status','>=',0)

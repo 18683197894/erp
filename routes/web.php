@@ -232,6 +232,7 @@ Route::group(['middleware'=>['rule']],function(){
 	Route::post('/supplier/material-add','Supplier\SupplierController@material_add');
 	Route::post('/supplier/material-edit','Supplier\SupplierController@material_edit');
 	Route::post('/supplier/material-del','Supplier\SupplierController@material_del');
+	Route::post('/supplier/material-import','Import\ImportController@supplier_material_import');
 
 	Route::any('/supplier/plan','Supplier\PlanController@plan');
 	Route::post('/supplier/plan-add','Supplier\PlanController@plan_add');
@@ -273,6 +274,29 @@ Route::group(['middleware'=>['rule']],function(){
 
 	//综合查询
 	Route::any('/engineering/query','Engineering\QueryController@query');
+
+	//成控管理
+	Route::any('/cost/estimate','Cost\EstimateController@estimate');
+	Route::any('/cost/estimate-edit','Cost\EstimateController@estimate_edit');
+	//成控明细
+	Route::any('/cost/estimate/detailed','Cost\EstimateController@detailed');
+	Route::any('/cost/estimate/detailed-add','Cost\EstimateController@detailed_add');
+	Route::any('/cost/estimate/detailed-edit','Cost\EstimateController@detailed_edit');
+	Route::any('/cost/estimate/detailed-del','Cost\EstimateController@detailed_del');
+	//材料审核
+	Route::any('/cost/examine/material','Cost\ExamineController@material');
+	Route::any('/cost/examine/material-supplier','Cost\ExamineController@material_supplier');
+	Route::any('/cost/examine/material-band','Cost\ExamineController@material_band');
+	Route::any('/cost/examine/material-edit','Cost\ExamineController@material_edit');
+	//施工审核
+	Route::any('/cost/examine/plan','Cost\ExamineController@plan');
+	Route::any('/cost/examine/plan-plan','Cost\ExamineController@plan_plan');
+	Route::any('/cost/examine/plan-band','Cost\ExamineController@plan_band');
+	Route::any('/cost/examine/plan-edit','Cost\ExamineController@plan_edit');
+	//综合成控
+	Route::any('/cost/comprehensive','Cost\StatisticsController@comprehensive');
+	Route::any('/cost/comprehensive-edit','Cost\StatisticsController@comprehensive_edit');
+	
 });
 });
 Route::get('/login',function() {	

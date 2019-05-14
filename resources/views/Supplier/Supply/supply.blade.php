@@ -191,7 +191,7 @@
         <input type="hidden" id="page" name="page" value="{{ isset($request['page'])?$request['page']:1 }}">
         <input type="hidden" id="limit" name="limit" value="{{ isset($request['limit'])?$request['limit']:10 }}">
 		</div>
-		<a class="layui-btn">搜索</a>
+		<a class="layui-btn" style="margin-left: 5px;">搜索</a>
 	</form>
 	</div>
 	<table class="layui-hide" id="test-table-toolbar" lay-filter="test-table-toolbar"></table>

@@ -39,7 +39,7 @@ layui.config({
          // {type: 'checkbox', fixed: 'left'}
         {field:'company_name', title:'开发商',fixed: 'left',unresize:true}
         ,{field:'name', title:'项目名称',unresize:true}
-        ,{field:'source', title:'项目地址',unresize:true}
+        ,{field:'re_address', title:'项目地址',unresize:true}
         ,{field:'appointments_name', title:'当前进度',unresize:true}
         ,{field:'label', title:'状态',unresize:true}
         ,{field:'now_result', title:'洽谈结果',unresize:true}

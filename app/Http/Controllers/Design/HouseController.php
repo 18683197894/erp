@@ -16,6 +16,7 @@ use App\Model\Design\Material;
 use App\Model\Engineering\Album;
 use App\Model\Engineering\Schedule as EngineeringSchedule;
 use App\Model\Engineering\Material as EngineeringMaterial;
+use App\Model\Cost\CostEstimateDetailed;
 class HouseController extends Controller
 {
 	public function huxing(Request $request)
@@ -301,7 +302,7 @@ class HouseController extends Controller
 	    if($model)
 	    {   
 
-	    	if(EngineeringMaterial::where('house_id',$model->id)->first() || EngineeringSchedule::where('house_id',$model->id)->first() || Album::where('house_id',$model->id)->first())
+	    	if(EngineeringMaterial::where('house_id',$model->id)->first() || EngineeringSchedule::where('house_id',$model->id)->first() || Album::where('house_id',$model->id)->first() || CostEstimateDetailed::where('house_id',$model->id)->first() )
 	    	{
 	    		$this->error_message('已禁止删除');
 	    	}
@@ -317,6 +318,7 @@ class HouseController extends Controller
 	    	EngineeringMaterial::where('house_id',$model->id)->delete();
 	    	EngineeringSchedule::where('house_id',$model->id)->delete();
 	    	Album::where('house_id',$model->id)->delete();
+	    	CostEstimateDetailed::where('house_id',$model->id)->delete();
 	        
 	        House::where('id',$id)->delete();
 

@@ -37,10 +37,10 @@ class QueryController extends Controller
             {
                 $this->tableData(0,[],'获取成功',0);
             }
-            $data = $data->Material->toArray();
+            $data = $data->Materials->toArray();
             foreach($data as $k => $v)
             {
-                $data[$k]['total'] = ($v['settlement_price'] * $v['num']) + $v['other_price'];
+                $data[$k]['total'] = ($v['settlement_price'] * $v['num']) + $v['artificial_price'];
             }
             $this->tableData(null,$data,'获取成功',0);
     	}
@@ -71,16 +71,15 @@ class QueryController extends Controller
 
             $data = array();
             $houseList = $project->Houses;
-
             foreach($houseList as $v)
             {
-                if($v->Material)
+                if($v->Materials)
                 {   
-                    foreach($v->Material->toArray() as $val)
+                    foreach($v->Materials->toArray() as $val)
                     {
                         $tmp = array();
-                        $tmp['category'] = $val['category'];
-                        $tmp['class'] = $val['class'];
+                        $tmp['class_a'] = $val['class_a'];
+                        $tmp['class_b'] = $val['class_b'];
                         $tmp['code'] = $val['code'];
                         $tmp['brand'] = $val['brand'];
                         $tmp['model'] = $val['model'];

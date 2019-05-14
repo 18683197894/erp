@@ -89,7 +89,7 @@
       <div class="layui-input-inline">
         <input name="room_number" value="" lay-verify="required" placeholder="请输入房号" autocomplete="off" class="layui-input" type="text">
       </div>
-      <button class="layui-btn" lay-submit="" lay-filter="query">查询</button>
+      <button class="layui-btn" lay-submit="" lay-filter="query" style="margin-left: 5px;">查询</button>
     </form>
 
 	</div>
@@ -126,11 +126,10 @@ layui.config({
     ,where:{_token:token}
     ,method:'post'
     ,toolbar: '#test-table-toolbar-toolbarDemo'
-    ,title: '材料清单'
+    ,title: '房屋材料查询'
     ,cols: [[
-       {field:'category',fixed: 'left',  title:'品类',unresize:true,width:120}
-      ,{field:'class',title:'类别',unresize:true,width:120}
-      ,{field:'position', title:'位置',unresize:true,width:120}
+       {field:'class_a',fixed: 'left',  title:'一级分类',unresize:true,width:120}
+      ,{field:'class_b', title:'二级分类',unresize:true,width:120}
       ,{field:'code', title:'编码',unresize:true,width:120}
       ,{field:'brand', title:'品牌',unresize:true,width:120}
       ,{field:'model', title:'型号',unresize:true,width:120}
@@ -139,11 +138,11 @@ layui.config({
       ,{field:'metering', title:'计量单位',unresize:true,width:120}
       ,{field:'parts_num', title:'配件套数',unresize:true,width:120}
       ,{field:'place', title:'产地',unresize:true,width:120}
+      ,{field:'purchase_price', title:'采购价',unresize:true,width:120}
       ,{field:'standard_price', title:'标准价',unresize:true,width:120}
       ,{field:'promotion_price', title:'促销价',unresize:true,width:120}
       ,{field:'settlement_price', title:'结算价',unresize:true,width:120}
-      ,{field:'other_price', title:'其他费用',unresize:true,width:120}
-      ,{field:'other_explain', title:'费用说明',unresize:true,width:120}
+      ,{field:'artificial_price', title:'人工费用',unresize:true,width:120}
       ,{field:'num', title:'数量',unresize:true,width:120}
       ,{field:'total', title:'总价',unresize:true,width:120}
       ,{field:'remarks', title:'备注',unresize:true,width:120}

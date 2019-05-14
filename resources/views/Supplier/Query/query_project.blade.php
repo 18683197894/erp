@@ -16,7 +16,7 @@
 			  @endforeach
       </select>
 		</div>
-      <button class="layui-btn" lay-submit="" lay-filter="query">查询</button>
+      <button class="layui-btn" lay-submit="" lay-filter="query" style="margin-left: 5px;">查询</button>
     </form>
 
 	</div>
@@ -53,10 +53,10 @@ layui.config({
     ,where:{_token:token}
     ,method:'post'
     ,toolbar: '#test-table-toolbar-toolbarDemo'
-    ,title: '材料清单'
+    ,title: '项目材料清单查询'
     ,cols: [[
-       {field:'category',fixed: 'left',  title:'品类',unresize:true,width:120}
-      ,{field:'class',title:'类别',sort:true,unresize:true}
+       {field:'class_a',fixed: 'left',  title:'一级分类',unresize:true,width:120}
+      ,{field:'class_b',title:'二级分类',sort:true,unresize:true}
       ,{field:'code', title:'编码',unresize:true}
       ,{field:'brand', title:'品牌',unresize:true}
       ,{field:'model', title:'型号',unresize:true}

@@ -116,7 +116,7 @@
             <option value="30">30层</option>
           </select>
       </div>
-  		<button class="layui-btn" lay-submit="query" lay-filter="query">查询</button>
+  		<button class="layui-btn" lay-submit="query" lay-filter="query" style="margin-left: 5px;">查询</button>
       <a class="layui-btn layui-btn-primary" onclick="reset()">重置</a>
     </form>
 	</div>

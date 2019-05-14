@@ -3,13 +3,12 @@
 @section('css')
 
 @endsection
-
 @section('open')
-
 
 @endsection
 
 @section('content')
+
 <div class="layui-card-body">
   <div class="demoTable" style="padding-bottom: 10px">
     <form class="layui-form" id="query" lay-filter='query' >
@@ -91,19 +90,25 @@
             <option value="30">30层</option>
           </select>
       </div>
-      <button class="layui-btn" lay-submit="query" lay-filter="query" style="margin-left: 5px;">查询</button>
+      <div class="layui-input-inline">
+        <input name="room_number" value="" lay-verify="" placeholder="请输入房号" autocomplete="off" class="layui-input" type="text">
+      </div>
+      <a class="layui-btn" lay-submit="query" lay-filter="query" style="margin-left: 5px;">查询</a>
       <a class="layui-btn layui-btn-primary" onclick="reset()">重置</a>
     </form>
   </div>
   <table class="layui-hide" id="test-table-toolbar" lay-filter="test-table-toolbar"></table>
-
-
-
-
-  <script type="text/html" id="plan">
-    <a class="layui-btn layui-btn-xs layui-btn-normal" lay-event="plan">进入</a>
+  <script type="text/html" id="test-table-toolbar-barDemo">
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+  </script>
+  <script type="text/html" id="drawing">
+    <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="drawing">管理图纸</a>
+  </script>
+  <script type="text/html" id="detailed">
+    <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="detailed">进入</a>
   </script>
 </div>
+
 @endsection
 
 @section('js')
@@ -112,88 +117,126 @@
     base: '{{ asset("/layui/layuiadmin/") }}/' //静态资源所在路径
   }).extend({
     index: 'lib/index' //主入口模块
-  }).use(['index', 'table','form'], function(){
+  }).use(['index', 'table','upload'], function(){
     admin = layui.admin
     ,$ = layui.jquery
     ,form = layui.form
-    ,table = layui.table;
+    ,table = layui.table
+    ,upload = layui.upload
     token = $("meta[name='csrf-token']").attr('content');
   
-    tab = table.render({
+      tab = table.render({
       elem: '#test-table-toolbar'
-      ,url: '/engineering/construction'
+      ,url: '/cost/estimate'
       ,where:{_token:token}
       ,method:'post'
       ,toolbar: '#test-table-toolbar-toolbarDemo'
-      ,title: '施工计划统计'
+      ,title: '预估测算'
       ,cols: [[
-         {field:'id', title:'序号',fixed: 'left',unresize:true,width:60,rowspan: 2}
-        ,{field:'project_name', title:'项目名称',unresize:true,width:120,rowspan: 2}
-        ,{field:'room_number', title:'房号',unresize:true,width:70,rowspan: 2}
-        ,{field:'building', title:'楼栋',unresize:true,width:70,rowspan: 2}
-        ,{field:'unit', title:'单元',unresize:true,width:70,rowspan: 2}
-        ,{field:'floor', title:'楼层',unresize:true,width:70,rowspan: 2}
-        ,{title:'所需材料统计',align:'center', colspan: 7}
-        ,{fixed: 'right',title:'施工计划',width:100,toolbar:'#plan',rowspan: 2}
-      ],[
-         {field:'a_num',title:'主材数量',unresize:true}
-        ,{field:'a_total',title:'主材金额',unresize:true}
-        ,{field:'b_num',title:'辅材数量',unresize:true}
-        ,{field:'b_total',title:'辅材金额',unresize:true}
-        ,{field:'c_total',title:'家具家电小计',unresize:true}
-        ,{field:'d_total',title:'人工与其他小计',unresize:true}
-        ,{field:'e_total',title:'汇总金额',unresize:true,width:100}
+         {field:'id',title:'序号',fixed: 'left',unresize:true,width:80}
+        ,{field:'project_name',title:'项目名称',unresize:true}
+        ,{field:'building', title:'楼栋',unresize:true}
+        ,{field:'unit', title:'单元',unresize:true}
+        ,{field:'floor', title:'楼层',unresize:true}
+        ,{field:'room_number', title:'房号',unresize:true}
+        ,{field:'huxing_name', title:'户型',unresize:true}
+        ,{title:'设计图纸',unresize:true, toolbar:'#drawing',width:100}
+        ,{field:'template_name',title:'样板套装',unresize:true,width:120}
+        ,{field:'concept_price', title:'概算价',unresize:true,rowspan:2}
+        ,{field:'budget_price', title:'预算价',unresize:true,rowspan:2}
+        ,{field:'settlement_price', title:'结算价',unresize:true,rowspan:2}
+        ,{field:'difference_price',title:'金额差异',unresize:true,width:120}
+        ,{title:'详细',unresize:true, toolbar:'#detailed'}
+        ,{fixed: 'right', title:'操作', toolbar: '#test-table-toolbar-barDemo',unresize:true,width:80}
       ]]
-      ,page: {curr:$('#page').val(),limit:$('#limit').val()}
+      ,page: true
     ,parseData: function(res){ //res 即为原始返回的数据
-      return {
-        "code": res.code, //解析接口状态
-        "msg": res.msg, //解析提示文本
-        "count": res.total, //解析数据长度
-        "data": res.data //解析数据列表
-      };
-    }
+	    return {
+	      "code": res.code, //解析接口状态
+	      "msg": res.msg, //解析提示文本
+	      "count": res.total, //解析数据长度
+	      "data": res.data //解析数据列表
+	    };
+	  }
     });
-
     form.on('submit(query)',function(data){
       data = data.field;
       data._token = token;
       tab.reload({where:data});
       return false;
     });
+    //头工具栏事件
+    table.on('toolbar(test-table-toolbar)', function(obj){
+      var checkStatus = table.checkStatus(obj.config.id);
+      switch(obj.event){
+        case 'getCheckData':
+          var data = checkStatus.data;
+          // layer.alert(JSON.stringify(data));
+        break;
+        case 'isAll':
+          // layer.msg(checkStatus.isAll ? '全选': '未全选');
+        break;
+      };
+    });
+    
     //监听行工具事件
     table.on('tool(test-table-toolbar)', function(obj){
       var data = obj.data;
-      if(obj.event === 'del'){
-
-      } else if(obj.event === 'edit'){
-          $('.edit').find("input[name='room_number']").val(data.room_number);
-          $('.edit').find("input[name='acreage']").val(data.acreage);
-          $('.edit').find("input[name='id']").val(data.id);
-          $('.edit').find('.floor').find("dd[lay-value='"+data.floor+"']").click();
-          $('.edit').find('.building').find("dd[lay-value='"+data.building+"']").click();
-          $('.edit').find('.unit').find("dd[lay-value='"+data.unit+"']").click();
-          $('.edit').find('.huxing_id').find("dd[lay-value='"+data.huxing_id+"']").click();
-          var width = ($(window).width() * 0.6)+'px';
-          var height = ($(window).height() * 0.8)+'px';
-            edit = layer.open({
-            type : 1,
-            title : '编辑',
-            fix: false, //不固定
-            maxmin: true,
-            shadeClose: true,
-            shade: 0.4,
-            area : [width,height],
-            content : $('.edit')
+      if(obj.event === 'edit')
+      {
+        layer.prompt({
+          title : '修改概算价'
+          ,formType: 0
+          ,value: data.concept_price
+        }, function(value, index){
+          if(value)
+          {
+            s = /^\d{1,8}\.\d{1,2}$/;
+            sS = /^\d{1,8}$/;
+            if(!s.test(value) && !sS.test(value))
+            {
+              layMsgError('请输入整数 (MIN:1 MAX:8 保留小数点2位)');
+              return false;
+            }
+          }
+          $.ajax({
+            url:'{{ url("/cost/estimate-edit") }}',
+            type : 'post',
+            data : {id:data.id,concept_price:value,_token:token},
+            success : function(res)
+            { 
+              res = $.parseJSON(res);
+              if(res.code == 200)
+              {
+                obj.update({
+                  concept_price: value
+                });
+                layer.close(index);
+                layMsgOk(res.msg);
+              }else
+              {
+                layMsgError(res.msg);
+              }
+            },
+            error : function(error)
+            {
+              layMsgError('操作失败');
+            }
           })
-      }else if(obj.event === 'plan')
-      {   
-        openMax('施工计划','/engineering/construction/plan?house_id='+data.id,function(){
+          
+        });
+      }else if(obj.event === 'drawing')
+      {
+        openMax('管理图纸','/design/manage/drawing?house_id='+data.id);
+      }else if(obj.event === 'detailed')
+      {
+        openMax('详细','/cost/estimate/detailed?house_id='+data.id,function(){
           tab.reload();
         });
       }
     });
-
   });
+
   </script>
 @endsection
+

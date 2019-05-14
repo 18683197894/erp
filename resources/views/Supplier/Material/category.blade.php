@@ -91,7 +91,7 @@
 			  <option {{ isset($request['class']) && $request['class'] == '家具'?'selected':'' }} value="家具">家具</option>
 			</select>
 		</div>
-		<a class="layui-btn">搜索</a>
+		<a class="layui-btn" style="margin-left: 5px;">搜索</a>
 	</form>
 	</div>
 	<table class="layui-hide" id="test-table-toolbar" lay-filter="test-table-toolbar"></table>

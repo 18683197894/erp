@@ -118,7 +118,7 @@
       <div class="layui-input-inline">
           <input class="layui-input" name="code" value="" id="code" placeholder="编码搜索" autocomplete="off">
       </div>
-      <a class="layui-btn">搜索</a>
+      <a class="layui-btn" style="margin-left: 5px;">搜索</a>
     </form>
   </div>
 	<table class="layui-hide" id="test-table-toolbar" lay-filter="test-table-toolbar"></table>

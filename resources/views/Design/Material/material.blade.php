@@ -93,7 +93,7 @@
       <div class="layui-input-inline">
         <input name="room_number" value="" lay-verify="" placeholder="请输入房号" autocomplete="off" class="layui-input" type="text">
       </div>
-      <button class="layui-btn" lay-submit="query" lay-filter="query">查询</button>
+      <button class="layui-btn" lay-submit="query" lay-filter="query" style="margin-left: 5px;">查询</button>
       <a class="layui-btn layui-btn-primary" onclick="reset()">重置</a>
     </form>
 	</div>

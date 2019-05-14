@@ -80,7 +80,7 @@
 	<div class="demoTable" style="padding-bottom: 10px">
     <form class="layui-form" id="query">
     <div class="layui-input-inline">
-      <select name="project_id" id="class" lay-verify="required">
+      <select name="project_id" id="class" lay-verify="">
         <option value="">请选择项目</option>
         @foreach($project as $v)
         <option  value="{{ $v->id }}">{{ $v->name }}</option>
@@ -88,7 +88,7 @@
       </select>
     </div>
       <div class="layui-input-inline">
-        <select name="building" lay-verify="required">
+        <select name="building" lay-verify="">
           <option value="">请选择楼栋</option>
           <option value="1">1栋</option>
           <option value="2">2栋</option>
@@ -108,7 +108,7 @@
         </select>
       </div>
     <div class="layui-input-inline">
-        <select name="unit" lay-verify="required">
+        <select name="unit" lay-verify="">
           <option value="">请选择单元</option>
           <option value="1">1单元</option>
           <option value="2">2单元</option>
@@ -123,7 +123,7 @@
         </select>
       </div>
       <div class="layui-input-inline">
-        <select name="floor" lay-verify="required">
+        <select name="floor" lay-verify="">
           <option value="">请选择楼层</option>
           <option value="1">1层</option>
           <option value="2">2层</option>
@@ -158,9 +158,9 @@
         </select>
       </div>
       <div class="layui-input-inline">
-        <input name="room_number" value="" lay-verify="required" placeholder="请输入房号" autocomplete="off" class="layui-input" type="text">
+        <input name="room_number" value="" lay-verify="" placeholder="请输入房号" autocomplete="off" class="layui-input" type="text">
       </div>
-      <button class="layui-btn" lay-submit="query" lay-filter="query">查询</button>
+      <button class="layui-btn" lay-submit="query" lay-filter="query" style="margin-left: 5px;">查询</button>
       <a class="layui-btn layui-btn-primary" Onclick="reset()">重置</a>
     </form>
 	</div>

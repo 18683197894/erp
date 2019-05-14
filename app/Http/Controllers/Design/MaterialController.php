@@ -188,6 +188,8 @@ class MaterialController extends Controller
         $data['supply_code'] = $material->supply->code;
         $data['supply_id'] = $material->supply->id;
         $data['standard_price'] = $material->sale_price; 
+        $data['purchase_price'] = $material->purchase_price; 
+        
         if($material->promotion == 1)
         {   
             $a = $material->start <= date('Y-m-d',time()); //true
@@ -320,7 +322,8 @@ class MaterialController extends Controller
     	$data['place'] = $material->place;
     	$data['metering'] = $material->metering;
     	$data['supply'] = $material->supply->name;
-    	$data['supply_code'] = $material->supply->code;
+        $data['supply_code'] = $material->supply->code;
+    	$data['purchase_price'] = $material->purchase_price;
 		if($material->promotion == 1)
 		{	
 			$a = $material->start <= date('Y-m-d',time()); //true
