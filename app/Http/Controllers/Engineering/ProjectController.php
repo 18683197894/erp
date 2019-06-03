@@ -77,7 +77,7 @@ class ProjectController extends Controller
 		}else
 		{
 			$data = House::select('*')
-                    ->with(['Schedules'=>function($query){
+                    ->with(['EngineeringSchedules'=>function($query){
                         return $query->select('id','house_id','details','serial_number')->orderBy('serial_number','DESC')->get();
                     },'Huxing'=>function($query){
                         return $query->select('id','name')->get();
