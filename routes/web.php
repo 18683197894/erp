@@ -296,6 +296,29 @@ Route::group(['middleware'=>['rule']],function(){
 	//综合成控
 	Route::any('/cost/comprehensive','Cost\StatisticsController@comprehensive');
 	Route::any('/cost/comprehensive-edit','Cost\StatisticsController@comprehensive_edit');
+
+	//财务部
+	Route::any('/finance/project/department/{department_id}','Finance\ProjectController@project');
+	//房间明细
+	Route::any('/finance/project/price','Finance\ProjectController@price');
+	Route::post('/finance/project/price-add','Finance\ProjectController@price_add');
+	Route::post('/finance/project/price-edit','Finance\ProjectController@price_edit');
+	Route::post('/finance/project/price-del','Finance\ProjectController@price_del');
+	//提成明细
+	Route::any('/finance/project/income','Finance\ProjectController@income');
+	Route::any('/finance/project/income-add','Finance\ProjectController@income_add');
+	Route::any('/finance/project/income-edit','Finance\ProjectController@income_edit');
+	Route::any('/finance/project/income-del','Finance\ProjectController@income_del');
+	//财务综合
+	Route::any('/finance/query/comprehensive','Finance\QueryController@comprehensive');
+	//财务预算
+	Route::any('/finance/query/budget','Finance\QueryController@budget');
+	Route::any('/finance/query/budget-edit','Finance\QueryController@budget_edit');
+
+	//付款记录
+	Route::any('/finance/query/payment','Finance\QueryController@payment');
+	Route::any('/finance/query/income','Finance\QueryController@income');
+	
 	
 });
 });

@@ -17,6 +17,11 @@
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <link rel="stylesheet" href="{{ asset('/layui/layuiadmin/layui/css/layui.css') }}" media="all">
   <link rel="stylesheet" href="{{ asset('/layui/layuiadmin/style/admin.css') }}" media="all">
+  <style type="text/css">
+    .layui-table-tips-main{
+      word-wrap: break-word;word-break: break-all;overflow: hidden;max-height: 1000px;
+    }
+  </style>
   @yield('css')
 </head>
   @yield('open')

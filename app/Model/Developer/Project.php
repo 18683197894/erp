@@ -34,4 +34,8 @@ class Project extends Model
     {
         return $this->hasMany('App\Model\Design\Huxing','project_id','id');
     }
+    public function HousePrices()
+    {
+        return $this->hasMany('App\Model\Finance\HousePrice','project_id','id');
+    }
 }

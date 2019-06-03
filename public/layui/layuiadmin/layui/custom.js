@@ -1,4 +1,3 @@
-
 function layMsgOk(message,fun=null) {
   layer.msg(message, {icon:1},fun);
 }
@@ -13,6 +12,7 @@ function open_show(title,url,w,h,pid,ptitle)
     var width = $(window).width(); 
     var height = $(window).height();
     document.getElementById("myform").reset();
+    $('.reset').click();
     $('.add').find('input[type="file"]').val('');
     $('.add').find('.layui-upload-choose').html('');
     if(w)
@@ -54,10 +54,17 @@ openMax = function(title,url,fun=null){
   })
 }
 // 搜索重置刷新
-reset = function()
+reset = function(data=null)
 { 
   document.getElementById("query").reset();
-  tab.reload({where:{_token:token}});
+  if(data)
+  { 
+    data._token = token;
+    tab.reload({where:data});
+  }else
+  {
+    tab.reload({where:{_token:token}});
+  }
 }
 tableCheck = {
     init:function()

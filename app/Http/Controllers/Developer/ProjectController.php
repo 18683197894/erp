@@ -11,6 +11,7 @@ use App\Model\Developer\ProjectInformation;
 use App\Model\Developer\Appointment;
 use App\Model\Developer\Feedback;
 use App\Model\Sys\User;
+use App\Model\Finance\ProjectRoyalty;
 class ProjectController extends Controller
 {
     public function project(Request $request)
@@ -104,9 +105,14 @@ class ProjectController extends Controller
             {
                 $this->error_message('已禁止删除');
             }
+            if(ProjectRoyalty::where('project_id',$model->id)->first())
+            {
+                $this->error_message('已禁止删除');
+            }
             Project::where('id',$request->id)->delete();
             ProjectContacts::where('project_id',$request->id)->delete();
             ProjectInformation::where('project_id',$request->id)->delete();
+            ProjectRoyalty::where('project_id',$request->id)->delete();
             $appointment = Appointment::where('project_id',$request->id)->get();
             if($appointment)
             {
