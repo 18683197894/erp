@@ -130,15 +130,15 @@ class UserController extends Controller
     	$data = $request->except('_token','password_s','password');
         $data['password_hash'] = Hash::make($request->password);
 
-    	if(User::where('username',$data['username'])->first())
+    	if(User::where('username',$data['username'])->where('status',1)->first())
     	{
     		$this->error_message('用户名已存在');
     	}
-    	if(User::where('phone',$data['phone'])->first())
+    	if(User::where('phone',$data['phone'])->where('status',1)->first())
     	{
     		$this->error_message('手机号已存在');
     	}
-    	if(User::where('email',$data['email'])->first())
+    	if(User::where('email',$data['email'])->where('status',1)->first())
     	{
     		$this->error_message('邮箱已存在');
     	}
