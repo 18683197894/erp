@@ -19,7 +19,7 @@ class LoginController extends Controller
 
 	 	$username = $request->post('username');
     	$password = $request->post('password');
-    	$models = User::where('username',$username)->first();
+    	$models = User::where('username',$username)->where('status','!=',-1)->first();
         
     	if($models)
     	{	
@@ -27,11 +27,6 @@ class LoginController extends Controller
     		{	
     			$this->error_message('用户被禁用');
     		}
-            if($models->status == -1)
-            {   
-                $this->error_message('用户不存在');
-            }
-
     		if(Hash::check($password,$models->password_hash))
     		{	
     			

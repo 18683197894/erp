@@ -130,15 +130,15 @@ class UserController extends Controller
     	$data = $request->except('_token','password_s','password');
         $data['password_hash'] = Hash::make($request->password);
 
-    	if(User::where('username',$data['username'])->where('status',1)->first())
+    	if(User::where('username',$data['username'])->where('status','!=',-1)->first())
     	{
     		$this->error_message('用户名已存在');
     	}
-    	if(User::where('phone',$data['phone'])->where('status',1)->first())
+    	if(User::where('phone',$data['phone'])->where('status','!=',-1)->first())
     	{
     		$this->error_message('手机号已存在');
     	}
-    	if(User::where('email',$data['email'])->where('status',1)->first())
+    	if(User::where('email',$data['email'])->where('status','!=',-1)->first())
     	{
     		$this->error_message('邮箱已存在');
     	}
@@ -246,7 +246,7 @@ class UserController extends Controller
             $this->error_message('管理员用户无法操作');
         }
 
-        $userUsed = User::where('username',$username)->first();
+        $userUsed = User::where('username',$username)->where('status','!=',-1)->first();
         if($userUsed && $userUsed->id != $user->id)
         {
             $this->error_message('用户名已存在');
@@ -310,15 +310,15 @@ class UserController extends Controller
         // {
         //     $this->error_message('用户名已存在');
         // }
-        $phone = User::where('phone',$data['phone'])->first();
+        $phone = User::where('phone',$data['phone'])->where('status','!=',-1)->first();
         if($phone && $phone->id != $user->id)
         {
             $this->error_message('手机号已存在');
         }
-        $email = User::where('email',$data['email'])->first();
+        $email = User::where('email',$data['email']->where('status','!=',-1)->first();
         if($email && $phone->id != $user->id)
         {
-            $this->error_message('手机号已存在');
+            $this->error_message('邮箱已存在');
         }
 
         User::where('id',$user->id)->update($data);
