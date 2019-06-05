@@ -112,10 +112,11 @@ class IndexController extends Controller
                 }
             }
         }
+        $uid = \session('user')['id'];
         return view('Sys.Index.index',[
     		'user' => $models,
             'menu' => $menu,
-            'unread' => MsgUser::where('is_read',0)->where('is_delete',0)->first()?true:false
+            'unread' => MsgUser::where('user_id',$uid)->where('is_read',0)->where('is_delete',0)->first()?true:false
     	]);
     }
 

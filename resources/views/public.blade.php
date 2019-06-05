@@ -63,6 +63,32 @@
 
   <script src="{{ asset('/layui/layuiadmin/layui/layui.js') }}"></script>  
   <script src="{{ asset('/layui/layuiadmin/layui/custom.js') }}"></script>  
+  <script src="http://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+  <script type="text/javascript">
+      $.ajax('/app/message-unread',{
+        type : 'post',
+        data : {_token:'{{ csrf_token() }}'},
+        success : function(res)
+        { 
+            var res = $.parseJSON(res);
+
+            if(res.data.letter > 0 || res.data.notice > 0 || res.data.sys > 0)
+            { 
+              $("#Uiunread",window.parent.document).remove();
+              $("#Fuunread",window.parent.document).append('<span id="Uiunread" class="layui-badge-dot"></span>');
+            }else
+            {
+              $("#Uiunread",window.parent.document).remove();
+            }
+
+        },
+        error:function(error)
+        {
+          $("#Uiunread",window.parent.document).remove();
+        }
+      }) 
+  </script>
   @yield('js')
+
 </body>
 </html>

@@ -32,6 +32,8 @@ Route::group(['middleware'=>['rule']],function(){
 	Route::any('/app/message-unread','App\MessageController@unread');
 
 	Route::any('/app/msg_letter','App\MsgController@msg_letter');
+	Route::any('/app/msg_notice','App\MsgController@msg_notice');
+	Route::any('/app/msg_sys','App\MsgController@msg_sys');
 
 	/**
 	*	user 用户

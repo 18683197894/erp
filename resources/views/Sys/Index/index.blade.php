@@ -65,11 +65,11 @@ img.circle-border {
         <ul class="layui-nav layui-layout-right" lay-filter="layadmin-layout-right">
           
           <li class="layui-nav-item" lay-unselect>
-            <a lay-href="/app/message" layadmin-event="message" lay-text="消息中心">
+            <a lay-href="/app/message" id="Fuunread" layadmin-event="message" lay-text="消息中心">
               <i class="layui-icon layui-icon-notice"></i>  
               
               <!-- 如果有新消息，则显示小圆点 -->
-              <span @if($unread) class="layui-badge-dot" @endif></span>
+               @if($unread)<span id="Uiunread" class="layui-badge-dot"></span>@endif
             </a>
           </li>
           <li class="layui-nav-item layui-hide-xs" lay-unselect>

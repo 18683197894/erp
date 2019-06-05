@@ -116,10 +116,11 @@ class MessageController extends Controller
     	}
     }
     public function unread(Request $request)
-    {
-        $data['letter'] = MsgUser::where('is_read',0)->where('type',1)->where('is_delete',0)->count();
-        $data['notice'] = MsgUser::where('is_read',0)->where('type',2)->where('is_delete',0)->count();
-        $data['sys']   = MsgUser::where('is_read',0)->where('type',3)->where('is_delete',0)->count();
+    {   
+        $uid = \session('user')['id'];
+        $data['letter'] = MsgUser::where('is_read',0)->where('user_id',$uid)->where('type',1)->where('is_delete',0)->count();
+        $data['notice'] = MsgUser::where('is_read',0)->where('user_id',$uid)->where('type',2)->where('is_delete',0)->count();
+        $data['sys']   = MsgUser::where('is_read',0)->where('user_id',$uid)->where('type',3)->where('is_delete',0)->count();
         $this->success_message('获取成功',$data);
 
     }
