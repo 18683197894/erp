@@ -316,7 +316,7 @@ class UserController extends Controller
             $this->error_message('手机号已存在');
         }
         $email = User::where('email',$data['email'])->where('status','!=',-1)->first();
-        if($email && $phone->id != $user->id)
+        if($email && $email->id != $user->id)
         {
             $this->error_message('邮箱已存在');
         }
