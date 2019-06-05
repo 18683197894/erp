@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Model\Sys\User;
 use App\Model\Sys\Menu;
+use App\Model\App\MsgUser;
+
 class IndexController extends Controller
 {
     public function index(Request $request)
@@ -112,7 +114,8 @@ class IndexController extends Controller
         }
         return view('Sys.Index.index',[
     		'user' => $models,
-            'menu' => $menu
+            'menu' => $menu,
+            'unread' => MsgUser::where('is_read',0)->where('is_delete',0)->first()?true:false
     	]);
     }
 

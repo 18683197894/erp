@@ -205,7 +205,7 @@ class UserController extends Controller
                     $data[$k]['role'] = '管理员';
                 }
             }
-            $total = User::where('username','like','%'.$username.'%')->count();
+            $total = User::where('username','like','%'.$username.'%')->where('status','!=',-1)->count();
             $this->tableData($total,$data,'获取成功',0);
         }
 

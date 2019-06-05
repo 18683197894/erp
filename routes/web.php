@@ -29,8 +29,10 @@ Route::group(['middleware'=>['rule']],function(){
 	Route::any('/app/message','App\MessageController@message');
 	Route::post('/app/message-edit','App\MessageController@message_edit');
 	Route::any('/app/message-detail','App\MessageController@message_detail');
+	Route::any('/app/message-unread','App\MessageController@unread');
 
 	Route::any('/app/msg_letter','App\MsgController@msg_letter');
+
 	/**
 	*	user 用户
 	* 	department 部门

@@ -69,7 +69,7 @@ img.circle-border {
               <i class="layui-icon layui-icon-notice"></i>  
               
               <!-- 如果有新消息，则显示小圆点 -->
-              <span class="layui-badge-dot"></span>
+              <span @if($unread) class="layui-badge-dot" @endif></span>
             </a>
           </li>
           <li class="layui-nav-item layui-hide-xs" lay-unselect>

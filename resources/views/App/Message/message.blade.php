@@ -12,9 +12,9 @@
       <div class="layui-tab layui-tab-brief">
         <ul class="layui-tab-title">
           <li class="layui-this">全部消息</li>
-          <li>站内私信<span class="layui-badge">6</span></li>
-          <li>公司公告</li>
-          <li>系统消息</li>
+          <li><span class="letter">站内私信</span></li>
+          <li><span class="notice">公司公告</span></li>
+          <li><span class="sys">系统消息</span></li>
         </ul>
         <div class="layui-tab-content">
         
@@ -72,13 +72,13 @@
   }).extend({
     index: 'lib/index' //主入口模块
   }).use(['index','admin', 'table', 'util'],function(){
+
       var $ = layui.$
       ,admin = layui.admin
       ,table = layui.table
       ,element = layui.element;
       token = $("meta[name='csrf-token']").attr('content');
       var DISABLED = 'layui-btn-disabled'
-
       //区分各选项卡中的表格
       ,tabs = {
         all: {
@@ -98,7 +98,51 @@
           ,id: 'LAY-app-message-sys'
         }
       };
+      Unread = function()
+      { 
+        // <span class="layui-badge">1</span>
+        $.ajax('/app/message-unread',{
+        type : 'post',
+        data : {_token:token},
+        success : function(res)
+        { 
+          var res = $.parseJSON(res);
 
+            if(res.data.letter > 0)
+            { 
+              $('.letter_re').remove();
+              $('.letter').after('<span class="layui-badge letter_re">'+res.data.letter+'</span>');
+            }else
+            {
+              $('.letter_re').remove();
+            }
+            if(res.data.notice > 0)
+            { 
+              $('.notice_re').remove();
+              $('.notice').after('<span class="layui-badge notice_re">'+res.data.notice+'</span>');
+            }else
+            {
+              $('.notice_re').remove();
+            }
+            if(res.data.sys > 0)
+            { 
+              $('.sys_re').remove();
+              $('.sys').after('<span class="layui-badge sys_re">'+res.data.sys+'</span>');
+            }else
+            {
+              $('.sys_re').remove();
+            }
+
+        },
+        error:function(error)
+        {
+          $('.letter_re').remove();
+          $('.notice_re').remove();
+          $('.sys').remove();
+        }
+      }) 
+      }
+      Unread();
       //标题内容模板
       var tplTitle = function(d){
         if(d.is_read == 0)
@@ -119,7 +163,7 @@
         ,page: true
         ,cols: [[
           {type: 'checkbox', fixed: 'left'}
-          ,{field: 'username', title: '发件人', width: 80}
+          ,{field: 'username', title: '发件人', width: 90}
           ,{field: 'title', title: '主题', minWidth: 300, templet: tplTitle}
           ,{field: 'time', title: '时间', width: 170, templet: function(d){
             return layui.util.timeAgo(parseInt(d.msg_created_at+'000'),'30');
@@ -127,13 +171,12 @@
         ]]
         ,skin: 'line'
       });
-
       //私信
       table.render({
         elem: '#LAY-app-message-letter'
         ,url: '{{ url("/app/message") }}' //模拟接口
         ,method : 'post'
-        ,where:{_token:token,type:1}
+        ,where:{_token:$("meta[name='csrf-token']").attr('content'),type:1}
         ,page: true
         ,cols: [[
           {type: 'checkbox', fixed: 'left'}
@@ -151,30 +194,30 @@
         elem: '#LAY-app-message-notice'
         ,url: '{{ url("/app/message") }}' //模拟接口
         ,method : 'post'
-        ,where:{_token:token,type:2}
+        ,where:{_token:$("meta[name='csrf-token']").attr('content'),type:2}
         ,page: true
         ,cols: [[
           {type: 'checkbox', fixed: 'left'}
           ,{field: 'title', title: '主题', minWidth: 300, templet: tplTitle}
           ,{field: 'time', title: '时间', width: 170, templet: function(d){
-            return layui.util.timeAgo(1562025210);
+            return layui.util.timeAgo(parseInt(d.msg_created_at+'000'),'30');
           }}
         ]]
         ,skin: 'line'
       });
 
       //系统
-      table.render({
+     table.render({
         elem: '#LAY-app-message-sys'
         ,url: '{{ url("/app/message") }}' //模拟接口
         ,method : 'post'
-        ,where:{_token:token,type:3}
+        ,where:{_token:$("meta[name='csrf-token']").attr('content'),type:3}
         ,page: true
         ,cols: [[
           {type: 'checkbox', fixed: 'left'}
-          ,{field: 'title', title: '标题内容', minWidth: 300, templet: tplTitle}
+          ,{field: 'title', title: '主题', minWidth: 300, templet: tplTitle}
           ,{field: 'time', title: '时间', width: 170, templet: function(d){
-            return layui.util.timeAgo(d.msg_created_at);
+            return layui.util.timeAgo(parseInt(d.msg_created_at+'000'),'30');
           }}
         ]]
         ,skin: 'line'
@@ -186,18 +229,40 @@
       ,checkStatus = table.checkStatus(thisTabs.id)
       ,data = checkStatus.data; //获得选中的数据
       if(data.length === 0) return layer.msg('未选中行');
-
+      var arr=[];
       layer.confirm('确定删除选中的数据吗？', function(){
-        /*
-        admin.req('url', {}, function(){ //请求接口
-          //do somethin
-        });
-        */
-        //此处只是演示，实际应用需把下述代码放入上述Ajax回调中
-        layer.msg('删除成功', {
-          icon: 1
-        });
-        table.reload(thisTabs.id); //刷新表格
+      $.each(data,function(index, el) {
+          arr.push(el.id);
+      });
+      $.ajax('/app/message-edit',{
+        type : 'post',
+        data : {_token:token,type:'public',class:'Del',data:arr},
+        success : function(res)
+        {
+          var res = $.parseJSON(res);
+          if(res.code == 200)
+          {
+            layer.msg('操作成功', {
+              icon: 1
+              ,time:1500
+            },function(){
+              table.reload('LAY-app-message-all');
+              table.reload('LAY-app-message-letter');
+              table.reload('LAY-app-message-notice');
+              table.reload('LAY-app-message-sys');
+              Unread();
+            });
+          }else
+          {
+            layMsgError('操作失败');
+          }
+
+        },
+        error:function(error)
+        {
+
+        }
+      })  
       });
     }
     ,ready: function(othis, type){
@@ -205,12 +270,39 @@
       ,checkStatus = table.checkStatus(thisTabs.id)
       ,data = checkStatus.data; //获得选中的数据
       if(data.length === 0) return layer.msg('未选中行');
-      
-      //此处只是演示
-      layer.msg('标记已读成功', {
-        icon: 1
+      var arr=[];
+      $.each(data,function(index, el) {
+          arr.push(el.id);
       });
-      table.reload(thisTabs.id); //刷新表格
+      $.ajax('/app/message-edit',{
+        type : 'post',
+        data : {_token:token,type:'public',class:'Read',data:arr},
+        success : function(res)
+        {
+          var res = $.parseJSON(res);
+          if(res.code == 200)
+          {
+            layer.msg('操作成功', {
+              icon: 1
+              ,time:1500
+            },function(){
+              table.reload('LAY-app-message-all');
+              table.reload('LAY-app-message-letter');
+              table.reload('LAY-app-message-notice');
+              table.reload('LAY-app-message-sys');
+              Unread();
+            });
+          }else
+          {
+            layMsgError('操作失败');
+          }
+
+        },
+        error:function(error)
+        {
+          layMsgError('操作失败');
+        }
+      })  
     }
     ,readyAll: function(othis, type){
       var thisTabs = tabs[type];
@@ -223,11 +315,15 @@
           var res = $.parseJSON(res);
           if(res.code == 200)
           {
-            layer.msg(thisTabs.text + '：全部已读', {
+            layer.msg('操作成功', {
               icon: 1
               ,time:1500
             },function(){
-              table.reload(thisTabs.id);
+              table.reload('LAY-app-message-all');
+              table.reload('LAY-app-message-letter');
+              table.reload('LAY-app-message-notice');
+              table.reload('LAY-app-message-sys');
+              Unread();
             });
           }else
           {
