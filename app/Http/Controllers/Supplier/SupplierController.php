@@ -171,25 +171,34 @@ class SupplierController extends Controller
             ]);
     	}else if($request->isMethod('post'))
     	{	
-
-			$code = $request->post('code',false)?$request->code:'';
-    		$data = Material::where('code','like','%'.$code.'%')
-                    ->where('status','>',0)
-                    ->with('Supply')
-    				->orderBy('created_at','DESC')
-		    		->offset(($request->page -1) * $request->limit)
-		    		->limit($request->limit)
-		    		->get()
-		    		->toArray();
-		   	foreach($data as $k => $v)
-		   	{
-		   		$data[$k]['supply_name'] = $v['supply']['name'];
-		   		$data[$k]['is_recommend'] = $v['recommend'] == 1?'是':'否';
-		   	}
-    		$total = Material::where('code','like','%'.$code.'%')
-                    ->where('status','>',0)
-                    ->count();
-    		$this->tableData($total,$data,'获取成功',0);
+    		if($request->get('type') == 'exportAll')
+    		{
+    			$data = Material::select('*')
+	                    ->where('status','>',0)
+	                    ->with('Supply')
+	                    ->get();
+	            $this->success_message('获取成功',$data);
+    		}else
+    		{
+    			$code = $request->post('code',false)?$request->code:'';
+	    		$data = Material::where('code','like','%'.$code.'%')
+	                    ->where('status','>',0)
+	                    ->with('Supply')
+	    				->orderBy('created_at','DESC')
+			    		->offset(($request->page -1) * $request->limit)
+			    		->limit($request->limit)
+			    		->get()
+			    		->toArray();
+			   	foreach($data as $k => $v)
+			   	{
+			   		$data[$k]['supply_name'] = $v['supply']['name'];
+			   		$data[$k]['is_recommend'] = $v['recommend'] == 1?'是':'否';
+			   	}
+	    		$total = Material::where('code','like','%'.$code.'%')
+	                    ->where('status','>',0)
+	                    ->count();
+	    		$this->tableData($total,$data,'获取成功',0);
+	    		}
     	}
 	}
 
@@ -227,7 +236,7 @@ class SupplierController extends Controller
 		$data['start'] = $datas->start;
 		$data['end'] = $datas->end;
 		$data['promotion_price'] = $datas->promotion_price?$datas->promotion_price:null;
-		$data['promotion_settlement_price'] = $datas->promotion_settlement_price?$datas->promotion_settlement_price:0;
+		$data['promotion_settlement_price'] = $datas->promotion_settlement_price?$datas->promotion_settlement_price:null;
 		$data['promotion_settlement_proportion'] = $datas->promotion_settlement_proportion;
 		$data['activity_proportion'] = $datas->activity_proportion;
 		$data['promotion_activity_proportion'] = $datas->promotion_activity_proportion;
@@ -315,7 +324,7 @@ class SupplierController extends Controller
 		$data['start'] = $datas->start;
 		$data['end'] = $datas->end;
 		$data['promotion_price'] = $datas->promotion_price?$datas->promotion_price:null;
-		$data['promotion_settlement_price'] = $datas->promotion_settlement_price?$datas->promotion_settlement_price:0;
+		$data['promotion_settlement_price'] = $datas->promotion_settlement_price?$datas->promotion_settlement_price:null;
 		$data['promotion_settlement_proportion'] = $datas->promotion_settlement_proportion;
 		$data['activity_proportion'] = $datas->activity_proportion;
 		$data['promotion_activity_proportion'] = $datas->promotion_activity_proportion;

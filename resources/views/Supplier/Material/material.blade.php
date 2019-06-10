@@ -5,6 +5,7 @@
   .promotion .layui-form-pane .layui-form-label{
   width:160px;
 }
+
 </style>
 
 @endsection
@@ -624,7 +625,9 @@
 	<script type="text/html" id="test-table-toolbar-toolbarDemo">
 	  <div class="layui-btn-container">
       <button class="layui-btn layui-btn-sm" onclick="open_show('新增材料','.add',0.9,0.9)">新增材料</button>
-	    <button class="layui-btn layui-btn-sm" id='import' >导入</button>
+      <button class="layui-btn layui-btn-sm" id='import' >导入</button>
+      <button class="layui-btn layui-btn-sm" lay-event='export' >导出当前页</button>
+	    <button class="layui-btn layui-btn-sm" lay-event='exportAll' >导出所有</button>
 	  </div>
 	</script>
 
@@ -652,8 +655,9 @@
     ,form = layui.form
     ,laydate = layui.laydate
     ,upload = layui.upload
-    ,table = layui.table;
-    token = $("meta[name='csrf-token']").attr('content');
+    ,table = layui.table
+    ,list = null
+    ,token = $("meta[name='csrf-token']").attr('content');
   
     var tab = table.render({
       elem: '#test-table-toolbar'
@@ -661,8 +665,9 @@
       ,where:{_token:token}
       ,method:'post'
       ,toolbar: '#test-table-toolbar-toolbarDemo'
+      ,defaultToolbar:false
       ,title: '材料'
-      ,where:{name:$('#name').val(),_token:token,category_id:$('#category_id').val()}
+      ,where:{_token:token}
       ,cols: [[
          {field:'code', title:'材料编码',fixed: 'left',unresize:true,width:120}
         ,{field:'supply_name',title:'供应商',unresize:true,width:130}
@@ -693,6 +698,10 @@
 	      "data": res.data //解析数据列表
 	    };
 	  }
+    ,done : function(res)
+    {
+      list = res.data;
+    }
     });
     upload.render({
       elem: '#import' //绑定元素
@@ -733,9 +742,8 @@
     });
     $('.demoTable .layui-btn').on('click',function(){
       var code = $('#code').val();
-      var category_id = $('#category_id').val();
       $('#code').attr('val',code);
-    	tab.reload({where:{code:code,_token:token,category_id:category_id},page:{curr:1}});
+    	tab.reload({where:{code:code,_token:token},page:{curr:1}});
     });
     //头工具栏事件
     table.on('toolbar(test-table-toolbar)', function(obj){
@@ -775,12 +783,122 @@
         });
           // layer.alert(JSON.stringify(data));
         break;
-        case 'getCheckLength':
-          // var data = checkStatus.data;
-          // layer.msg('选中了：'+ data.length + ' 个');
+        case 'export':
+        var load = layer.load(2);
+        var title = ['材料编码','供应商','一级分类','二级分类','名称','品牌','型号','规格','颜色','计量单位','成本价','市场标价','销售价','结算价','采购价','毛利率','结算周期','账单时间','结算比例','配件套数','产品级别','风格属性','产品说明','产地','是否推荐','是否有货','备注','是否促销','促销开始时间','促销结束时间','促销价','促销结算价','促销结算比例','计入活动比例','','促销期计入活动比例'];
+        var data = new Array();
+        for(var i = 0,len = list.length; i < len; i++)
+        {
+          var tmp = new Array();
+          tmp.push(list[i].code);
+          tmp.push(list[i].supply.name);
+          tmp.push(list[i].class_a);
+          tmp.push(list[i].class_b);
+          tmp.push(list[i].name);
+          tmp.push(list[i].brand);
+          tmp.push(list[i].model);
+          tmp.push(list[i].spec);
+          tmp.push(list[i].color);
+          tmp.push(list[i].metering);
+          tmp.push(list[i].cost_price);
+          tmp.push(list[i].market_price);
+          tmp.push(list[i].sale_price);
+          tmp.push(list[i].settlement_price);
+          tmp.push(list[i].purchase_price);
+          tmp.push(list[i].gross_profit);
+          tmp.push(list[i].settlement_cycle);
+          tmp.push(list[i].billing_time);
+          tmp.push(list[i].settlement_ratio);
+          tmp.push(list[i].parts_num);
+          tmp.push(list[i].level);
+          tmp.push(list[i].style);
+          tmp.push(list[i].explain);
+          tmp.push(list[i].place);
+          tmp.push(list[i].recommend == 1?'是':'否');
+          tmp.push(list[i].available == 1?'是':'否');
+          tmp.push(list[i].remarks);
+          tmp.push(list[i].promotion == 1?'是':'否');
+          tmp.push(list[i].start);
+          tmp.push(list[i].end);
+          tmp.push(list[i].promotion_price);
+          tmp.push(list[i].promotion_settlement_price);
+          tmp.push(list[i].promotion_settlement_proportion);
+          tmp.push(list[i].activity_proportion);
+          tmp.push(list[i].promotion_activity_proportion);
+          data.push(tmp);    
+        }
+        table.exportFile(title, data, 'xls','材料'); //默认导出 csv，也可以为：xls
+        layer.close(load);
         break;
-        case 'isAll':
-          // layer.msg(checkStatus.isAll ? '全选': '未全选');
+        case 'exportAll':
+          var load = layer.load(2);
+          var title = ['材料编码','供应商','一级分类','二级分类','名称','品牌','型号','规格','颜色','计量单位','成本价','市场标价','销售价','结算价','采购价','毛利率','结算周期','账单时间','结算比例','配件套数','产品级别','风格属性','产品说明','产地','是否推荐','是否有货','备注','是否促销','促销开始时间','促销结束时间','促销价','促销结算价','促销结算比例','计入活动比例','','促销期计入活动比例'];
+          $.ajax({
+            url:'{{ url("/supplier/material?type=exportAll") }}',
+            type : 'post',
+            data : {_token:token},
+            success : function(res)
+            { 
+              res = $.parseJSON(res);
+              var listAll = res.data;
+              if(res.code == 200)
+              { 
+                var data = new Array();
+                for(var i = 0,len = listAll.length; i < len; i++)
+                {
+                  var tmp = new Array();
+                  tmp.push(listAll[i].code);
+                  tmp.push(listAll[i].supply.name);
+                  tmp.push(listAll[i].class_a);
+                  tmp.push(listAll[i].class_b);
+                  tmp.push(listAll[i].name);
+                  tmp.push(listAll[i].brand);
+                  tmp.push(listAll[i].model);
+                  tmp.push(listAll[i].spec);
+                  tmp.push(listAll[i].color);
+                  tmp.push(listAll[i].metering);
+                  tmp.push(listAll[i].cost_price);
+                  tmp.push(listAll[i].market_price);
+                  tmp.push(listAll[i].sale_price);
+                  tmp.push(listAll[i].settlement_price);
+                  tmp.push(listAll[i].purchase_price);
+                  tmp.push(listAll[i].gross_profit);
+                  tmp.push(listAll[i].settlement_cycle);
+                  tmp.push(listAll[i].billing_time);
+                  tmp.push(listAll[i].settlement_ratio);
+                  tmp.push(listAll[i].parts_num);
+                  tmp.push(listAll[i].level);
+                  tmp.push(listAll[i].style);
+                  tmp.push(listAll[i].explain);
+                  tmp.push(listAll[i].place);
+                  tmp.push(listAll[i].recommend == 1?'是':'否');
+                  tmp.push(listAll[i].available == 1?'是':'否');
+                  tmp.push(listAll[i].remarks);
+                  tmp.push(listAll[i].promotion == 1?'是':'否');
+                  tmp.push(listAll[i].start);
+                  tmp.push(listAll[i].end);
+                  tmp.push(listAll[i].promotion_price);
+                  tmp.push(listAll[i].promotion_settlement_price);
+                  tmp.push(listAll[i].promotion_settlement_proportion);
+                  tmp.push(listAll[i].activity_proportion);
+                  tmp.push(listAll[i].promotion_activity_proportion);
+                  data.push(tmp);    
+                }
+                table.exportFile(title, data, 'xls','材料'); //默认导出 csv，也可以为：xls
+                layer.close(load);
+              }else
+              {
+                layMsgError('导出失败');
+                layer.close(load);
+              }
+            },
+            error : function(error)
+            {
+              layMsgError('导出失败');
+              layer.close(load);
+            }
+          })
+          
         break;
       };
     });
@@ -798,7 +916,16 @@
           	{	
           		res = $.parseJSON(res);
           		if(res.code == 200)
-          		{
+          		{ 
+                for(var i = 0,len = list.length; i < len; i++)
+                {
+                  if(list[i]['id'] == data.id)
+                  {
+                    delete list[i];
+                    list.length -= 1; 
+                  }
+                }
+                console.log(list);
           			obj.del();
 					      layer.close(index);
 					      layMsgOk(res.msg);
@@ -895,7 +1022,6 @@
     });
     form.on('submit(add)',function(data){
       data = data.field;
-      data.category_id = $('#category_id').val();
       datas = new FormData();
       datas.append('image',$('.add').find('input[type="file"]').get(0).files[0]);
       datas.append('_token',token);
@@ -918,7 +1044,7 @@
             $('#page').val(1);
             tab.config.page.curr = 1;
             tab.reload({
-              where : {_token:token,category_id:$('#category_id').val()},
+              where : {_token:token},
               page : {cuur:1}
             })
           }else
