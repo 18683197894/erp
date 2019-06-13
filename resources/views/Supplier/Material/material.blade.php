@@ -720,7 +720,16 @@
       }
     });
     //选完文件后不自动上传
-
+    upload.render({
+      elem: '#test-upload-change'
+      ,url: '/upload/'
+      ,auto: false
+    });
+    upload.render({
+      elem: '#test-upload-change2'
+      ,url: '/upload/'
+      ,auto: false
+    });
     laydate.render({
       elem: '#start' //指定元素
     });
