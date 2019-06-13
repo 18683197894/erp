@@ -70,6 +70,10 @@ return [
         'upload'=>[
             'driver'=>'local',
             'root'=>public_path(env('UPLOAD')),
+        ],
+        'import'=>[
+            'driver'=>'local',
+            'root'=>public_path(env('IMPORT')),
         ]
 
     ],
