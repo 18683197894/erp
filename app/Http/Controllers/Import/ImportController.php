@@ -85,6 +85,7 @@ class ImportController extends Controller
 					$error_str .= '材料编号:'.$v['code'].'  '.$e->getMessage().'<br>';
 				}
 		    }
+		    @unlink($path);
 		    $this->success_message('成功导入'.$success_num.'条数据 <br>'.$error_num.'条数据导入失败<br>失败原因：<br>'.$error_str);
 		}else
 		{
