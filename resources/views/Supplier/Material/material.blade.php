@@ -707,11 +707,11 @@
       elem: '#import' //绑定元素
       ,url: '/supplier/material-import' //上传接口
       ,acceptMime: '.xls,.xlsm,.xlsx,.csv'
-      ,exts:'.xls|xlsm|xlsx|csv'
+      ,exts:'xls|xlsm|xlsx|csv'
       ,field:'import'
       ,data:{_token:token}
       ,done: function(res){
-        //上传完毕回调
+        layer.alert(res.msg)
       }
       ,error: function(){
         //请求异常回调
@@ -785,54 +785,59 @@
         break;
         case 'export':
         var load = layer.load(2);
-        var title = ['材料编码','供应商','一级分类','二级分类','名称','品牌','型号','规格','颜色','计量单位','成本价','市场标价','销售价','结算价','采购价','毛利率','结算周期','账单时间','结算比例','配件套数','产品级别','风格属性','产品说明','产地','是否推荐','是否有货','备注','是否促销','促销开始时间','促销结束时间','促销价','促销结算价','促销结算比例','计入活动比例','','促销期计入活动比例'];
+        var title = ['材料编码','供应商','供应商编码','一级分类','二级分类','名称','品牌','型号','规格','颜色','计量单位','成本价','市场标价','销售价','结算价','采购价','毛利率','结算周期','账单时间','结算比例','配件套数','产品级别','风格属性','产品说明','产地','是否推荐','是否有货','备注','是否促销','促销开始时间','促销结束时间','促销价','促销结算价','促销结算比例','计入活动比例','促销期计入活动比例'];
         var data = new Array();
         for(var i = 0,len = list.length; i < len; i++)
-        {
-          var tmp = new Array();
-          tmp.push(list[i].code);
-          tmp.push(list[i].supply.name);
-          tmp.push(list[i].class_a);
-          tmp.push(list[i].class_b);
-          tmp.push(list[i].name);
-          tmp.push(list[i].brand);
-          tmp.push(list[i].model);
-          tmp.push(list[i].spec);
-          tmp.push(list[i].color);
-          tmp.push(list[i].metering);
-          tmp.push(list[i].cost_price);
-          tmp.push(list[i].market_price);
-          tmp.push(list[i].sale_price);
-          tmp.push(list[i].settlement_price);
-          tmp.push(list[i].purchase_price);
-          tmp.push(list[i].gross_profit);
-          tmp.push(list[i].settlement_cycle);
-          tmp.push(list[i].billing_time);
-          tmp.push(list[i].settlement_ratio);
-          tmp.push(list[i].parts_num);
-          tmp.push(list[i].level);
-          tmp.push(list[i].style);
-          tmp.push(list[i].explain);
-          tmp.push(list[i].place);
-          tmp.push(list[i].recommend == 1?'是':'否');
-          tmp.push(list[i].available == 1?'是':'否');
-          tmp.push(list[i].remarks);
-          tmp.push(list[i].promotion == 1?'是':'否');
-          tmp.push(list[i].start);
-          tmp.push(list[i].end);
-          tmp.push(list[i].promotion_price);
-          tmp.push(list[i].promotion_settlement_price);
-          tmp.push(list[i].promotion_settlement_proportion);
-          tmp.push(list[i].activity_proportion);
-          tmp.push(list[i].promotion_activity_proportion);
-          data.push(tmp);    
+        { 
+          if(list[i].length != 0)
+          {
+            var tmp = new Array();
+            tmp.push(list[i].code);
+            tmp.push(list[i].supply.name);
+            tmp.push(list[i].supply.code);
+            tmp.push(list[i].class_a);
+            tmp.push(list[i].class_b);
+            tmp.push(list[i].name);
+            tmp.push(list[i].brand);
+            tmp.push(list[i].model);
+            tmp.push(list[i].spec);
+            tmp.push(list[i].color);
+            tmp.push(list[i].metering);
+            tmp.push(list[i].cost_price);
+            tmp.push(list[i].market_price);
+            tmp.push(list[i].sale_price);
+            tmp.push(list[i].settlement_price);
+            tmp.push(list[i].purchase_price);
+            tmp.push(list[i].gross_profit);
+            tmp.push(list[i].settlement_cycle);
+            tmp.push(list[i].billing_time);
+            tmp.push(list[i].settlement_ratio);
+            tmp.push(list[i].parts_num);
+            tmp.push(list[i].level);
+            tmp.push(list[i].style);
+            tmp.push(list[i].explain);
+            tmp.push(list[i].place);
+            tmp.push(list[i].recommend == 1?'是':'否');
+            tmp.push(list[i].available == 1?'是':'否');
+            tmp.push(list[i].remarks);
+            tmp.push(list[i].promotion == 1?'是':'否');
+            tmp.push(list[i].start);
+            tmp.push(list[i].end);
+            tmp.push(list[i].promotion_price);
+            tmp.push(list[i].promotion_settlement_price);
+            tmp.push(list[i].promotion_settlement_proportion);
+            tmp.push(list[i].activity_proportion);
+            tmp.push(list[i].promotion_activity_proportion);
+            data.push(tmp);
+          }
+              
         }
-        table.exportFile(title, data, 'xls','材料'); //默认导出 csv，也可以为：xls
+        table.exportFile(title, data, 'csv','材料'); //默认导出 csv，也可以为：xls
         layer.close(load);
         break;
         case 'exportAll':
           var load = layer.load(2);
-          var title = ['材料编码','供应商','一级分类','二级分类','名称','品牌','型号','规格','颜色','计量单位','成本价','市场标价','销售价','结算价','采购价','毛利率','结算周期','账单时间','结算比例','配件套数','产品级别','风格属性','产品说明','产地','是否推荐','是否有货','备注','是否促销','促销开始时间','促销结束时间','促销价','促销结算价','促销结算比例','计入活动比例','','促销期计入活动比例'];
+          var title = ['材料编码','供应商','供应商编码','一级分类','二级分类','名称','品牌','型号','规格','颜色','计量单位','成本价','市场标价','销售价','结算价','采购价','毛利率','结算周期','账单时间','结算比例','配件套数','产品级别','风格属性','产品说明','产地','是否推荐','是否有货','备注','是否促销','促销开始时间','促销结束时间','促销价','促销结算价','促销结算比例','计入活动比例','促销期计入活动比例'];
           $.ajax({
             url:'{{ url("/supplier/material?type=exportAll") }}',
             type : 'post',
@@ -840,15 +845,16 @@
             success : function(res)
             { 
               res = $.parseJSON(res);
-              var listAll = res.data;
               if(res.code == 200)
               { 
+                var listAll = res.data;
                 var data = new Array();
                 for(var i = 0,len = listAll.length; i < len; i++)
-                {
+                { 
                   var tmp = new Array();
                   tmp.push(listAll[i].code);
                   tmp.push(listAll[i].supply.name);
+                  tmp.push(listAll[i].supply.code);
                   tmp.push(listAll[i].class_a);
                   tmp.push(listAll[i].class_b);
                   tmp.push(listAll[i].name);
@@ -882,9 +888,9 @@
                   tmp.push(listAll[i].promotion_settlement_proportion);
                   tmp.push(listAll[i].activity_proportion);
                   tmp.push(listAll[i].promotion_activity_proportion);
-                  data.push(tmp);    
+                  data.push(tmp);  
                 }
-                table.exportFile(title, data, 'xls','材料'); //默认导出 csv，也可以为：xls
+                table.exportFile(title, data, 'csv','材料'); //默认导出 csv，也可以为：xls
                 layer.close(load);
               }else
               {
@@ -917,15 +923,16 @@
           		res = $.parseJSON(res);
           		if(res.code == 200)
           		{ 
-                for(var i = 0,len = list.length; i < len; i++)
-                {
-                  if(list[i]['id'] == data.id)
-                  {
-                    delete list[i];
-                    list.length -= 1; 
-                  }
-                }
-                console.log(list);
+                // $.each(list,function(i,e){
+                // })
+                // for(var i = 0,len = list.length; i < len; i++)
+                // {
+                //   if(list[i]['id'] == data.id)
+                //   {
+                //     delete list[i];
+                //     list.length -= 1; 
+                //   }
+                // }
           			obj.del();
 					      layer.close(index);
 					      layMsgOk(res.msg);
