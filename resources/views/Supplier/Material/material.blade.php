@@ -712,7 +712,7 @@
       ,data:{_token:token}
       ,done: function(res){
         layer.alert(res.msg,{'end':function(index){
-            window.location.reload()
+            window.location.reload();
         }})
       }
       ,error: function(error){
