@@ -711,23 +711,16 @@
       ,field:'import'
       ,data:{_token:token}
       ,done: function(res){
-        layer.alert(res.msg)
+        layer.alert(res.msg,{'end':function(index){
+            window.location.reload()
+        }})
       }
-      ,error: function(){
-        //请求异常回调
+      ,error: function(error){
+        layMsgError('导入失败');
       }
     });
     //选完文件后不自动上传
-    upload.render({
-      elem: '#test-upload-change'
-      ,url: '/upload/'
-      ,auto: false
-    });
-    upload.render({
-      elem: '#test-upload-change2'
-      ,url: '/upload/'
-      ,auto: false
-    });
+
     laydate.render({
       elem: '#start' //指定元素
     });
@@ -923,16 +916,6 @@
           		res = $.parseJSON(res);
           		if(res.code == 200)
           		{ 
-                // $.each(list,function(i,e){
-                // })
-                // for(var i = 0,len = list.length; i < len; i++)
-                // {
-                //   if(list[i]['id'] == data.id)
-                //   {
-                //     delete list[i];
-                //     list.length -= 1; 
-                //   }
-                // }
           			obj.del();
 					      layer.close(index);
 					      layMsgOk(res.msg);
