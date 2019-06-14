@@ -620,7 +620,6 @@
 		<a class="layui-btn" style="margin-left: 5px;">搜索</a>
 	</form>
 	</div>
-	<table class="layui-hide" id="test-table-toolbar" lay-filter="test-table-toolbar"></table>
 
 	<script type="text/html" id="test-table-toolbar-toolbarDemo">
 	  <div class="layui-btn-container">
@@ -630,6 +629,7 @@
 	    <button class="layui-btn layui-btn-sm" lay-event='exportAll' >导出所有</button>
 	  </div>
 	</script>
+  <table class="layui-hide" id="test-table-toolbar" lay-filter="test-table-toolbar"></table>
 
 	<script type="text/html" id="test-table-toolbar-barDemo">
 	  <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
@@ -687,7 +687,7 @@
             return "无"      
           }
         }}
-        ,{fixed: 'right', title:'操作', toolbar: '#test-table-toolbar-barDemo',width:120}
+        ,{fixed: 'right', title:'操作',unresize:true, toolbar: '#test-table-toolbar-barDemo',width:120}
       ]]
       ,page: {curr:$('#page').val(),limit:$('#limit').val()}
     ,parseData: function(res){ //res 即为原始返回的数据

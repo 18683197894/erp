@@ -506,7 +506,7 @@
         ,{field:'comprehensive_unit_price', title:'综合单价(包含内容)',unresize:true,width:120,rowspan:2}
         ,{title:'成本统计',unresize:true,align:'center',colspan: 6}
         ,{field:'remarks', title:'备注(内部调整记录)',unresize:true,width:120,rowspan:2}
-        ,{fixed: 'right',title:'操作',unresize:true,width:120,toolbar:'#operation',rowspan:2}
+        ,{fixed: 'right',title:'操作',width:120,toolbar:'#operation',unresize:true,rowspan:2}
       ],[
          {field:'a_contract_price', title:'承包价(元)',unresize:true,width:120}
         ,{field:'a_mechanics_price', title:'辅材及机械(元)',unresize:true,width:120}

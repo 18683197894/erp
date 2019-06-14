@@ -21,6 +21,9 @@
     .layui-table-tips-main{
       word-wrap: break-word;word-break: break-all;overflow: hidden;max-height: 1000px;
     }
+    .layui-table-view .layui-table{
+      width:100%;
+    }
   </style>
   @yield('css')
 </head>

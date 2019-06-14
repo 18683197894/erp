@@ -78,7 +78,7 @@
         ,{field:'price_purpose', title:'用途',unresize:true,width:'5%'}
         ,{field:'price_money', title:'费用金额',unresize:true,width:'5%'}
         ,{field:'price_name', title:'费用名称',unresize:true,width:'6%'}
-        ,{field:'payment_time', title:'收款/付款时间',unresize:true,width:'6%'}
+        ,{field:'payment_time', title:'收款/付款时间',width:'6%'}
         ,{field:'remarks', title:'备注',unresize:true}
       ]]
       ,page: true
