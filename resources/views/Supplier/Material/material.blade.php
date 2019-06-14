@@ -710,12 +710,18 @@
       ,exts:'xls|xlsm|xlsx|csv'
       ,field:'import'
       ,data:{_token:token}
+      ,choose: function(onj)
+      {
+        loadImport = layer.load(2);
+      }
       ,done: function(res){
+        layer.close(loadImport);
         layer.alert(res.msg,{'end':function(index){
             window.location.reload();
         }})
       }
       ,error: function(error){
+        layer.close(loadImport);
         layMsgError('导入失败');
       }
     });
