@@ -8,41 +8,65 @@
 <div class="layui-card add" style="display:none">
       <div class="layui-card-body" style="padding: 15px;">
         <form class="layui-form" id="myform"lay-filter="component-form-group">
+          <div class="layui-row layui-col-space10">
+            <div class="layui-col-lg6">
+              <label class="layui-form-label">项目名称</label>
+              <div class="layui-input-block">
+                <input name="name" value="" lay-verify="required" placeholder="请输入项目名称" autocomplete="off" class="layui-input" type="text">
+              </div>
+            </div>
+            <div class="layui-col-lg6">
+              <label class="layui-form-label">开盘时间</label>
+              <div class="layui-input-block">
+                <input type="text" name="disc_time" lay-verify="required" class="layui-input" id="disc_time">
+              </div>
+            </div>
+          </div>
+          <div class="layui-row layui-col-space10">
+            <div class="layui-col-lg6">
+              <label class="layui-form-label">开发商</label>
+                <div class="layui-input-block">
+                  <select name="company_id" lay-verify="required" lay-search="">
+                    <option value="">直接选择或搜索选择</option>
+                    @foreach($company as $p)
+                    <option value="{{ $p->id }}">{{ $p->company_name }}</option>
+                    @endforeach
+                  </select>
+                </div>
+            </div>
+            <div class="layui-col-lg6">
+              <label class="layui-form-label">状态标记</label>
+                <div class="layui-input-block">
+                  <select name="label" lay-verify="required" lay-search="">
+                    <option value=""></option>
+                    <option value="暂定">暂定</option>
+                    <option value="放弃">放弃</option>
+                    <option value="暂停">暂停</option>
+                    <option value="重要">重要</option>
+                    <option value="已完成">已完成</option>
+                  </select>
+                </div>
+            </div>
+          </div>
           <div class="layui-form-item" >
-            <label class="layui-form-label">项目名称</label>
-            <div class="layui-input-inline">
-              <input name="name" value="" lay-verify="required" placeholder="请输入项目名称" autocomplete="off" class="layui-input" type="text">
-            </div>
-          </div>
-          <div class="layui-form-item">
-            <label class="layui-form-label">开盘时间</label>
-            <div class="layui-input-inline">
-              <input type="text" name="disc_time" lay-verify="required" class="layui-input" id="disc_time">
-            </div>
-          </div>
-          <div class="layui-form-item">
-            <label class="layui-form-label">开发商</label>
+            <div class="layui-col-lg4">
+              <label class="layui-form-label">是否为房销业务</label>
               <div class="layui-input-inline">
-                <select name="company_id" lay-verify="required" lay-search="">
-                  <option value="">直接选择或搜索选择</option>
-                  @foreach($company as $p)
-                  <option value="{{ $p->id }}">{{ $p->company_name }}</option>
-                  @endforeach
-                </select>
+              <input type="checkbox" name="is_sales" checked lay-skin="switch" lay-text="是|否">
               </div>
-          </div>
-         <div class="layui-form-item">
-            <label class="layui-form-label">状态标记</label>
+            </div>
+            <div class="layui-col-lg4">
+              <label class="layui-form-label">是否为精装业务</label>
               <div class="layui-input-inline">
-                <select name="label" lay-verify="required" lay-search="">
-                  <option value=""></option>
-                  <option value="暂定">暂定</option>
-                  <option value="放弃">放弃</option>
-                  <option value="暂停">暂停</option>
-                  <option value="重要">重要</option>
-                  <option value="已完成">已完成</option>
-                </select>
+              <input type="checkbox" name="is_hardcover" checked lay-skin="switch" lay-text="是|否">
               </div>
+            </div>
+            <div class="layui-col-lg4">
+              <label class="layui-form-label">房屋总套数</label>
+              <div class="layui-input-block">
+                <input name="house_num" value="" lay-verify="required|int" placeholder="请输入房屋总套数" autocomplete="off" class="layui-input" type="text">
+              </div>  
+            </div>
           </div>
           <div class="layui-form-item">
             <label class="layui-form-label">项目地址</label>
@@ -69,32 +93,54 @@
 </div>
 <div class="layui-card edit" style="display:none">
       <div class="layui-card-body" style="padding: 15px;">
-        <form class="layui-form" id="edit"lay-filter="component-form-group">
+        <form class="layui-form" id="edit"lay-filter="edit">
           <input type="hidden" name="id" value="">
-          <div class="layui-form-item" >
-            <label class="layui-form-label">项目名称</label>
-            <div class="layui-input-inline">
-              <input name="name" value="" lay-verify="required" placeholder="请输入项目名称" autocomplete="off" class="layui-input" type="text">
-            </div>
-          </div>
-          <div class="layui-form-item">
-            <label class="layui-form-label">开盘时间</label>
-            <div class="layui-input-inline">
-              <input type="text" name="disc_time" lay-verify="required" class="layui-input" id="disc_time_re">
-            </div>
-          </div>
-          <div class="layui-form-item">
-            <label class="layui-form-label">状态标记</label>
-              <div class="layui-input-inline">
-                <select name="label" lay-verify="required" lay-search="">
-                  <option value=""></option>
-                  <option value="暂定">暂定</option>
-                  <option value="放弃">放弃</option>
-                  <option value="暂停">暂停</option>
-                  <option value="重要">重要</option>
-                  <option value="已完成">已完成</option>
-                </select>
+          <div class="layui-row layui-col-space10">
+            <div class="layui-col-lg4">
+              <label class="layui-form-label">项目名称</label>
+              <div class="layui-input-block">
+                <input name="name" value="" lay-verify="required" placeholder="请输入项目名称" autocomplete="off" class="layui-input" type="text">
               </div>
+            </div>
+            <div class="layui-col-lg4">
+              <label class="layui-form-label">开盘时间</label>
+              <div class="layui-input-block">
+                <input type="text" name="disc_time" lay-verify="required" class="layui-input" id="disc_time_re">
+              </div>
+            </div>
+            <div class="layui-col-lg4">
+              <label class="layui-form-label">状态标记</label>
+                <div class="layui-input-block">
+                  <select name="label" lay-verify="required" lay-search="">
+                    <option value=""></option>
+                    <option value="暂定">暂定</option>
+                    <option value="放弃">放弃</option>
+                    <option value="暂停">暂停</option>
+                    <option value="重要">重要</option>
+                    <option value="已完成">已完成</option>
+                  </select>
+                </div>
+            </div>
+          </div>
+          <div class="layui-row layui-col-space10">
+            <div class="layui-col-lg4">
+              <label class="layui-form-label">是否为房销业务</label>
+              <div class="layui-input-block">
+              <input type="checkbox" name="is_sales" checked lay-skin="switch" lay-text="是|否">
+              </div>
+            </div>
+            <div class="layui-col-lg4">
+              <label class="layui-form-label">是否为精装业务</label>
+              <div class="layui-input-block">
+              <input type="checkbox" name="is_hardcover" checked lay-skin="switch" lay-text="是|否">
+              </div>
+            </div>
+            <div class="layui-col-lg4">
+              <label class="layui-form-label">房屋总套数</label>
+              <div class="layui-input-block">
+                <input name="house_num" value="" lay-verify="required|int" placeholder="请输入房屋总套数" autocomplete="off" class="layui-input" type="text">
+              </div>  
+            </div>
           </div>
           <div class="layui-form-item">
             <label class="layui-form-label">项目地址</label>
@@ -134,7 +180,7 @@
 
 	<script type="text/html" id="test-table-toolbar-toolbarDemo">
 	  <div class="layui-btn-container">
-	    <button class="layui-btn layui-btn-sm" onclick="open_show('新增项目','.add',0.8,0.9)">新增项目</button>
+	    <button class="layui-btn layui-btn-sm" onclick="open_show('新增项目','.add',0.7,0.8)">新增项目</button>
 	  </div>
 	</script>
 
@@ -179,12 +225,13 @@
       ,title: '项目'
       ,where:{name:$('#name').val(),_token:token}
       ,cols: [[
-         {field:'name', title:'项目名称',fixed: 'left',unresize:true}
+         {field:'name', title:'项目名称',fixed: 'left',unresize:true,width:130}
         ,{field:'re_address', title:'项目地址',unresize:true}
-        // ,{field:'disc_time', title:'开盘时间',unresize:true}
-        // ,{field:'company_name', title:'开发商',unresize:true}
+        ,{field:'is_sales_re', title:'是否为房销业务',unresize:true,width:130}
+        ,{field:'is_hardcover_re', title:'是否为精装业务',unresize:true,width:130}
+        ,{field:'house_num', title:'房屋总套数',unresize:true,width:110}
         ,{field:'created_at', title:'项目信息录入时间',unresize:true}
-        ,{field:'label', title:'状态',unresize:true}
+        ,{field:'label', title:'状态',unresize:true,width:110}
         ,{title:'项目联系人',unresize:true,toolbar:'#check',width:120}
         ,{title:'项目信息',unresize:true,toolbar:'#information',width:120}
         ,{title:'项目进度',unresize:true,toolbar:'#appointment',width:120}
@@ -301,6 +348,11 @@
           $('.edit').find("dd[lay-value='"+data.city+"']").click();
           $('.edit').find("dd[lay-value='"+data.dist+"']").click();
           $('.edit').find("dd[lay-value='"+data.label+"']").click();
+          form.val('edit',{
+            'house_num' :data.house_num,
+            'is_sales' : data.is_sales,
+            'is_hardcover' : data.is_hardcover
+          });
           var width = ($(window).width() * 0.7)+'px';
           var height = ($(window).height() * 0.8)+'px';
           	edit = layer.open({
@@ -380,6 +432,7 @@
     form.on('submit(edit)',function(data){
       data = data.field;
       data._token = token;
+      console.log(data);
       if(data.province == '0' || data.city == '0' || data.dist == '0')
       {
         layMsgError('请选择地址');

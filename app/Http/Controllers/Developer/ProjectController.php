@@ -46,6 +46,8 @@ class ProjectController extends Controller
 		    	{
 		    		$data[$k]['schedule'] = $v['appointments'][0]['schedule'];
 		    	}
+                $data[$k]['is_sales_re'] = $v['is_sales']?'是':'否';
+                $data[$k]['is_hardcover_re'] = $v['is_hardcover']?'是':'否';
 		    	$data[$k]['company_name'] = $v['company']['company_name'];
 		    }
     		$total = Project::where('name','like','%'.$name.'%')
@@ -58,6 +60,8 @@ class ProjectController extends Controller
     {
     	$data = $request->except('_token','province');
     	$data['prov'] = $request->province;
+        $data['is_sales'] = isset($data['is_sales'])?1:0;
+        $data['is_hardcover'] = isset($data['is_hardcover'])?1:0;
     	if(Project::where('re_address',$data['re_address'])->where('name',$data['name'])->first())
     	{
     		$this->error_message('项目已存在');
@@ -75,6 +79,8 @@ class ProjectController extends Controller
     {
     	$data = $request->except('_token','province');
     	$data['prov'] = $request->province;
+        $data['is_sales'] = isset($data['is_sales'])?1:0;
+        $data['is_hardcover'] = isset($data['is_hardcover'])?1:0;
     	$oldProject = Project::where('re_address',$data['re_address'])->where('name',$data['name'])->first();
     	$newProject = Project::find($data['id']);
     	if($oldProject && $oldProject->id != $newProject->id)
