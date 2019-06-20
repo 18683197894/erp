@@ -287,6 +287,7 @@ Route::group(['middleware'=>['rule']],function(){
 	Route::any('/cost/estimate/detailed-add','Cost\EstimateController@detailed_add');
 	Route::any('/cost/estimate/detailed-edit','Cost\EstimateController@detailed_edit');
 	Route::any('/cost/estimate/detailed-del','Cost\EstimateController@detailed_del');
+	Route::any('/cost/estimate/detailed-import','Import\ImportController@cost_estimate_detailed_import');
 	//材料审核
 	Route::any('/cost/examine/material','Cost\ExamineController@material');
 	Route::any('/cost/examine/material-supplier','Cost\ExamineController@material_supplier');

@@ -75,7 +75,12 @@ class EstimateController extends Controller
                   }
                   foreach($v['cost_estimate_detaileds'] as $kk => $vv)
                   {
-                     $data[$k]['budget_price'] = bcadd($data[$k]['budget_price'],$vv['total'],2);
+                     // $data[$k]['budget_price'] = bcadd($data[$k]['budget_price'],$vv['total'],2);
+                     $data[$k]['cost_estimate_detaileds'][$kk]['amount_total'] = bcmul($vv['region_num'],$vv['amount_num'],2); //工程量
+                      $data[$k]['cost_estimate_detaileds'][$kk]['a_main_price_re'] = bcmul(1 + $vv['a_main_loss'] / 100,$vv['a_main_price'],2); //主材成本
+                      $data[$k]['cost_estimate_detaileds'][$kk]['a_unit_price'] = bcadd(bcadd(bcadd($vv['a_contract_price'],$vv['a_mechanics_price'],2),$vv['a_keel_price']),$data[$k]['cost_estimate_detaileds'][$kk]['a_main_price_re'],2); //单价
+                      $data[$k]['cost_estimate_detaileds'][$kk]['total'] = bcmul($data[$k]['cost_estimate_detaileds'][$kk]['a_unit_price'], $data[$k]['cost_estimate_detaileds'][$kk]['amount_total'],2); //总价
+                      $data[$k]['budget_price'] = bcadd($data[$k]['budget_price'],$data[$k]['cost_estimate_detaileds'][$kk]['total'],2);
                   }
                   foreach($v['materials'] as $kkk => $vvv)
                   {  
@@ -122,17 +127,55 @@ class EstimateController extends Controller
                'house'=>$house
             ]);
          }else
-         {
-            $data = CostEstimateDetailed::select('*')
+         {  
+            if($request->get('type') == 'exportAll')
+            {
+               $data = CostEstimateDetailed::select('*')
+                          ->where('house_id',$request->house_id)
+                          ->get();
+               foreach($data as $k => $v)
+               {  
+                  $data[$k]->amount_total = bcmul($v->region_num,$v->amount_num,2); //工程量
+                  $data[$k]->a_main_price_re = bcmul(1 + $v->a_main_loss / 100,$v->a_main_price,2); //主材成本
+                  $data[$k]->a_unit_price = bcadd(bcadd(bcadd($v->a_contract_price,$v->a_mechanics_price,2),$v->a_keel_price),$data[$k]->a_main_price_re,2); //单价
+                  $data[$k]->total = bcmul($data[$k]->a_unit_price, $data[$k]->amount_total,2); //总价
+
+                  $data[$k]->b_contract_price = bcmul($data[$k]->amount_total,$v->a_contract_price,2);
+                  $data[$k]->b_mechanics_price = bcmul($data[$k]->amount_total,$v->a_mechanics_price,2);
+                  $data[$k]->b_keel_price = bcmul($data[$k]->amount_total,$v->a_keel_price,2);
+                  $data[$k]->b_main_price = bcmul($data[$k]->amount_total,$v->a_main_price_re,2);
+                  $data[$k]['b_unit_price'] = bcadd(bcadd(bcadd($data[$k]->a_contract_price,$data[$k]->a_mechanics_price,2),$data[$k]->a_keel_price,2),$data[$k]->a_main_price_re,2);
+
+               }
+                  $this->success_message('获取成功',$data);
+            }else
+            {
+               $data = CostEstimateDetailed::select('*')
                   ->where('house_id',$request->house_id)
                   ->orderBy('created_at','DESC')
                   ->offset(($request->page -1) * $request->limit)
                   ->limit($request->limit)
                   ->get();
-            $total = CostEstimateDetailed::select('*')
-                  ->where('house_id',$request->house_id)
-                  ->count();
-            $this->tableData($total,$data,'获取成功',0);
+               foreach($data as $k => $v)
+               {  
+                  $data[$k]->amount_total = bcmul($v->region_num,$v->amount_num,2); //工程量
+                  $data[$k]->a_main_price_re = bcmul(1 + $v->a_main_loss / 100,$v->a_main_price,2); //主材成本
+                  $data[$k]->a_unit_price = bcadd(bcadd(bcadd($v->a_contract_price,$v->a_mechanics_price,2),$v->a_keel_price),$data[$k]->a_main_price_re,2); //单价
+                  $data[$k]->total = bcmul($data[$k]->a_unit_price, $data[$k]->amount_total,2); //总价
+
+                  $data[$k]->b_contract_price = bcmul($data[$k]->amount_total,$v->a_contract_price,2);
+                  $data[$k]->b_mechanics_price = bcmul($data[$k]->amount_total,$v->a_mechanics_price,2);
+                  $data[$k]->b_keel_price = bcmul($data[$k]->amount_total,$v->a_keel_price,2);
+                  $data[$k]->b_main_price = bcmul($data[$k]->amount_total,$v->a_main_price_re,2);
+                  $data[$k]['b_unit_price'] = bcadd(bcadd(bcadd($data[$k]->a_contract_price,$data[$k]->a_mechanics_price,2),$data[$k]->a_keel_price,2),$data[$k]->a_main_price_re,2);
+
+               }
+               $total = CostEstimateDetailed::select('*')
+                     ->where('house_id',$request->house_id)
+                     ->count();
+               $this->tableData($total,$data,'获取成功',0);
+            }
+            
          }
       }
 

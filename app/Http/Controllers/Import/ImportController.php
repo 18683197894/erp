@@ -22,8 +22,81 @@ use App\Http\Controllers\Controller;
 use App\Model\Supplier\Supply;
 use App\Model\Supplier\Material;
 
+use App\Model\Cost\CostEstimateDetailed;
+use App\Model\Engineering\House;
+
 class ImportController extends Controller
-{
+{	
+	public function cost_estimate_detailed_import(Request $request)
+	{
+		if ($request->hasFile('import') && $request->file('import')->isValid()) {
+		    $import = $request->file('import');
+			$extension = $import->getClientOriginalExtension();
+			$name = md5(rand(1,10000)).'.'.$extension;
+		    $store_result = $import->storeAs('/',$name,'import');
+		    $path = '.'.env('IMPORT').'/'.$store_result;
+		    $options['key'] = ['A'=>'classify','B'=>'id','C'=>'project_name','D'=>'son_project','E'=>'region','F'=>'unit','H'=>'region_num','I'=>'amount_num','J'=>'formula','K'=>'describe','L'=>'profession','M'=>'a_contract_price','N'=>'a_mechanics_price','O'=>'a_keel_price','P'=>'a_main_price','Q'=>'a_main_loss','T'=>'project_characteristics_a','U'=>'project_characteristics_b','V'=>'calculation_rule','W'=>'comprehensive_unit_price','AC'=>'remarks'];
+		    $data = $this->importExecl($path,0,0,$options);
+		    if(!is_array($data))
+		    {
+		    	@unlink($path);
+		    	$this->error_message($data);
+		    }
+		    if(count($data) <= 0)
+		    {
+		    	@unlink($path);
+		    	$this->error_message('无数据');
+		    }  
+		    unset($data[1]);
+		    $error_num = 0;
+		    $success_num = 0;
+		    $error_str = '';
+		    foreach ($data as $k => $v) 
+		    {
+		    	if(empty($v['project_name']) || empty($v['region'])  || empty($v['classify']) )
+		    	{
+		    		$error_num += 1;
+		    		$error_str .= '分类，项目名称，区域不能为空！'.'<br>';
+		    		continue;
+		    	}
+		    	if(!House::find($request->house_id))
+		    	{
+		    		$this->error_message('导入失败！请刷新数据');
+		    	}
+				try {
+
+						if(empty($v->id))
+						{
+							unset($data[$k]['id']);
+						}else
+						{
+							if(CostEstimateDetailed::find($v->id))
+							{
+								throw new \Exception(' 序号'.$v->id.'已存在');
+							}
+						}
+						$data[$k]['house_id'] = $request->house_id;
+						if(CostEstimateDetailed::create($data[$k]))
+						{
+							$success_num += 1; 
+						}else
+						{
+							throw new \Exception(' 数据写入失败');
+						}
+
+				} catch (\Exception $e) {
+					$error_num +=1;
+					$error_str .= $e->getMessage().'<br>';
+				}
+		    }
+		    @unlink($path);
+		    $this->success_message('成功导入'.$success_num.'条数据 <br>'.$error_num.'条数据导入失败<br>失败原因：<br>'.$error_str);
+		}else
+		{
+			$this->error_message('上传失败');
+		}		
+	}
+
     public function supplier_material_import(Request $request)
     {
 		if ($request->hasFile('import') && $request->file('import')->isValid()) {
@@ -53,6 +126,8 @@ class ImportController extends Controller
 		    	if(empty($v['name']) || empty($v['code'])  || empty($v['supply_code']) )
 		    	{
 		    		$error_num += 1;
+		    		$error_str .= '材料编号，材料名称，供应商编号不能为空！'.'<br>';
+		    		continue;
 		    	}
 				try {
 
@@ -181,11 +256,20 @@ class ImportController extends Controller
 	                    $cell->getStyle()->getNumberFormat()->setFormatCode('yyyy/mm/dd');
 	                }
 	                if(isset($options['key']))
-	                {
-	                	$cellName = $options['key'][$cellName];
+	                {	
+	                	if(isset($options['key'][$cellName]) && !empty($options['key'][$cellName]))
+	                	{
+	                		$cellName = $options['key'][$cellName];
+	                	}else
+	                	{	
+	                		continue;
+	                	}
 	                }
 	                $data[$_row][$cellName] = trim($currSheet->getCell($cellId)->getFormattedValue())?trim($currSheet->getCell($cellId)->getFormattedValue()):null;
-
+	                if($data[$_row][$cellName] == '#REF!')
+					{
+						$data[$_row][$cellName] = null;
+					}
 	                if (!empty($data[$_row][$cellName])) {
 	                    $isNull = false;
 	                }

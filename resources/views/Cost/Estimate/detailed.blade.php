@@ -25,7 +25,7 @@
           <div class="layui-col-lg3">
             <label class="layui-form-label">子项目</label>
             <div class="layui-input-block">
-              <input name="son_project" value="" lay-verify="required" placeholder="请输入子项目" autocomplete="off" class="layui-input" type="text">
+              <input name="son_project" value="" lay-verify="" placeholder="请输入子项目" autocomplete="off" class="layui-input" type="text">
             </div>
           </div>
           <div class="layui-col-lg3">
@@ -43,31 +43,25 @@
             </div>
           </div>
           <div class="layui-col-lg3">
-            <label class="layui-form-label">总工程量</label>
-            <div class="layui-input-block">
-              <input name="amount_total" value="" lay-verify="required" placeholder="请输入总工程量" autocomplete="off" class="layui-input" type="text">
-            </div>
-          </div>
-          <div class="layui-col-lg3">
             <label class="layui-form-label">区域数</label>
             <div class="layui-input-block">
-              <input name="region_num" value="" lay-verify="required" placeholder="请输入区域数" autocomplete="off" class="layui-input" type="text">
+              <input name="region_num" value="" lay-verify="required|price" placeholder="请输入区域数" autocomplete="off" class="layui-input" type="text">
             </div>
           </div>
           <div class="layui-col-lg3">
             <label class="layui-form-label">工程量</label>
             <div class="layui-input-block">
-              <input name="amount_num" value="" lay-verify="required" placeholder="请输入工程量" autocomplete="off" class="layui-input" type="text">
+              <input name="amount_num" value="" lay-verify="required|price" placeholder="请输入工程量" autocomplete="off" class="layui-input" type="text">
             </div>
           </div>
-        </div>
-        <div class="layui-row layui-col-space10">
           <div class="layui-col-lg3">
             <label class="layui-form-label">计算式</label>
             <div class="layui-input-block">
               <input name="formula" value="" lay-verify="required" placeholder="请输入计算式"分 autocomplete="off" class="layui-input" type="text">
             </div>
           </div>
+        </div>
+        <div class="layui-row layui-col-space10">
           <div class="layui-col-lg3">
             <label class="layui-form-label">预算描述</label>
             <div class="layui-input-block">
@@ -115,24 +109,12 @@
           <div class="layui-col-lg3">
             <label class="layui-form-label">主材损耗(%)</label>
             <div class="layui-input-block">
-              <input name="a_main_loss" value="" lay-verify="required" placeholder="请输入承包价(元)"分 autocomplete="off" class="layui-input" type="text">
-            </div>
-          </div>
-          <div class="layui-col-lg3">
-            <label class="layui-form-label">单价(元)</label>
-            <div class="layui-input-block">
-              <input name="a_unit_price" value="" lay-verify="required|price" placeholder="请输入辅材及机械(元)" autocomplete="off" class="layui-input" type="text">
+              <input name="a_main_loss" value="" lay-verify="required|price" placeholder="主材损耗(%)" autocomplete="off" class="layui-input" type="text">
             </div>
           </div>
         </div>
         <br>
         <div class="layui-row layui-col-space10">
-          <div class="layui-col-lg3">
-            <label class="layui-form-label">合价</label>
-            <div class="layui-input-block">
-              <input name="total" value="" lay-verify="required|price" placeholder="请输入合价" autocomplete="off" class="layui-input" type="text">
-            </div>
-          </div>
           <div class="layui-col-lg3">
             <label class="layui-form-label">(预)项目特征</label>
             <div class="layui-input-block">
@@ -151,8 +133,6 @@
               <input name="calculation_rule" value="" lay-verify="required" placeholder="请输入计算规则" autocomplete="off" class="layui-input" type="text">
             </div>
           </div>
-        </div>
-        <div class="layui-row layui-col-space10">
           <div class="layui-col-lg3">
             <label class="layui-form-label">综合单价(包含内容)</label>
             <div class="layui-input-block">
@@ -160,51 +140,6 @@
             </div>
           </div>
         </div>
-        <br>
-        <div>
-          <label class="layui-form-label" style="width: 100%;">成本统计</label>
-        </div>
-        <div class="layui-row layui-col-space10">
-          <div class="layui-col-lg3">
-            <label class="layui-form-label">承包价(元)</label>
-            <div class="layui-input-block">
-              <input name="b_contract_price" value="" lay-verify="required|price" placeholder="请输入承包价(元)"分 autocomplete="off" class="layui-input" type="text">
-            </div>
-          </div>
-          <div class="layui-col-lg3">
-            <label class="layui-form-label">辅材及机械(元)</label>
-            <div class="layui-input-block">
-              <input name="b_mechanics_price" value="" lay-verify="required|price" placeholder="请输入辅材及机械(元)" autocomplete="off" class="layui-input" type="text">
-            </div>
-          </div>
-          <div class="layui-col-lg3">
-            <label class="layui-form-label">龙骨(元)</label>
-            <div class="layui-input-block">
-              <input name="b_keel_price" value="" lay-verify="required|price" placeholder="请输入龙骨(元)" autocomplete="off" class="layui-input" type="text">
-            </div>
-          </div>
-          <div class="layui-col-lg3">
-            <label class="layui-form-label">主材/板材(元)</label>
-            <div class="layui-input-block">
-              <input name="b_main_price" value="" lay-verify="required|price" placeholder="请输入主材/板材(元)" autocomplete="off" class="layui-input" type="text">
-            </div>
-          </div>
-        </div>
-        <div class="layui-row layui-col-space10">
-          <div class="layui-col-lg3">
-            <label class="layui-form-label">主材损耗(%)</label>
-            <div class="layui-input-block">
-              <input name="b_main_loss" value="" lay-verify="required" placeholder="请输入承包价(元)"分 autocomplete="off" class="layui-input" type="text">
-            </div>
-          </div>
-          <div class="layui-col-lg3">
-            <label class="layui-form-label">单价(元)</label>
-            <div class="layui-input-block">
-              <input name="b_unit_price" value="" lay-verify="required|price" placeholder="请输入辅材及机械(元)" autocomplete="off" class="layui-input" type="text">
-            </div>
-          </div>
-        </div>
-        <br>
         <div class="layui-row layui-form-text">
           <div class="layui-col-lg12">
             <label class="layui-form-label">备注(内部调整记录)</label>
@@ -246,7 +181,7 @@
           <div class="layui-col-lg3">
             <label class="layui-form-label">子项目</label>
             <div class="layui-input-block">
-              <input name="son_project" value="" lay-verify="required" placeholder="请输入子项目" autocomplete="off" class="layui-input" type="text">
+              <input name="son_project" value="" lay-verify="" placeholder="请输入子项目" autocomplete="off" class="layui-input" type="text">
             </div>
           </div>
           <div class="layui-col-lg3">
@@ -264,31 +199,25 @@
             </div>
           </div>
           <div class="layui-col-lg3">
-            <label class="layui-form-label">总工程量</label>
-            <div class="layui-input-block">
-              <input name="amount_total" value="" lay-verify="required" placeholder="请输入总工程量" autocomplete="off" class="layui-input" type="text">
-            </div>
-          </div>
-          <div class="layui-col-lg3">
             <label class="layui-form-label">区域数</label>
             <div class="layui-input-block">
-              <input name="region_num" value="" lay-verify="required" placeholder="请输入区域数" autocomplete="off" class="layui-input" type="text">
+              <input name="region_num" value="" lay-verify="required|price" placeholder="请输入区域数" autocomplete="off" class="layui-input" type="text">
             </div>
           </div>
           <div class="layui-col-lg3">
             <label class="layui-form-label">工程量</label>
             <div class="layui-input-block">
-              <input name="amount_num" value="" lay-verify="required" placeholder="请输入工程量" autocomplete="off" class="layui-input" type="text">
+              <input name="amount_num" value="" lay-verify="required|price" placeholder="请输入工程量" autocomplete="off" class="layui-input" type="text">
             </div>
           </div>
-        </div>
-        <div class="layui-row layui-col-space10">
           <div class="layui-col-lg3">
             <label class="layui-form-label">计算式</label>
             <div class="layui-input-block">
               <input name="formula" value="" lay-verify="required" placeholder="请输入计算式"分 autocomplete="off" class="layui-input" type="text">
             </div>
           </div>
+        </div>
+        <div class="layui-row layui-col-space10">
           <div class="layui-col-lg3">
             <label class="layui-form-label">预算描述</label>
             <div class="layui-input-block">
@@ -336,24 +265,12 @@
           <div class="layui-col-lg3">
             <label class="layui-form-label">主材损耗(%)</label>
             <div class="layui-input-block">
-              <input name="a_main_loss" value="" lay-verify="required" placeholder="请输入承包价(元)"分 autocomplete="off" class="layui-input" type="text">
-            </div>
-          </div>
-          <div class="layui-col-lg3">
-            <label class="layui-form-label">单价(元)</label>
-            <div class="layui-input-block">
-              <input name="a_unit_price" value="" lay-verify="required|price" placeholder="请输入辅材及机械(元)" autocomplete="off" class="layui-input" type="text">
+              <input name="a_main_loss" value="" lay-verify="required|price" placeholder="主材损耗(%)" autocomplete="off" class="layui-input" type="text">
             </div>
           </div>
         </div>
         <br>
         <div class="layui-row layui-col-space10">
-          <div class="layui-col-lg3">
-            <label class="layui-form-label">合价</label>
-            <div class="layui-input-block">
-              <input name="total" value="" lay-verify="required|price" placeholder="请输入合价" autocomplete="off" class="layui-input" type="text">
-            </div>
-          </div>
           <div class="layui-col-lg3">
             <label class="layui-form-label">(预)项目特征</label>
             <div class="layui-input-block">
@@ -372,8 +289,6 @@
               <input name="calculation_rule" value="" lay-verify="required" placeholder="请输入计算规则" autocomplete="off" class="layui-input" type="text">
             </div>
           </div>
-        </div>
-        <div class="layui-row layui-col-space10">
           <div class="layui-col-lg3">
             <label class="layui-form-label">综合单价(包含内容)</label>
             <div class="layui-input-block">
@@ -381,51 +296,6 @@
             </div>
           </div>
         </div>
-        <br>
-        <div>
-          <label class="layui-form-label" style="width: 100%;">成本统计</label>
-        </div>
-        <div class="layui-row layui-col-space10">
-          <div class="layui-col-lg3">
-            <label class="layui-form-label">承包价(元)</label>
-            <div class="layui-input-block">
-              <input name="b_contract_price" value="" lay-verify="required|price" placeholder="请输入承包价(元)"分 autocomplete="off" class="layui-input" type="text">
-            </div>
-          </div>
-          <div class="layui-col-lg3">
-            <label class="layui-form-label">辅材及机械(元)</label>
-            <div class="layui-input-block">
-              <input name="b_mechanics_price" value="" lay-verify="required|price" placeholder="请输入辅材及机械(元)" autocomplete="off" class="layui-input" type="text">
-            </div>
-          </div>
-          <div class="layui-col-lg3">
-            <label class="layui-form-label">龙骨(元)</label>
-            <div class="layui-input-block">
-              <input name="b_keel_price" value="" lay-verify="required|price" placeholder="请输入龙骨(元)" autocomplete="off" class="layui-input" type="text">
-            </div>
-          </div>
-          <div class="layui-col-lg3">
-            <label class="layui-form-label">主材/板材(元)</label>
-            <div class="layui-input-block">
-              <input name="b_main_price" value="" lay-verify="required|price" placeholder="请输入主材/板材(元)" autocomplete="off" class="layui-input" type="text">
-            </div>
-          </div>
-        </div>
-        <div class="layui-row layui-col-space10">
-          <div class="layui-col-lg3">
-            <label class="layui-form-label">主材损耗(%)</label>
-            <div class="layui-input-block">
-              <input name="b_main_loss" value="" lay-verify="required" placeholder="请输入承包价(元)"分 autocomplete="off" class="layui-input" type="text">
-            </div>
-          </div>
-          <div class="layui-col-lg3">
-            <label class="layui-form-label">单价(元)</label>
-            <div class="layui-input-block">
-              <input name="b_unit_price" value="" lay-verify="required|price" placeholder="请输入辅材及机械(元)" autocomplete="off" class="layui-input" type="text">
-            </div>
-          </div>
-        </div>
-        <br>
         <div class="layui-row layui-form-text">
           <div class="layui-col-lg12">
             <label class="layui-form-label">备注(内部调整记录)</label>
@@ -455,6 +325,8 @@
     <div class="layui-btn-container">
       <button class="layui-btn layui-btn-sm" onclick="open_show('新增预算','.add',0.8,0.9
       )">新增预算</button>
+      <button class="layui-btn layui-btn-sm" id='import' >导入</button>
+      <button class="layui-btn layui-btn-sm" lay-event='exportAll' >导出</button>
     </div>
   </script>
   <script type="text/html" id="operation">
@@ -470,11 +342,12 @@
     base: '{{ asset("/layui/layuiadmin/") }}/' //静态资源所在路径
   }).extend({
     index: 'lib/index' //主入口模块
-  }).use(['index', 'table','form','laydate'], function(){
+  }).use(['index', 'table','form','laydate','upload'], function(){
     admin = layui.admin
     ,$ = layui.jquery
     ,form = layui.form
     ,laydate = layui.laydate
+    ,upload = layui.upload
     ,table = layui.table;
     token = $("meta[name='csrf-token']").attr('content');
     house_id = {{ $house->id }};
@@ -518,8 +391,7 @@
         ,{field:'b_mechanics_price', title:'辅材及机械(元)',unresize:true,width:120}
         ,{field:'b_keel_price', title:'龙骨(元)',unresize:true,width:120}
         ,{field:'b_main_price', title:'主材/板材(元)',unresize:true,width:120}
-        ,{field:'b_main_loss', title:'主材损耗(%)',unresize:true,width:120}
-        ,{field:'b_unit_price', title:'单价(元)',unresize:true,width:120}
+        ,{field:'b_unit_price', title:'综合单价',unresize:true,width:120}
       ]]
       ,page: true
     ,parseData: function(res){ //res 即为原始返回的数据
@@ -531,12 +403,104 @@
       };
     }
     });
-
+    upload.render({
+      elem: '#import' //绑定元素
+      ,url: '/cost/estimate/detailed-import' //上传接口
+      ,acceptMime: '.xls,.xlsm,.xlsx,.csv'
+      ,exts:'xls|xlsm|xlsx|csv'
+      ,field:'import'
+      ,data:{_token:token,house_id:house_id}
+      ,choose: function(onj)
+      {
+        loadImport = layer.load(2);
+      }
+      ,done: function(res){
+        layer.close(loadImport);
+        layer.alert(res.msg,{'end':function(index){
+            window.location.reload();
+        }})
+      }
+      ,error: function(error){
+        layer.close(loadImport);
+        layMsgError('导入失败');
+      }
+    });
     laydate.render({
       elem: '#time_1'//指定元素
     });
     laydate.render({
       elem: '#time_2'//指定元素
+    });
+
+    //头工具栏事件
+    table.on('toolbar(test-table-toolbar)', function(obj){
+      var checkStatus = table.checkStatus(obj.config.id);
+      switch(obj.event){
+        case 'exportAll':
+          var load = layer.load(2);
+          var title = ['分类','序号','项目名称','子项目','区域','单位','总工程量','区域数','工程量','计算式','预算描述','工种','承包价（元','辅材及机械（元）','龙骨（元）','主材/板材（元）','主材损耗（%）','单价（元）','合价（元）','(预)项目特征','(劳)项目特征','计算规则','综合单价包括内容','承包价（元）','辅材及机械（元）','龙骨（元）','主材/板材（元）','综合单价（元）','备注'];
+          $.ajax({
+            url:'{{ url("/cost/estimate/detailed") }}',
+            type : 'post',
+            data : {_token:token,house_id:house_id,type:'exportAll'},
+            success : function(res)
+            { 
+              res = $.parseJSON(res);
+              if(res.code == 200)
+              { 
+                var listAll = res.data;
+                var data = new Array();
+                for(var i = 0,len = listAll.length; i < len; i++)
+                { 
+                  var tmp = new Array();
+                  tmp.push(listAll[i].classify);
+                  tmp.push(listAll[i].id);
+                  tmp.push(listAll[i].project_name);
+                  tmp.push(listAll[i].son_project);
+                  tmp.push(listAll[i].region);
+                  tmp.push(listAll[i].unit);
+                  tmp.push(listAll[i].amount_total);
+                  tmp.push(listAll[i].region_num);
+                  tmp.push(listAll[i].amount_num);
+                  tmp.push(listAll[i].formula);
+                  tmp.push(listAll[i].describe);
+                  tmp.push(listAll[i].profession);
+                  tmp.push(listAll[i].a_contract_price);
+                  tmp.push(listAll[i].a_mechanics_price);
+                  tmp.push(listAll[i].a_keel_price);
+                  tmp.push(listAll[i].a_main_price);
+                  tmp.push(listAll[i].a_main_loss);
+                  tmp.push(listAll[i].a_unit_price);
+                  tmp.push(listAll[i].total);
+                  tmp.push(listAll[i].project_characteristics_a);
+                  tmp.push(listAll[i].project_characteristics_b);
+                  tmp.push(listAll[i].calculation_rule);
+                  tmp.push(listAll[i].comprehensive_unit_price);
+                  tmp.push(listAll[i].b_contract_price);
+                  tmp.push(listAll[i].b_mechanics_price);
+                  tmp.push(listAll[i].b_keel_price);
+                  tmp.push(listAll[i].b_main_price);
+                  tmp.push(listAll[i].b_unit_price);
+                  tmp.push(listAll[i].remarks);
+                  data.push(tmp);  
+                }
+                table.exportFile(title, data, 'csv','预算明细'); //默认导出 csv，也可以为：xls
+                layer.close(load);
+
+              }else
+              {
+                layMsgError('导出失败');
+                layer.close(load);
+              }
+            },
+            error : function(error)
+            {
+              layMsgError('导出失败');
+              layer.close(load);
+            }
+          });
+        break;
+      };
     });
     //监听行工具事件
     table.on('tool(test-table-toolbar)', function(obj){
@@ -576,7 +540,6 @@
             'son_project':data.son_project,
             'region':data.region,
             'unit':data.unit,
-            'amount_total':data.amount_total,
             'region_num':data.region_num,
             'amount_num':data.amount_num,
             'formula':data.formula,
@@ -594,12 +557,6 @@
             'a_main_price':data.a_main_price,
             'a_main_loss':data.a_main_loss,
             'a_unit_price':data.a_unit_price,
-            'b_contract_price':data.b_contract_price,
-            'b_mechanics_price':data.b_mechanics_price,
-            'b_keel_price':data.b_keel_price,
-            'b_main_price':data.b_main_price,
-            'b_main_loss':data.b_main_loss,
-            'b_unit_price':data.b_unit_price
           })
             edit = layer.open({
             type : 1,

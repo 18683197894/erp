@@ -134,14 +134,14 @@
       ,title: '材料审核'
       ,cols: [[
          {field:'id',fixed: 'left',title:'序号',unresize:true,width:80}
-        ,{field:'project_name',title:'项目名称',unresize:true,width:120}
+        ,{field:'project_name',title:'项目名称',unresize:true,width:130}
         ,{field:'building', title:'楼栋',unresize:true,width:80}
         ,{field:'unit', title:'单元',unresize:true,width:80}
         ,{field:'floor', title:'楼层',unresize:true,width:80}
         ,{field:'room_number', title:'房号',unresize:true,width:80}
         ,{field:'huxing_name', title:'户型',unresize:true,width:80}
         ,{title:'采购计划',unresize:true, toolbar: '#supplier',width:100}
-        ,{field:'settlement_price', title:'采购计划合计',unresize:true,width:100}
+        ,{field:'settlement_price', title:'采购计划合计',unresize:true,width:130}
         ,{title:'成控明细',unresize:true, toolbar: '#detailed',width:100}
         ,{field:'budget_price', title:'成控明细合计',unresize:true,width:100}
         ,{title:'是否核准',unresize:true,width:120, templet:function(d){

@@ -141,9 +141,9 @@
         ,{field:'room_number', title:'房号',unresize:true,width:80}
         ,{field:'huxing_name', title:'户型',unresize:true,width:80}
         ,{title:'施工计划',unresize:true, toolbar: '#plan',width:100}
-        ,{field:'settlement_price', title:'施工计划合计',unresize:true,width:100}
+        ,{field:'settlement_price', title:'施工计划合计',unresize:true,width:120}
         ,{title:'成控明细',unresize:true, toolbar: '#detailed',width:100}
-        ,{field:'budget_price', title:'成控明细合计',unresize:true,width:100}
+        ,{field:'budget_price', title:'成控明细合计',unresize:true,width:120}
         ,{title:'是否核准',unresize:true,width:120, templet:function(d){
           if(d.is_examine_b == 1)
           {
