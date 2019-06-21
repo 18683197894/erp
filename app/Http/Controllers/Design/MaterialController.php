@@ -110,7 +110,7 @@ class MaterialController extends Controller
     	if($request->isMethod('get'))
     	{	
     		$house = House::find($request->house_id);
-            $material = SupplierMaterial::select('id','code')->where('status','>',0)->get();
+            $material = SupplierMaterial::select('id','code')->where('status','>',0)->where('sale_price','>',0)->where('purchase_price','>',0)->get();
     		if(!$house)
     		{
     			die('数据不存在');
@@ -168,7 +168,7 @@ class MaterialController extends Controller
     public function list_add(Request $request)
     {
         $data = $request->except('_token');
-        $material = SupplierMaterial::where('status','>','0')->where('id',$data['material_id'])->first();
+        $material = SupplierMaterial::where('status','>','0')->where('sale_price','>',0)->where('purchase_price','>',0)->where('id',$data['material_id'])->first();
         if(!$material)
         {
             $this->error_message('材料不存在 请刷新页面');

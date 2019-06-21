@@ -86,7 +86,7 @@ class ConstructionController extends Controller
     	{	
     		$house = House::find($request->get('house_id'));
     		if(!$house) dd('数据不存在');
-    		$material = Material::select('id','code')->where('status','>',0)->get();
+    		$material = Material::select('id','code')->where('status','>',0)->where('sale_price','>',0)->where('purchase_price','>',0)->get();
     		return view('Engineering.Construction.plan',[
     			'material' => $material,
     			'house' => $house
@@ -115,7 +115,7 @@ class ConstructionController extends Controller
     public function plan_add(Request $request)
     {
         $data = $request->except('_token');
-        $material = Material::where('status','>','0')->where('id',$data['material_id'])->first();
+        $material = Material::where('status','>','0')->where('sale_price','>',0)->where('purchase_price','>',0)->where('id',$data['material_id'])->first();
         if(!$material)
         {
             $this->error_message('材料不存在 请刷新页面');
