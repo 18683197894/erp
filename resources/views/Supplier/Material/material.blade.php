@@ -67,13 +67,13 @@
             <div class="layui-col-lg3">
               <label class="layui-form-label">型号</label>
               <div class="layui-input-inline">
-                <input name="spec" value="" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input" type="text">
+                <input name="model" value="" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input" type="text">
               </div>
             </div>
             <div class="layui-col-lg3">
               <label class="layui-form-label">规格</label>
               <div class="layui-input-inline">
-                <input name="model" value="" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input" type="text">
+                <input name="spec" value="" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input" type="text">
               </div>
             </div>
           </div>
@@ -333,13 +333,13 @@
             <div class="layui-col-lg3">
               <label class="layui-form-label">型号</label>
               <div class="layui-input-inline">
-                <input name="spec" value="" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input" type="text">
+                <input name="model" value="" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input" type="text">
               </div>
             </div>
             <div class="layui-col-lg3">
               <label class="layui-form-label">规格</label>
               <div class="layui-input-inline">
-                <input name="model" value="" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input" type="text">
+                <input name="spec" value="" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input" type="text">
               </div>
             </div>
           </div>
