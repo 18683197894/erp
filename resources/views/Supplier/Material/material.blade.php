@@ -623,6 +623,7 @@
 
 	<script type="text/html" id="test-table-toolbar-toolbarDemo">
 	  <div class="layui-btn-container">
+      <button class="layui-btn layui-btn-sm  layui-btn-danger" lay-event="getCheckData">批量删除</button>
       <button class="layui-btn layui-btn-sm" onclick="open_show('新增材料','.add',0.9,0.9)">新增材料</button>
       <button class="layui-btn layui-btn-sm" id='import' >导入</button>
       <button class="layui-btn layui-btn-sm" lay-event='export' >导出当前页</button>
@@ -669,16 +670,18 @@
       ,title: '材料'
       ,where:{_token:token}
       ,cols: [[
-         {field:'code', title:'材料编码',fixed: 'left',unresize:true,width:120}
-        ,{field:'supply_name',title:'供应商',unresize:true,width:130}
-        ,{field:'class_a', title:'一级分类',unresize:true,width:120}
-        ,{field:'class_b', title:'二级分类',unresize:true,width:120}
-        ,{field:'name', title:'名称',unresize:true}
-        ,{field:'model', title:'型号',unresize:true}
-        ,{field:'color', title:'颜色',unresize:true,width:120}
-        ,{field:'market_price', title:'市场标价',unresize:true,width:120}
-        ,{field:'is_recommend', title:'是否推荐',unresize:true,width:120}
-        ,{title:'图片',unresize:true,width:120,templet:function(d){
+         {type: 'checkbox', fixed: 'left',width:'4%'}
+        ,{field:'code', title:'材料编码',unresize:true,width:'10%'}
+        ,{field:'supply_name',title:'供应商',unresize:true,width:'10%'}
+        ,{field:'class_a', title:'一级分类',unresize:true,width:120,width:'7%'}
+        ,{field:'class_b', title:'二级分类',unresize:true,width:120,width:'7%'}
+        ,{field:'name', title:'名称',unresize:true,width:120,width:'8%'}
+        ,{field:'model', title:'型号',unresize:true,width:120,width:'7%'}
+        ,{field:'color', title:'颜色',unresize:true,width:120,width:'7%'}
+        ,{field:'market_price', title:'市场标价',unresize:true,width:120,width:'7%'}
+        ,{field:'is_recommend', title:'是否推荐',unresize:true,width:100,width:'7%'}
+        ,{field:'remarks',title:'备注',unresize:true,width:'12%'}
+        ,{title:'图片',unresize:true,width:'6%',templet:function(d){
           if(d.image)
           {       
             return "<a href='"+d.image+"' target='_blank' class='layui-btn layui-btn-xs layui-btn-normal'>查看</a>"      
@@ -687,7 +690,7 @@
             return "无"      
           }
         }}
-        ,{fixed: 'right', title:'操作',unresize:true, toolbar: '#test-table-toolbar-barDemo',width:120}
+        ,{fixed: 'right', title:'操作',unresize:true, toolbar: '#test-table-toolbar-barDemo',width:'8%'}
       ]]
       ,page: {curr:$('#page').val(),limit:$('#limit').val()}
     ,parseData: function(res){ //res 即为原始返回的数据
@@ -760,15 +763,17 @@
         case 'getCheckData':
           var data = checkStatus.data;
           if(data.length <= 0) return false;
+          var code = new Array();
           var id = new Array();
           $.each(data,function(i,n){
+            code.push(n.code);
           	id.push(n.id);
           });
-        layer.confirm('确定删除权限ID: '+id+' 吗', function(index){
+        layer.confirm('确定删除材料编码: '+code+' 吗', function(index){
         	$.ajax({
-          	url:'{{ url("/power/rule-del") }}',
+          	url:'{{ url("/supplier/material-del") }}',
           	type : 'post',
-          	data : {id,_token:token},
+          	data : {id:id,_token:token},
           	success : function(res)
           	{	
           		res = $.parseJSON(res);
@@ -920,12 +925,14 @@
     //监听行工具事件
     table.on('tool(test-table-toolbar)', function(obj){
       var data = obj.data;
+      var id = new Array();
+      id.push(data.id);
       if(obj.event === 'del'){
         layer.confirm('确定删除材料 编码: '+data.code+' 吗', function(index){
         	$.ajax({
           	url:'{{ url("/supplier/material-del") }}',
           	type : 'post',
-          	data : {id:data.id,_token:token},
+          	data : {id:id,_token:token},
           	success : function(res)
           	{	
           		res = $.parseJSON(res);

@@ -367,16 +367,19 @@ class SupplierController extends Controller
 
 	public function material_del(Request $request)
 	{	
-		$model = Material::find($request->id);
-		if($model)
+		foreach($request->id as $v)
 		{
-			if($model->image)
+			$model = Material::find($v);
+			if($model)
 			{
-				@unlink('.'.$model->image);
-			}
+				if($model->image)
+				{
+					@unlink('.'.$model->image);
+				}
 
-			Material::where('id',$model->id)->delete();
+			}
 		}
+		Material::destroy($request->id);
 		$this->success_message('删除成功');
 	}
 }
