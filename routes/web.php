@@ -143,6 +143,8 @@ Route::group(['middleware'=>['rule']],function(){
 	/**
 	 * summary 商务板块 项目进度汇总
 	 */
+	Route::any('/commerce/company','Commerce\CommerceController@company');
+	Route::any('/commerce/project','Commerce\CommerceController@project');
 	Route::any('/commerce/summary','Developer\ProjectController@summary');
 
 
