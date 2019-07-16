@@ -19,4 +19,8 @@ class User extends Model
     {
         return $this->hasMany('App\Model\Design\Schedule','user_id','id');
     }
+    public function Houses()
+    {
+        return $this->hasMany('App\Model\Engineering\House','user_id','id');
+    }
 }

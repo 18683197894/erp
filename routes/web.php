@@ -148,6 +148,10 @@ Route::group(['middleware'=>['rule']],function(){
 	Route::any('/commerce/summary','Developer\ProjectController@summary');
 
 
+// ***********销售部**************************************************************************
+	Route::any('/sale/owner','Sale\OwnerController@owner');
+	Route::post('/sale/owner-add','Sale\OwnerController@owner_add');
+	Route::post('/sale/owner-edit','Sale\OwnerController@owner_edit');
 // ***********设计部**************************************************************************
 
 	//房屋信息

@@ -21,14 +21,17 @@ class OwnerController extends Controller
     				->where('status','>=',0)
     				->where('user_id',null)
     				->get();
+            $user = User::where('status','>=',0)
+                    ->get();
     		return view('Design.Owner.owner',[
                 'house'=>$house,
+                'user' => $user,
                 'style' => array('简欧','简美','港式','美式','欧式','混搭','田园','现代','新古典','东南亚','日式','宜家','北欧','简约','韩式','地中海','中式','法式','工业风','新中式','清水房','其他')
                 ]);
     	}else
     	{
             $username = $request->post('name','');
-    		$data = House::select('engineering_house.id','engineering_house.user_id','design_user.id as user_id','design_user.username','design_user.email','design_user.sex','design_user.phone','design_user.wechat_name','design_user.remarks','design_user.total')
+    		$data = House::select('engineering_house.id','engineering_house.user_id','design_user.id as user_id','design_user.username','design_user.email','design_user.sex','design_user.phone','design_user.wechat_name','engineering_house.remarks','engineering_house.total')
     				->join('design_user',function($join){
     					return $join->on('engineering_house.user_id','=','design_user.id');
     				})
@@ -67,55 +70,40 @@ class OwnerController extends Controller
 
     	}
     }
-
     public function owner_add(Request $request)
     {
-        $data = $request->except('_token','house_id');
-        $houseRes = House::find($request->house_id);
-        if(!$houseRes || $houseRes->user_id !== null)
+        $data = $request->except('_token');
+        if(!User::find($data['user_id']))
         {
-            $this->error_message('当前房间已被绑定或已被删除');
+            $this->error_message('客户不存在');
         }
-        $userRes =  User::create($data);
-        if(!$userRes)
+        $house = House::find($data['house_id']);
+        if($house)
         {
-            $this->error_message('业主创建失败');
+            $house->remarks = $data['remarks'];
+            $house->total = $data['total'];
+            $house->user_id = $data['user_id'];
+            $house->save();
+            $this->success_message('新增成功');
+        }else
+        {
+            $this->error_message('房屋不存在');
         }
-        $houseRes->user_id = $userRes->id;
-        $houseRes->save();
-        $this->success_message('新增成功');
-
     }
-
     public function owner_edit(Request $request)
     {
         $data = $request->except('_token');
-        $model = User::find($data['id']);
-        if(!$model)
-        {
-            $this->error_message('数据不存在');
-        }
-
-        $model->username = $data['username'];
-        $model->sex = $data['sex'];
-        $model->phone = $data['phone'];
-        $model->email = $data['email'];
-        $model->wechat_name = $data['wechat_name'];
-        $model->total = $data['total'];
-        $model->remarks = $data['remarks'];
-        $model->save();
+        House::where('id',$data['id'])->update($data);
         $this->success_message('修改成功');
     }
-
     public function owner_del(Request $request)
     {
         $id = $request->id;
-        $model = User::find($id);
+        $model = House::find($id);
         if($model)
         {
-            House::where('user_id',$id)->update(['user_id'=>null]);
-            Schedule::where('user_id',$model->id)->delete();
-            User::destroy($id);
+            House::where('id',$id)->update(['user_id'=>null,'total'=>null,'remarks'=>null]);
+            Schedule::where('user_id',$model->user_id)->delete();
         }
         $this->success_message('删除成功');
     }

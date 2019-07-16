@@ -8,43 +8,16 @@
 <div class="layui-card add" style="display:none">
       <div class="layui-card-body" style="padding: 15px;">
         <form class="layui-form" id="myform"lay-filter="component-form-group">
-          <div class="layui-form-item" >
-            <label class="layui-form-label">真实姓名</label>
-            <div class="layui-input-inline">
-              <input name="username" value="" lay-verify="required|username" placeholder="请输入" autocomplete="off" class="layui-input" type="text">
-            </div>
-          	<label class="layui-form-label">性别</label>
-            <div class="layui-input-inline">
-              <input type="radio" name="sex" checked="checked" value="1" title="男">
-              <input type="radio" name="sex" value="2" title="女">
-            </div>
-          </div>
-          
           <div class="layui-form-item">
-            <div class="layui-inline">
-              <label class="layui-form-label">手机</label>
-              <div class="layui-input-inline">
-                <input name="phone" value="" lay-verify="phone" autocomplete="off" class="layui-input" type="tel">
+            <label class="layui-form-label">选择业主</label>
+              <div class="layui-input-block">
+                <select name="user_id"  lay-verify="required" lay-search="">
+                  <option value="">直接选择或搜索选择</option>
+                  @foreach($user as $p)
+                  <option value="{{ $p->id }}">{{ $p->username.' '.$p->phone }}</option>
+                  @endforeach
+                </select>
               </div>
-            </div>
-            <div class="layui-inline">
-              <label class="layui-form-label">邮箱</label>
-              <div class="layui-input-inline">
-                <input name="email" value="" lay-verify="emails" autocomplete="off" class="layui-input" type="text">
-              </div>
-            </div>
-          </div>
-          <div class="layui-form-item" >
-            <label class="layui-form-label">微信账号</label>
-            <div class="layui-input-block">
-              <input name="wechat_name" value="" lay-verify="" placeholder="请输入" autocomplete="off" class="layui-input" type="text">
-            </div>
-          </div>
-          <div class="layui-form-item layui-form-text" >
-            <label class="layui-form-label">客户备注</label>
-            <div class="layui-input-block">
-              <textarea name="remarks" placeholder="请输入备注" class="layui-textarea"></textarea>
-            </div>
           </div>
           <div class="layui-form-item">
             <label class="layui-form-label">绑定房屋</label>
@@ -56,6 +29,12 @@
                   @endforeach
                 </select>
               </div>
+          </div>
+          <div class="layui-form-item layui-form-text" >
+            <label class="layui-form-label">客户备注</label>
+            <div class="layui-input-block">
+              <textarea name="remarks" placeholder="请输入精装修客户备注" class="layui-textarea"></textarea>
+            </div>
           </div>
           <div class="layui-form-item" >
             <label class="layui-form-label">合同金额</label>
@@ -78,42 +57,10 @@
       <div class="layui-card-body" style="padding: 15px;">
         <form class="layui-form" id="edit"lay-filter="edit">
           <input type="hidden" name="id" value="">
-          <div class="layui-form-item" >
-            <label class="layui-form-label">真实姓名</label>
-            <div class="layui-input-inline">
-              <input name="username" value="" lay-verify="required|username" placeholder="请输入" autocomplete="off" class="layui-input" type="text">
-            </div>
-            <label class="layui-form-label">性别</label>
-            <div class="layui-input-inline">
-                  <input type="radio" name="sex" value="1" title="男">
-                  <input type="radio" name="sex" value="2" title="女">
-            </div>
-          </div>
-          
-          <div class="layui-form-item">
-            <div class="layui-inline">
-              <label class="layui-form-label">手机</label>
-              <div class="layui-input-inline">
-                <input name="phone" value="" lay-verify="phone" autocomplete="off" class="layui-input" type="tel">
-              </div>
-            </div>
-            <div class="layui-inline">
-              <label class="layui-form-label">邮箱</label>
-              <div class="layui-input-inline">
-                <input name="email" value="" lay-verify="emails" autocomplete="off" class="layui-input" type="text">
-              </div>
-            </div>
-          </div>
-          <div class="layui-form-item" >
-            <label class="layui-form-label">微信账号</label>
-            <div class="layui-input-block">
-              <input name="wechat_name" value="" lay-verify="" placeholder="请输入" autocomplete="off" class="layui-input" type="text">
-            </div>
-          </div>
           <div class="layui-form-item layui-form-text" >
             <label class="layui-form-label">客户备注</label>
             <div class="layui-input-block">
-              <textarea name="remarks" placeholder="请输入备注" class="layui-textarea"></textarea>
+              <textarea name="remarks" placeholder="请输入精装修客户备注" class="layui-textarea"></textarea>
             </div>
           </div>
           <div class="layui-form-item" >
@@ -191,7 +138,7 @@
 
 	<script type="text/html" id="test-table-toolbar-toolbarDemo">
 	  <div class="layui-btn-container">
-	    <button class="layui-btn layui-btn-sm" onclick="open_show('新增业主','.add',0.6,0.85)">新增业主</button>
+	    <button class="layui-btn layui-btn-sm" onclick="open_show('新增业主','.add',0.5,0.6)">新增业主</button>
 	  </div>
 	</script>
 
@@ -237,9 +184,9 @@
         ,{field:'phone', title:'手机',unresize:true}
         ,{field:'wechat_name', title:'微信号',unresize:true}
         ,{field:'remarks', title:'客户备注',unresize:true}
-        ,{field:'total', title:'合同金额',unresize:true}
-        ,{field:'money', title:'实付金额',unresize:true}
-        ,{title:'跟进进度',unresize:true,toolbar: '#schedule'}
+        ,{field:'total', title:'精装合同金额',unresize:true}
+        ,{field:'money', title:'精装实付金额',unresize:true}
+        ,{title:'精装跟进进度',unresize:true,toolbar: '#schedule'}
         ,{title:'装修需求',unresize:true,toolbar: '#demand'}
         ,{fixed: 'right', title:'操作',fixed: 'right', toolbar: '#test-table-toolbar-barDemo',unresize:true,width:120}
       ]]
@@ -292,7 +239,7 @@
         	$.ajax({
           	url:'{{ url("/design/owner-del") }}',
           	type : 'post',
-          	data : {id:data.user_id,_token:token},
+          	data : {id:data.id,_token:token},
           	success : function(res)
           	{	
           		res = $.parseJSON(res);
@@ -315,17 +262,12 @@
       } else if(obj.event === 'edit'){
           document.getElementById("edit").reset();
           form.val("edit", {
-            "username": data.username 
-            ,"phone": data.phone
-            ,"email" : data.email
-            ,"wechat_name" : data.wechat_name
-            ,"id" : data.user_id
+            "id" : data.id
             ,"remarks" : data.remarks
-            ,'sex':data.sex == 1?'1':'2'
             ,'total':data.total
           });
-          var width = ($(window).width() * 0.6)+'px';
-          var height = ($(window).height() * 0.8)+'px';
+          var width = ($(window).width() * 0.4)+'px';
+          var height = ($(window).height() * 0.5)+'px';
           	edit = layer.open({
             type : 1,
             title : '编辑',

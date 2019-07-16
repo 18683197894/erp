@@ -13,7 +13,7 @@
 @section('open')
 <div class="layui-card add" style="display:none">
     <div class="layui-card-body" style="margin: 15px 15px 15px 0px">
-      <form class="layui-form layui-form-pane"  id="myform"lay-filter="component-form-group">
+      <form class="layui-form layui-form-pane" id="myform" lay-filter="component-form-group">
         <div class="layui-form-item" >
             <div class="layui-col-lg3">
               <label class="layui-form-label">材料编码</label>
@@ -115,7 +115,7 @@
             <div class="layui-col-lg3">
               <label class="layui-form-label">结算价</label>
               <div class="layui-input-inline">
-                <input type="text" name="settlement_price" lay-verify="required|settlement_price" placeholder="请输入" autocomplete="off" class="layui-input">
+                <input type="text" name="settlement_price" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
               </div>
             </div>
             <div class="layui-col-lg3">
@@ -381,7 +381,7 @@
             <div class="layui-col-lg3">
               <label class="layui-form-label">结算价</label>
               <div class="layui-input-inline">
-                <input type="text" name="settlement_price" lay-verify="required|settlement_price" placeholder="请输入" autocomplete="off" class="layui-input">
+                <input type="text" name="settlement_price" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
               </div>
             </div>
             <div class="layui-col-lg3">

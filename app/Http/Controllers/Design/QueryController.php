@@ -24,7 +24,7 @@ class QueryController extends Controller
     		$formData['building'] = $request->post('building','');
     		$formData['floor'] = $request->post('floor','');
     		$formData['room_number'] = $request->post('room_number','');
-    		$data = House::select('building','unit','floor','room_number','acreage','user_id','project_id','huxing_id','id','manual_cost','manual_sale_cost','material_cost','construction_cost')
+    		$data = House::select('building','unit','floor','room_number','acreage','user_id','project_id','huxing_id','id','manual_cost','manual_sale_cost','material_cost','construction_cost','total','remarks')
                     ->with(['Project'=>function($query){
                     	return $query->select('name','id');
                     }])
@@ -34,6 +34,7 @@ class QueryController extends Controller
                     ->with(['Huxing'=>function($query){
                     	return $query->select('name','id');
                     }])
+                    ->with('Schedules','Materials')
                     ->where('project_id','like','%'.$formData['project_id'].'%')
                     ->where('unit','like','%'.$formData['unit'].'%')
                     ->where('building','like','%'.$formData['building'].'%')
@@ -43,10 +44,45 @@ class QueryController extends Controller
     				->offset(($request->page - 1) * $request->limit)
     				->limit($request->limit)
     				->get();
+            // dd($data);
     		foreach($data as $k => $v)
     		{	
     			$data[$k]->project_name = $v->Project->name;
     			$data[$k]->huxing_name = isset($v->Huxing->name)?$v->Huxing->name:'';
+                $data[$k]->money  = 0;
+                $data[$k]->cost =0;
+                foreach($v->Schedules as $vals)
+                {
+                    $data[$k]->money += $vals->money;
+                }
+                $data[$k]->money = number_format($data[$k]->money,2,'.','');
+                foreach($v->Materials as $val)
+                {
+                    if($val->class_a === '主材' )
+                    {
+                        $data[$k]->zhucai_num += $val->num; 
+                        $data[$k]->zhucai_total = bcadd($data[$k]->zhucai_total,bcmul($val->settlement_price , $val->num,2),2) ; 
+                    }
+                    if($val->class_a === '辅材' )
+                    {   
+                        $data[$k]->fucai_num += $val->num; 
+                        $data[$k]->fucai_total = bcadd($data[$k]->fucai_total,bcmul($val->settlement_price , $val->num,2),2);  
+                    }
+                    if($val->class_a === '家具' )
+                    {
+                        $data[$k]->jiaju_num += $val->num; 
+                        $data[$k]->jiaju_total = bcadd($data[$k]->jiaju_total,bcmul($val->settlement_price , $val->num,2),2); 
+                    }
+                    if($val->class_a === '家电' )
+                    {
+                        $data[$k]->jiadian_num += $val->num; 
+                        $data[$k]->jiadian_total = bcadd($data[$k]->jiadian_total,bcmul($val->settlement_price , $val->num,2),2);  
+                    }
+
+                    $data[$k]->rg_total = bcadd($data[$k]->rg_total,$val->artificial_price,2);
+                }
+
+                $data[$k]->cost = bcadd(bcadd(bcadd(bcadd($data[$k]->zhucai_total,$data[$k]->fucai_total,2),$data[$k]->jiaju_total,2), $data[$k]->jiadian_total,2),$data[$k]->rg_total,2);
     		}
     		$total = House::select('building','unit','floor','room_number','acreage','user_id')
     				->where('project_id','like','%'.$formData['project_id'].'%')
